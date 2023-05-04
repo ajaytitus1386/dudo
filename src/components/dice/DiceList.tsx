@@ -9,28 +9,19 @@ import {
 import React, { ReactNode } from "react"
 import Hug from "../Hug"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import DiceOne from "../icons/D6/DiceOne"
+import DiceTwo from "../icons/D6/DiceTwo"
+import DiceThree from "../icons/D6/DiceThree"
+import DiceFour from "../icons/D6/DiceFour"
+import DiceFive from "../icons/D6/DiceFive"
+import DiceSix from "../icons/D6/DiceSix"
 
 const DiceList = () => {
     const maxNumberOfDice = 10
     const minAmount = 1
     const minEyes = 1
 
-    const dice = [
-        faDiceOne,
-        faDiceTwo,
-        faDiceThree,
-        faDiceFour,
-        faDiceFive,
-        faDiceSix,
-    ]
-    // const dice = {
-    //     1: faDiceOne,
-    //     2: faDiceTwo,
-    //     3: faDiceThree,
-    //     4: faDiceFour,
-    //     5: faDiceFive,
-    //     6: faDiceSix
-    // }
+    const dice = [DiceOne, DiceTwo, DiceThree, DiceFour, DiceFive, DiceSix]
 
     const diceChoices = Array.from(Array(maxNumberOfDice).keys())
         .map((i) => i + 1)
@@ -45,7 +36,7 @@ const DiceList = () => {
                         key={`bid-${amount}-${eyes}`}
                     >
                         <b>{amount}</b>
-                        <FontAwesomeIcon icon={Die} size="2xl" />
+                        <Die className="w-8 h-8" />
                     </Hug>
                 )),
             ],
