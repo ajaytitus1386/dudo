@@ -1,0 +1,89 @@
+.dieView {
+    width: 74px;
+    height: 74px;
+    position: relative;
+    perspective: 1000px;
+    margin: auto;
+}
+
+.die {
+    width: 74px;
+    height: 74px;
+    position: relative;
+    transform-style: preserve-3d;
+    transition: transform ease 500ms;
+}
+
+.dieFace {
+    width: 74px;
+    height: 74px;
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* border: 1px solid black; */
+}
+
+.dieBg {
+    width: 50%;
+    height: 50%;
+    position: absolute;
+    background: red;
+    transform: translateZ(-10px);
+}
+
+.dieFaceIcon {
+    position: relative;
+    background-color: white;
+    font-size: 74px;
+}
+
+/* Exclusive Classes to shift the die face */
+.faceFront {
+    transform: rotateY(360);
+}
+
+.faceBack {
+    transform: rotateY(180deg);
+}
+
+.faceLeft {
+    transform: rotateY(90deg);
+}
+
+.faceRight {
+    transform: rotateY(-90deg);
+}
+
+.faceTop {
+    transform: rotateX(-90deg);
+}
+
+.faceBottom {
+    transform: rotateX(90deg);
+}
+
+/* Classes to arrange the die faces in 3D Space */
+.front {
+    transform: rotateY(0deg) translateZ(37px);
+}
+
+.back {
+    transform: rotateY(180deg) translateZ(37px);
+}
+
+.left {
+    transform: rotateY(-90deg) translateZ(37px);
+}
+
+.right {
+    transform: rotateY(90deg) translateZ(37px);
+}
+
+.top {
+    transform: rotateX(90deg) translateZ(37px);
+}
+
+.bottom {
+    transform: rotateX(-90deg) translateZ(37px);
+}
