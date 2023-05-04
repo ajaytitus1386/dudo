@@ -1,14 +1,5 @@
-import {
-    faDiceFive,
-    faDiceFour,
-    faDiceOne,
-    faDiceSix,
-    faDiceThree,
-    faDiceTwo,
-} from "@fortawesome/free-solid-svg-icons"
-import React, { ReactNode } from "react"
+import React from "react"
 import Hug from "../Hug"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import DiceOne from "../icons/D6/DiceOne"
 import DiceTwo from "../icons/D6/DiceTwo"
 import DiceThree from "../icons/D6/DiceThree"
