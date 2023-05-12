@@ -87,7 +87,7 @@ const RoomDialogBox = () => {
                     }
                 />
 
-                <button className="px-4 py-2 bg-primary-light-200 hover:bg-gradient-to-l hover:from-primary-light-200 hover:to-primary-light-300 transition-all rounded-md text-white font-medium w-full">
+                <button className="px-4 py-2 bg-gradient-to-l from-primary-light-200 to-80% to-primary-light-300 bg-[length:200%_200%] hover:bg-right transition-all duration-500 rounded-md text-white font-medium w-full">
                     {isJoinGame ? "Join" : "Create"}
                 </button>
             </form>
