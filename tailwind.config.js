@@ -1,18 +1,60 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: [
-    './src/pages/**/*.{js,ts,jsx,tsx,mdx}',
-    './src/components/**/*.{js,ts,jsx,tsx,mdx}',
-    './src/app/**/*.{js,ts,jsx,tsx,mdx}',
-  ],
-  theme: {
-    extend: {
-      backgroundImage: {
-        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
-        'gradient-conic':
-          'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
-      },
+    content: [
+        "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
+        "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
+        "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
+    ],
+    theme: {
+        extend: {
+            colors: {
+                primary: {
+                    light: {
+                        100: "#7CAADF",
+                        200: "#5B95D7",
+                        300: "#245894",
+                        400: "#2C6CB5",
+                        500: "#1C4473",
+                    },
+                    dark: {
+                        100: "#7CAADF",
+                        200: "#5B95D7",
+                        300: "#245894",
+                        400: "#2C6CB5",
+                        500: "#1C4473",
+                    },
+                },
+                secondary: {
+                    light: {
+                        100: "#3D3D3D",
+                        200: "#333333",
+                        300: "#262626",
+                        400: "#1F1F1F",
+                        500: "#141414",
+                    },
+                    dark: {
+                        100: "#3D3D3D",
+                        200: "#333333",
+                        300: "#262626",
+                        400: "#1F1F1F",
+                        500: "#141414",
+                    },
+                },
+                text: {
+                    light: "#000",
+                    dark: "#FFF",
+                },
+                background: {
+                    light: "#000",
+                    dark: "#FFF",
+                },
+            },
+            backgroundImage: {
+                "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
+                "gradient-conic":
+                    "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
+            },
+        },
     },
-  },
-  plugins: [],
+    plugins: [],
 }
