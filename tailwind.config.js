@@ -45,8 +45,8 @@ module.exports = {
                     dark: "#FFF",
                 },
                 background: {
-                    light: "#000",
-                    dark: "#FFF",
+                    light: "#FFF",
+                    dark: "#000",
                 },
             },
             backgroundImage: {
