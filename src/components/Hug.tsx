@@ -13,7 +13,10 @@ const Hug: React.FC<PropsWithChildren<Props>> = ({
     return (
         <div
             id={id}
-            className={["shadow-lg rounded-md px-4 py-2", className].join(" ")}
+            className={[
+                "w-full shadow-lg rounded-md px-4 py-2 bg-background-light",
+                className,
+            ].join(" ")}
         >
             {children}
         </div>
