@@ -1,4 +1,5 @@
 import React from "react"
+import Username from "../Username"
 
 //? Date FNS for time formatting
 
@@ -29,7 +30,12 @@ const Message = ({
                 isSent ? "self-end items-end" : "self-start items-start"
             }`}
         >
-            {isHead && <sub className="text-xs text-gray-500">{sender}</sub>}
+            {isHead && (
+                <Username
+                    classname="text-xs text-gray-500"
+                    username={sender || "You"}
+                />
+            )}
             <div
                 className={`px-2 py-1 
                 ${
@@ -54,9 +60,21 @@ const Message = ({
     )
 }
 
+const SystemMessage = ({ message }: { message: string }) => {
+    return (
+        <div className="mx-auto">
+            <p className="text-sm text-center font-light text-gray-600">
+                {message}
+            </p>
+        </div>
+    )
+}
+
 const MessageList = () => {
     return (
-        <div className="flex flex-col gap-1 w-full h-full overflow-y-auto">
+        <div className="flex flex-col gap-1 w-full overflow-y-auto">
+            <SystemMessage message="Welcome to the chatroom" />
+            <SystemMessage message="There are currently 1 user(s) in the room: You" />
             <Message
                 isSent={true}
                 message="First Message"
@@ -81,7 +99,7 @@ const MessageList = () => {
                 message="First Message"
                 isTail={true}
                 isHead={true}
-                sender="John Doe"
+                sender="John Doe Caleb Beauregard Nott Veth Fjord Jester Caduceues Vilya Viridian Essek Mollymauk Yasha"
             />
             <Message
                 isSent={true}
