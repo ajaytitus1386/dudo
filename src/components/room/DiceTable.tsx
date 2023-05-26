@@ -13,21 +13,33 @@ const PlayerHand = ({
     playerHand,
     maxDice = 5,
     highlightedFace,
+    isActive = false,
 }: {
     playerName: string
     playerHand: number[]
     maxDice: number
     highlightedFace?: number
+    isActive?: boolean
 }) => {
     const Dice = [DiceOne, DiceTwo, DiceThree, DiceFour, DiceFive, DiceSix]
     return (
         <>
-            <div className="m-auto text-md text-black col-span-2">
+            <div
+                className={`m-auto text-md text-black col-span-2 rounded-md p-1 ${
+                    isActive && "border-2 border-green-400"
+                }`}
+            >
                 {playerName}
             </div>
             {Array.from(Array(maxDice).keys()).map((i) => {
                 // Known Die
-                if (i < playerHand.length && i >= 0 && playerHand[i] > 0) {
+                if (
+                    i < playerHand.length &&
+                    i >= 0 &&
+                    playerHand[i] > 0 &&
+                    playerHand[i] <= 6 &&
+                    Dice[playerHand[i] - 1]
+                ) {
                     const Die = Dice[playerHand[i] - 1]
                     return (
                         <div
@@ -44,7 +56,7 @@ const PlayerHand = ({
                     )
                 }
                 // Unknown Die
-                else if (playerHand[i] === 0)
+                else if (playerHand[i] <= 0 || playerHand[i] > 6)
                     return (
                         <div className="m-auto" key={`cell_${i}_${playerName}`}>
                             <DiceAny className="w-8 h-8" />
@@ -58,21 +70,34 @@ const PlayerHand = ({
 }
 
 const DiceTable = () => {
+    const Divider = () => (
+        <div className="col-span-full w-full h-0.5 bg-gray-400 opacity-50" />
+    )
+
     return (
-        <Hug className="grid grid-cols-7 gap-y-4 gap-x-2 px-8 py-8">
-            <PlayerHand
-                playerName="Player 1"
-                playerHand={[3, 4, 5, 6, 6]}
-                maxDice={5}
-                highlightedFace={6}
-            />
-            <div className="col-span-full w-full h-0.5 bg-gray-400 opacity-50" />
-            <PlayerHand
-                playerName="Player 2"
-                playerHand={[1, 2, 6]}
-                maxDice={5}
-            />
-            <PlayerHand playerName="Robot" playerHand={[0, 0, 0]} maxDice={5} />
+        <Hug className="flex flex-col h-full items-center justify-center gap-y-4 px-8 py-8">
+            <div className="grid grid-cols-7 px-1 gap-y-4 gap-x-2 max-h-48 overflow-auto">
+                <PlayerHand
+                    playerName="Player 1"
+                    playerHand={[3, 4, 5, 6, 6]}
+                    maxDice={5}
+                />
+                <Divider />
+                {Array.apply(null, Array(5)).map((_, i) => (
+                    <PlayerHand
+                        key={`robot_${i}`}
+                        playerName="Robot"
+                        playerHand={[0, 0, 0, 0, 0]}
+                        maxDice={5}
+                    />
+                ))}
+            </div>
+            <Divider />
+            <h3 className="col-span-full flex items-center m-auto">
+                Player 2 bids 3 <DiceFive className="w-8 h-8 m-1" /> out of 10
+                dice
+            </h3>
+            {/* Results */}
         </Hug>
     )
 }
