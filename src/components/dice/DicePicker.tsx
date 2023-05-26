@@ -7,6 +7,7 @@ import DiceSix from "../icons/D6/DiceSix"
 import DiceFive from "../icons/D6/DiceFive"
 import DiceThree from "../icons/D6/DiceThree"
 import DiceFour from "../icons/D6/DiceFour"
+import Button from "../Button"
 
 // The die styles are set in the dice.module.css file
 
@@ -55,7 +56,7 @@ const DicePicker = () => {
 
     return (
         <Hug className={"grid grid-cols-2 px-4 y-6 gap-4"}>
-            <h2 className="mx-4 order-1">Amount</h2>
+            <h2 className="mx-4 order-1 text-center">Amount</h2>
             <div className="m-auto order-3">
                 <div className="flex flex-row h-10 rounded-md">
                     <button
@@ -80,7 +81,7 @@ const DicePicker = () => {
                 </div>
             </div>
 
-            <h2 className="mx-4 order-2 text-right">Eyes</h2>
+            <h2 className="mx-4 order-2 text-center">Eyes</h2>
             <div className="order-4">
                 <div className={`${diceStyles.dieView}`}>
                     <div
@@ -122,6 +123,9 @@ const DicePicker = () => {
                     </div>
                 </div>
             </div>
+            <Button className="order-last col-span-full m-auto text-white font-bold w-24">
+                Confirm
+            </Button>
         </Hug>
     )
 }
