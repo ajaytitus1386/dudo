@@ -5,10 +5,24 @@ import {
     faPaperPlane,
     faArrowsRotate,
     faChevronDown,
+    faMessage,
+    faCircleInfo,
+    faUsers,
+    faGear,
+    faRightFromBracket,
 } from "@fortawesome/free-solid-svg-icons"
 import Layout from "../components/Layout"
 
-library.add(faPaperPlane, faArrowsRotate, faChevronDown)
+library.add(
+    faPaperPlane,
+    faArrowsRotate,
+    faChevronDown,
+    faMessage,
+    faCircleInfo,
+    faUsers,
+    faGear,
+    faRightFromBracket
+)
 
 export default function App({ Component, pageProps }: AppProps) {
     return (
