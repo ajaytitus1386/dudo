@@ -30,11 +30,8 @@ const Message = ({
                 isSent ? "self-end items-end" : "self-start items-start"
             }`}
         >
-            {isHead && (
-                <Username
-                    classname="text-xs text-gray-500"
-                    username={sender || "You"}
-                />
+            {isHead && sender && (
+                <Username classname="text-xs text-gray-500" username={sender} />
             )}
             <div
                 className={`px-2 py-1 
@@ -118,11 +115,68 @@ const MessageList = () => {
             <Message
                 isSent={false}
                 message="Third Message"
+                isTail={false}
+                isHead={false}
+                sender="John Doe"
+                timestamp="Jun 18 16:04"
+            />
+            <Message
+                isSent={false}
+                message="Third Message"
+                isTail={false}
+                isHead={false}
+                sender="John Doe"
+                timestamp="Jun 18 16:04"
+            />
+            <Message
+                isSent={false}
+                message="Third Message"
+                isTail={false}
+                isHead={false}
+                sender="John Doe"
+                timestamp="Jun 18 16:04"
+            />
+            <Message
+                isSent={false}
+                message="Third Message"
+                isTail={false}
+                isHead={false}
+                sender="John Doe"
+                timestamp="Jun 18 16:04"
+            />
+            <Message
+                isSent={false}
+                message="Third Message"
+                isTail={false}
+                isHead={false}
+                sender="John Doe"
+                timestamp="Jun 18 16:04"
+            />
+            <Message
+                isSent={false}
+                message="Third Message"
+                isTail={false}
+                isHead={false}
+                sender="John Doe"
+                timestamp="Jun 18 16:04"
+            />
+            <Message
+                isSent={false}
+                message="Third Message"
+                isTail={false}
+                isHead={false}
+                sender="John Doe"
+                timestamp="Jun 18 16:04"
+            />
+            <Message
+                isSent={false}
+                message="Third Message"
                 isTail={true}
                 isHead={false}
                 sender="John Doe"
                 timestamp="Jun 18 16:04"
             />
+            <SystemMessage message="John Doe has left the chatroom" />
         </div>
     )
 }
