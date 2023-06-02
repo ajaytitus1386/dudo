@@ -31,7 +31,7 @@ const Message = ({
             }`}
         >
             {isHead && sender && (
-                <Username classname="text-xs text-gray-500" username={sender} />
+                <Username className="text-xs text-gray-500" username={sender} />
             )}
             <div
                 className={`px-2 py-1 
