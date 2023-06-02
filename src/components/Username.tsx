@@ -1,6 +1,6 @@
 import React from "react"
 
-const Username: React.FC<{ username: string; className: string }> = ({
+const Username: React.FC<{ username: string; className?: string }> = ({
     username,
     className,
 }) => {
