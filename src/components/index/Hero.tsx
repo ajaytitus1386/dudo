@@ -1,6 +1,8 @@
 import React from "react"
 import Hug from "../Hug"
 import Button from "../Button"
+import Modal from "../Modal"
+import HowToPlay from "../content/HowToPlay"
 
 const Hero = () => {
     return (
@@ -9,9 +11,17 @@ const Hero = () => {
                 Dice, Deception and Deduction
             </h2>
             <p className="text-center text-sm">
-                A simple game of bluff and tactic for 2-10 players.
+                A simple game of bluff and tactic for 2-6 players.
             </p>
-            <Button className="w-fit px-4 py-1">How to Play</Button>
+            <Modal
+                invoker={
+                    <Button className="w-fit px-4 py-1 text-white">
+                        How to Play
+                    </Button>
+                }
+            >
+                <HowToPlay />
+            </Modal>
         </Hug>
     )
 }
