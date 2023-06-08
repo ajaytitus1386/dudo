@@ -10,6 +10,7 @@ import {
     faUsers,
     faGear,
     faRightFromBracket,
+    faXmark,
 } from "@fortawesome/free-solid-svg-icons"
 import Layout from "../components/Layout"
 
@@ -21,7 +22,8 @@ library.add(
     faCircleInfo,
     faUsers,
     faGear,
-    faRightFromBracket
+    faRightFromBracket,
+    faXmark
 )
 
 export default function App({ Component, pageProps }: AppProps) {
