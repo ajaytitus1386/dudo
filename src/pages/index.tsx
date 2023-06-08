@@ -1,7 +1,6 @@
 import { Inter } from "next/font/google"
 import RoomDialogBox from "../components/index/RoomDialogBox"
 import Hero from "../components/index/Hero"
-
 const inter = Inter({ subsets: ["latin"] })
 
 export default function Home() {
