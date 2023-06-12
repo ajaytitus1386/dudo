@@ -38,26 +38,25 @@ const Modal: React.FC<Props> = ({ children, invoker, className, heading }) => {
                 {/* Modal Body */}
                 <div
                     ref={modalRef}
-                    className="flex flex-col gap-4 w-[90%] max-h-[75%] m-auto py-8 px-4 overflow-y-auto bg-background-light rounded-md"
+                    className="flex flex-col gap-4 w-[90%] max-h-[75%] m-auto py-8 px-4 bg-background-light-200 dark:bg-background-dark-200 rounded-md"
                 >
                     {/* Modal Header */}
                     <div className="flex flex-row items-center justify-between">
                         <div />
 
-                        <h2 className="font-bold text-2xl text-text-light dark:text-text-dark">
+                        <h2 className="font-bold text-2xl text-text-light-500 dark:text-text-dark-500">
                             {heading}
                         </h2>
 
                         <button onClick={onClose}>
-                            <FontAwesomeIcon icon={faXmark} />
+                            <FontAwesomeIcon
+                                icon={faXmark}
+                                className="text-text-light-500 dark:text-text-dark-500"
+                            />
                         </button>
                     </div>
                     {/* Modal Content */}
-                    {children}
-                    {/* Modal Footer */}
-                    <div className="m-auto">
-                        <Button onClick={onClose}>Close</Button>
-                    </div>
+                    <div className="overflow-y-auto px-1 gap-2">{children}</div>
                 </div>
             </div>
         </>

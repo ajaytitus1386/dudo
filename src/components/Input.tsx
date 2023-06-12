@@ -25,13 +25,13 @@ const Input: FC<Props> = ({
                 onChange={onChange}
                 placeholder={placeholder}
                 className={[
-                    "w-full px-2 py-1 bg-gray-50 border border-gray-300 text-gray-900 placeholder-gray-400 rounded-md focus-visible:outline-none focus:ring-blue-500 focus:border-blue-500",
+                    "w-full px-2 py-1 bg-gray-50 dark:bg-background-dark-100 border border-gray-300 dark:border-background-dark-300 text-text-light-500 dark:text-text-dark-500 placeholder-gray-400 dark:placeholder-gray-600 rounded-md focus-visible:outline-none focus:ring-blue-500 focus:border-blue-500",
                     RightElement ? " rounded-r-none" : "",
                     className,
                 ].join(" ")}
             />
             {RightElement && (
-                <span className="flex items-center bg-gray-50 border border-gray-300 rounded-md rounded-l-none border-l-0 px-2">
+                <span className="flex items-center bg-gray-50 dark:bg-background-dark-100 border border-gray-300 dark:border-background-dark-300 rounded-md rounded-l-none border-l-0 px-2">
                     {RightElement}
                 </span>
             )}

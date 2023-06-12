@@ -23,7 +23,8 @@ const RoomTypeTab = ({
             } hover:opacity-100 
             after:content-[''] ${
                 isSelected ? "after:w-full" : "after:w-0"
-            } after:h-[4px] after:bg-primary-light-400 after:absolute
+            } after:h-[4px] after:bg-primary-light-400 after:dark:bg-primary-light-200 after:absolute
+            text-text-light-500 dark:text-text-dark-500
             after:bottom-0 after:transition-all after:duration-300 after:hover:w-full ${
                 animateLeft ? "after:left-0" : "after:right-0"
             }`}
@@ -80,7 +81,7 @@ const RoomDialogBox = () => {
                     RightElement={
                         !isJoinGame && (
                             <FontAwesomeIcon
-                                className="cursor-pointer hover:rotate-180 transition-transform"
+                                className="cursor-pointer text-text-light-500 dark:text-text-dark-500 hover:rotate-180 transition-transform"
                                 icon={faArrowsRotate}
                             />
                         )
