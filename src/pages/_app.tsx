@@ -11,8 +11,11 @@ import {
     faGear,
     faRightFromBracket,
     faXmark,
+    faSun,
+    faMoon,
 } from "@fortawesome/free-solid-svg-icons"
 import Layout from "../components/Layout"
+import { ThemeProvider } from "../context/themeContext"
 
 library.add(
     faPaperPlane,
@@ -23,13 +26,17 @@ library.add(
     faUsers,
     faGear,
     faRightFromBracket,
-    faXmark
+    faXmark,
+    faSun,
+    faMoon
 )
 
 export default function App({ Component, pageProps }: AppProps) {
     return (
-        <Layout>
-            <Component {...pageProps} />
-        </Layout>
+        <ThemeProvider>
+            <Layout>
+                <Component {...pageProps} />
+            </Layout>
+        </ThemeProvider>
     )
 }
