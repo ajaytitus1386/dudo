@@ -25,7 +25,7 @@ const PlayerHand = ({
     return (
         <>
             <div
-                className={`m-auto text-md text-black col-span-2 rounded-md p-1 ${
+                className={`m-auto text-md text-text-light-500 dark:text-text-dark-500 col-span-2 rounded-md p-1 ${
                     isActive && "border-2 border-green-400"
                 }`}
             >
@@ -71,7 +71,7 @@ const PlayerHand = ({
 
 const DiceTable = () => {
     const Divider = () => (
-        <div className="col-span-full w-full h-0.5 bg-gray-400 opacity-50" />
+        <div className="col-span-full w-full h-0.5 bg-background-light-500 dark:bg-background-dark-500 opacity-50" />
     )
 
     return (
@@ -93,7 +93,7 @@ const DiceTable = () => {
                 ))}
             </div>
             <Divider />
-            <h3 className="col-span-full flex items-center m-auto">
+            <h3 className="col-span-full flex items-center m-auto text-text-light-500 dark:text-text-dark-500">
                 Player 2 bids 3 <DiceFive className="w-8 h-8 m-1" /> out of 10
                 dice
             </h3>

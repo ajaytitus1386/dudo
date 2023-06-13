@@ -10,7 +10,7 @@ const Button: React.FC<Props> = ({ className, onClick, children }) => {
     return (
         <button
             className={[
-                "w-16 h-8 bg-blue-400 rounded-md hover:bg-blue-600",
+                "w-auto min-w-[4rem] h-8 bg-primary-light-100 rounded-md hover:bg-primary-light-300 text-text-light-100 dark:text-text-dark-100",
                 className,
             ].join(" ")}
             onClick={onClick}

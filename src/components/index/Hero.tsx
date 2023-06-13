@@ -1,17 +1,27 @@
 import React from "react"
 import Hug from "../Hug"
 import Button from "../Button"
+import Modal from "../Modal"
+import HowToPlay from "../content/HowToPlay"
 
 const Hero = () => {
     return (
-        <Hug className="flex flex-col justify-center items-center">
-            <h2 className="text-xl font-bold text-center">
+        <Hug className="flex flex-col gap-2 justify-center items-center">
+            <h2 className="text-xl font-bold text-center text-text-light-500 dark:text-text-dark-500">
                 Dice, Deception and Deduction
             </h2>
-            <p className="text-center text-sm">
-                A simple game of bluff and tactic for 2-10 players.
+            <p className="text-center text-sm text-text-light-300 dark:text-text-dark-300">
+                A simple game of bluff and tactic for 2-6 players.
             </p>
-            <Button className="w-fit px-4 py-1">How to Play</Button>
+            <Modal
+                invoker={
+                    <Button className="w-fit px-4 py-1 font-medium text-text-light-100 dark:text-text-dark-100">
+                        How to Play
+                    </Button>
+                }
+            >
+                <HowToPlay />
+            </Modal>
         </Hug>
     )
 }

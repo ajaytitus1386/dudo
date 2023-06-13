@@ -9,7 +9,10 @@ const DiceSix = ({ className }: { className: string }) => {
             x="0px"
             y="0px"
             viewBox="0 0 448 448"
-            className={className}
+            className={[
+                "fill-text-light-500 dark:fill-text-dark-500",
+                className,
+            ].join(" ")}
         >
             <path
                 d="M0,448V0h448v448H0z M160,128c0-17.7-14.3-32-32-32s-32,14.3-32,32s14.3,32,32,32S160,145.7,160,128z M128,256

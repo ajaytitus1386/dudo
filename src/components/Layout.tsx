@@ -7,7 +7,10 @@ type Props = {
 
 const Layout: React.FC<Props> = ({ children }) => {
     return (
-        <div id={"layout"} className="bg-teal-50">
+        <div
+            id={"layout"}
+            className="bg-background-light-100 dark:bg-background-dark-100"
+        >
             <Navbar />
             {children}
         </div>

@@ -5,15 +5,42 @@ import {
     faPaperPlane,
     faArrowsRotate,
     faChevronDown,
+    faMessage,
+    faCircleInfo,
+    faUsers,
+    faGear,
+    faRightFromBracket,
+    faXmark,
+    faSun,
+    faMoon,
+    faList,
+    faDiceD6,
 } from "@fortawesome/free-solid-svg-icons"
 import Layout from "../components/Layout"
+import { ThemeProvider } from "../context/themeContext"
 
-library.add(faPaperPlane, faArrowsRotate, faChevronDown)
+library.add(
+    faPaperPlane,
+    faArrowsRotate,
+    faChevronDown,
+    faMessage,
+    faCircleInfo,
+    faUsers,
+    faGear,
+    faRightFromBracket,
+    faXmark,
+    faSun,
+    faMoon,
+    faList,
+    faDiceD6
+)
 
 export default function App({ Component, pageProps }: AppProps) {
     return (
-        <Layout>
-            <Component {...pageProps} />
-        </Layout>
+        <ThemeProvider>
+            <Layout>
+                <Component {...pageProps} />
+            </Layout>
+        </ThemeProvider>
     )
 }
