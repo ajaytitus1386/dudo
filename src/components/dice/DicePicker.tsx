@@ -61,11 +61,12 @@ const DicePicker = () => {
     }
 
     return (
-        <Hug className={"grid grid-cols-2 px-4 y-6 gap-4"}>
+        // The parent element should have display:grid and grid-template-columns: 1fr 1fr
+        <>
             <h2 className="mx-4 order-1 text-center text-text-light-500 dark:text-text-dark-500">
                 Amount
             </h2>
-            <div className="m-auto order-3">
+            <div className="flex items-center justify-center h-full order-3">
                 <div className="flex flex-row h-10 rounded-md">
                     <button
                         className="text-text-light-300 hover:text-text-light-400 dark:text-text-dark-300 dark:hover:text-text-dark-200 bg-background-light-300 dark:bg-background-dark-300 h-full w-20 rounded-l cursor-pointer outline-none"
@@ -92,7 +93,7 @@ const DicePicker = () => {
             <h2 className="mx-4 order-2 text-center text-text-light-500 dark:text-text-dark-500">
                 Face
             </h2>
-            <div className="order-4">
+            <div className="flex items-center justify-center h-full order-4">
                 <div className={`${diceStyles.dieView}`}>
                     <div
                         className={`${diceStyles.die} ${diceFaceClass} cursor-pointer`}
@@ -167,16 +168,7 @@ const DicePicker = () => {
                     </div>
                 </div>
             </div>
-            <Button className="order-last px-2 py-1 col-span-1 ml-auto bg-primary-light-300 dark:bg-primary-light-200 font-bold">
-                <FontAwesomeIcon
-                    icon={faDiceD6}
-                    className="text-text-light-100 dark:text-text-dark-500"
-                />
-            </Button>
-            <Button className="order-last px-2 py-1 col-span-1 mr-auto bg-primary-light-300 dark:bg-primary-light-200 text-text-light-100 dark:text-text-dark-500 font-bold w-24">
-                Confirm
-            </Button>
-        </Hug>
+        </>
     )
 }
 

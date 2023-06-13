@@ -75,7 +75,7 @@ const DiceTable = () => {
     )
 
     return (
-        <Hug className="flex flex-col h-full items-center justify-center gap-y-4 px-8 py-8">
+        <Hug className="flex flex-[3] flex-col items-center justify-center gap-y-4 px-8 py-8">
             <div className="grid grid-cols-7 px-1 gap-y-4 gap-x-2 max-h-48 overflow-auto">
                 <PlayerHand
                     playerName="Player 1"

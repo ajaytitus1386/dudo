@@ -4,9 +4,12 @@ import DicePicker from "../components/dice/DicePicker"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faChevronDown } from "@fortawesome/free-solid-svg-icons"
 import RoomControls from "../components/room/RoomControls"
+import DiceList from "components/dice/DiceList"
+import DiceInputWrapper from "components/dice/DiceInputWrapper"
 
 const Room = () => {
     const [isHigh, setIsHigh] = useState(true)
+    const [showDiceList, setShowDiceList] = useState(true)
 
     const onScroll = () => {
         if (!window) return
@@ -63,7 +66,12 @@ const Room = () => {
                 className="flex flex-col py-20 px-4 gap-y-2 min-h-screen"
             >
                 <DiceTable />
-                <DicePicker />
+                <DiceInputWrapper
+                    showList={showDiceList}
+                    setShowList={setShowDiceList}
+                >
+                    {showDiceList ? <DiceList /> : <DicePicker />}
+                </DiceInputWrapper>
             </div>
             <div
                 id="controls"

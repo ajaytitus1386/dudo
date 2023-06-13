@@ -18,7 +18,11 @@ const DiceList = () => {
             `#bid-${minAmount}-${minEyes}`
         )
         if (!nextChoice) return
-        nextChoice.scrollIntoView({ behavior: "smooth" })
+        nextChoice.scrollIntoView({
+            behavior: "smooth",
+            block: "nearest",
+            inline: "start",
+        })
     }, [])
 
     const dice = [DiceOne, DiceTwo, DiceThree, DiceFour, DiceFive, DiceSix]
@@ -40,13 +44,15 @@ const DiceList = () => {
                     <Hug
                         className={`flex flex-row justify-between items-center gap-2 ${
                             !isValidBid(amount, eyes + 1)
-                                ? "opacity-50 bg-gray-400 "
-                                : ""
+                                ? "opacity-50 bg-background-light-300 dark:bg-background-dark-300"
+                                : "bg-background-light-100 dark:bg-background-dark-500"
                         }`}
                         key={`bid-${amount}-${eyes}`}
                         id={`bid-${amount}-${eyes}`}
                     >
-                        <b>{amount}</b>
+                        <b className="text-text-light-500 dark:text-text-dark-500">
+                            {amount}
+                        </b>
                         <Die className="w-8 h-8" />
                     </Hug>
                 )),
@@ -55,9 +61,11 @@ const DiceList = () => {
         )
 
     return (
-        <div className="flex flex-col p-8 items-center shadow-lg rounded-md w-full max-h-64 overflow-auto">
-            <text className="text-primary ">Your bid</text>
-            <div className="grid grid-cols-2 gap-2">{diceChoices}</div>
+        // The parent element should have display:grid and grid-template-columns: 1fr 1fr
+        <div className="relative col-span-2 row-span-2 flex flex-col items-center rounded-md h-full w-full">
+            <div className="absolute grid grid-cols-2 gap-2 max-h-full overflow-auto">
+                {diceChoices}
+            </div>
         </div>
     )
 }
