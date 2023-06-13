@@ -45,7 +45,7 @@ const RoomDialogBox = () => {
     }
 
     return (
-        <Hug className="flex flex-col gap-4 w-[400px] px-8 py-8">
+        <Hug className="flex flex-col gap-4 w-[400px] px-8 py-8 md:w-3/4 lg:w-1/2 xl:w-1/3">
             <div className="flex flex-row gap-4 justify-center items-center">
                 <RoomTypeTab
                     label="Join Game"
