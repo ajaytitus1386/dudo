@@ -2,10 +2,11 @@ import React, { useEffect, useState } from "react"
 import DiceTable from "../components/room/DiceTable"
 import DicePicker from "../components/dice/DicePicker"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faChevronDown } from "@fortawesome/free-solid-svg-icons"
+import { faChevronDown, faLink } from "@fortawesome/free-solid-svg-icons"
 import RoomControls from "../components/room/RoomControls"
 import DiceList from "components/dice/DiceList"
 import DiceInputWrapper from "components/dice/DiceInputWrapper"
+import Hug from "components/Hug"
 
 const Room = () => {
     const [isHigh, setIsHigh] = useState(true)
@@ -65,6 +66,20 @@ const Room = () => {
                 id="table"
                 className="flex flex-col py-20 px-4 gap-y-2 min-h-screen"
             >
+                <Hug className="flex flex-row items-center justify-center gap-x-2">
+                    <h2 className="text-text-light-500 dark:text-text-dark-500 font-bold">
+                        Room Name:
+                    </h2>
+                    <text className="text-text-light-500 dark:text-text-dark-500 select-all">
+                        room_name
+                    </text>
+                    <button>
+                        <FontAwesomeIcon
+                            icon={faLink}
+                            className="text-text-light-500 dark:text-text-dark-500 text-lg"
+                        />
+                    </button>
+                </Hug>
                 <DiceTable />
                 <DiceInputWrapper
                     showList={showDiceList}

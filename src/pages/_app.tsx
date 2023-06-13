@@ -15,6 +15,7 @@ import {
     faMoon,
     faList,
     faDiceD6,
+    faLink,
 } from "@fortawesome/free-solid-svg-icons"
 import Layout from "../components/Layout"
 import { ThemeProvider } from "../context/themeContext"
@@ -32,7 +33,8 @@ library.add(
     faSun,
     faMoon,
     faList,
-    faDiceD6
+    faDiceD6,
+    faLink
 )
 
 export default function App({ Component, pageProps }: AppProps) {
