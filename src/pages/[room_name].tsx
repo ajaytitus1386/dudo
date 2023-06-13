@@ -49,9 +49,9 @@ const Room = () => {
     }
 
     return (
-        <div className="relative flex min-h-screen h-[200vh] flex-col items-center justify-between">
+        <div className="relative flex items-center justify-between min-h-screen h-[200vh] flex-col md:min-h-0 md:h-screen md:flex-row lg:px-16 xl:px-[10%]">
             <button
-                className="fixed bottom-4 right-8 bg-blue-500 rounded-full w-8 h-8"
+                className="fixed bottom-4 right-8 bg-blue-500 rounded-full w-8 h-8 md:hidden"
                 onClick={toggleView}
             >
                 <FontAwesomeIcon
@@ -63,7 +63,7 @@ const Room = () => {
             </button>
             <div
                 id="table"
-                className="flex flex-col pt-20 pb-4 px-4 gap-y-2 h-screen min-h-screen"
+                className="flex flex-col pt-20 pb-4 px-4 gap-y-2 h-screen min-h-screen md:w-1/2 md:gap-y-8"
             >
                 <DiceTable />
                 <DiceInputWrapper
@@ -75,7 +75,7 @@ const Room = () => {
             </div>
             <div
                 id="controls"
-                className="flex flex-col py-16 min-h-screen w-full"
+                className="flex flex-col py-16 min-h-screen w-full md:w-1/2 md:pt-20 md:pb-4 md:h-full"
             >
                 <RoomControls />
             </div>

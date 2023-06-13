@@ -63,7 +63,7 @@ const DiceList = () => {
     return (
         // The parent element should have display:grid and grid-template-columns: 1fr 1fr
         <div className="relative col-span-2 row-span-2 flex flex-col items-center rounded-md h-full w-full">
-            <div className="absolute grid grid-cols-2 gap-2 max-h-full overflow-auto">
+            <div className="absolute grid grid-cols-2 gap-2 max-h-full overflow-auto md:grid-cols-3 lg:grid-cols-4">
                 {diceChoices}
             </div>
         </div>

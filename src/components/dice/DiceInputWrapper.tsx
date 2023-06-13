@@ -16,7 +16,11 @@ const DiceInputWrapper: React.FC<Props> = ({
     showList,
 }) => {
     return (
-        <Hug className={"flex-[2] grid grid-cols-2 px-4 py-2 h-full gap-4"}>
+        <Hug
+            className={
+                "flex-[2] grid grid-cols-2 auto-rows-fr px-4 py-2 h-full gap-4"
+            }
+        >
             {children}
             <Button
                 onClick={() => setShowList((prev) => !prev)}

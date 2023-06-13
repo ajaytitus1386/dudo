@@ -95,9 +95,9 @@ const RoomControls = () => {
     const changeTab = (index: number) => setSelectedTab(index)
 
     return (
-        <div className="flex flex-col w-full h-full">
+        <div className="flex flex-col w-full h-full gap-y-2">
             {/* tabs - Full Width */}
-            <div className="flex items-center justify-center bg-background-light-200 dark:bg-background-dark-200">
+            <div className="flex items-center justify-center bg-background-light-200 dark:bg-background-dark-200 md:mx-4 md:rounded-lg">
                 {tabs.map((tab, index) => (
                     <div
                         key={`tab_${tab.name}`}
@@ -106,6 +106,14 @@ const RoomControls = () => {
                         } ${
                             selectedTab === index &&
                             "bg-gray-400 dark:bg-gray-600"
+                        } ${
+                            selectedTab === index &&
+                            index === 0 &&
+                            "rounded-l-lg"
+                        } ${
+                            selectedTab === index &&
+                            index === tabs.length - 1 &&
+                            "rounded-r-lg"
                         }`}
                         onClick={() => changeTab(index)}
                     >
@@ -116,7 +124,7 @@ const RoomControls = () => {
                     </div>
                 ))}
             </div>
-            <div className="flex flex-col gap-y-2 px-4 py-2 h-full">
+            <div className="flex flex-col gap-y-2 px-4 py-2 h-full md:py-0">
                 <Hug className="flex flex-row items-center justify-center gap-x-2">
                     <h2 className="text-text-light-500 dark:text-text-dark-500 font-bold">
                         Room Name:
@@ -133,7 +141,7 @@ const RoomControls = () => {
                 </Hug>
                 {/* Info */}
                 {selectedTab === 0 && (
-                    <RoomControlHug className="h-full overflow-y-auto">
+                    <RoomControlHug className="h-auto flex flex-col gap-y-2 overflow-y-auto">
                         <HowToPlay />
                     </RoomControlHug>
                 )}
@@ -176,7 +184,7 @@ const RoomControls = () => {
                 )}
                 {/* Chat */}
                 {selectedTab === 2 && (
-                    <RoomControlHug className="h-full max-h-[90%]">
+                    <RoomControlHug className="h-full max-h-[90%] md:max-h-full">
                         <MessageList />
                         <MessageInput />
                     </RoomControlHug>

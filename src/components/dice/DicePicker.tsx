@@ -66,8 +66,8 @@ const DicePicker = () => {
             {/* <h2 className="mx-4 order-1 text-center text-text-light-500 dark:text-text-dark-500">
                 Amount
             </h2> */}
-            <div className="flex items-center justify-center h-full order-3">
-                <div className="flex flex-row h-10 rounded-md">
+            <div className="flex items-center justify-center h-full order-3 md:col-span-2 md:order-4">
+                <div className="flex flex-row items-center justify-center h-10 rounded-md">
                     <button
                         className="text-text-light-300 hover:text-text-light-400 dark:text-text-dark-300 dark:hover:text-text-dark-200 bg-background-light-300 dark:bg-background-dark-300 h-full w-20 rounded-l cursor-pointer outline-none"
                         onClick={decrementAmount}
@@ -76,7 +76,7 @@ const DicePicker = () => {
                     </button>
                     <input
                         type="number"
-                        className="custom-number-input text-center w-full font-semibold text-md hover:text-text-light-500 focus:text-text-light-500 flex items-center text-text-light-300 dark:text-text-dark-300 bg-background-light-100 dark:bg-background-dark-100 outline-none focus:outline-none "
+                        className="custom-number-input text-center h-full w-1/3 font-semibold text-md hover:text-text-light-500 focus:text-text-light-500 flex items-center text-text-light-300 dark:text-text-dark-300 bg-background-light-100 dark:bg-background-dark-100 outline-none focus:outline-none "
                         name="amount-input-number"
                         value={chosenAmount}
                         onChange={changeAmount}
@@ -93,7 +93,7 @@ const DicePicker = () => {
             {/* <h2 className="mx-4 order-2 text-center text-text-light-500 dark:text-text-dark-500">
                 Face
             </h2> */}
-            <div className="flex items-center justify-center h-full order-4">
+            <div className="flex items-center justify-center h-full order-4 md:col-span-2 md:order-3">
                 <div className={`${diceStyles.dieView}`}>
                     <div
                         className={`${diceStyles.die} ${diceFaceClass} cursor-pointer`}
