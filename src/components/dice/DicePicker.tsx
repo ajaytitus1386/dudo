@@ -63,9 +63,9 @@ const DicePicker = () => {
     return (
         // The parent element should have display:grid and grid-template-columns: 1fr 1fr
         <>
-            <h2 className="mx-4 order-1 text-center text-text-light-500 dark:text-text-dark-500">
+            {/* <h2 className="mx-4 order-1 text-center text-text-light-500 dark:text-text-dark-500">
                 Amount
-            </h2>
+            </h2> */}
             <div className="flex items-center justify-center h-full order-3">
                 <div className="flex flex-row h-10 rounded-md">
                     <button
@@ -90,9 +90,9 @@ const DicePicker = () => {
                 </div>
             </div>
 
-            <h2 className="mx-4 order-2 text-center text-text-light-500 dark:text-text-dark-500">
+            {/* <h2 className="mx-4 order-2 text-center text-text-light-500 dark:text-text-dark-500">
                 Face
-            </h2>
+            </h2> */}
             <div className="flex items-center justify-center h-full order-4">
                 <div className={`${diceStyles.dieView}`}>
                     <div

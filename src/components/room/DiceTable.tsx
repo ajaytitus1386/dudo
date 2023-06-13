@@ -7,6 +7,7 @@ import DiceThree from "../icons/D6/DiceThree"
 import DiceFour from "../icons/D6/DiceFour"
 import DiceFive from "../icons/D6/DiceFive"
 import DiceSix from "../icons/D6/DiceSix"
+import Username from "components/Username"
 
 const PlayerHand = ({
     playerName,
@@ -29,7 +30,7 @@ const PlayerHand = ({
                     isActive && "border-2 border-green-400"
                 }`}
             >
-                {playerName}
+                <Username username={playerName} />
             </div>
             {Array.from(Array(maxDice).keys()).map((i) => {
                 // Known Die
@@ -76,13 +77,15 @@ const DiceTable = () => {
 
     return (
         <Hug className="flex flex-[3] flex-col items-center justify-center gap-y-4 px-8 py-8">
-            <div className="grid grid-cols-7 px-1 gap-y-4 gap-x-2 max-h-48 overflow-auto">
+            <div className="grid grid-cols-7 px-1 gap-y-4 gap-x-2">
                 <PlayerHand
                     playerName="Player 1"
                     playerHand={[3, 4, 5, 6, 6]}
                     maxDice={5}
                 />
-                <Divider />
+            </div>
+            <Divider />
+            <div className="grid grid-cols-7 px-1 gap-y-4 gap-x-2 max-h-32 overflow-auto">
                 {Array.apply(null, Array(5)).map((_, i) => (
                     <PlayerHand
                         key={`robot_${i}`}
