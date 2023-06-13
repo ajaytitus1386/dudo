@@ -9,7 +9,10 @@ const DiceOne = ({ className }: { className: string }) => {
             x="0px"
             y="0px"
             viewBox="0 0 448 448"
-            className={className}
+            className={[
+                "fill-text-light-500 dark:fill-text-dark-500",
+                className,
+            ].join(" ")}
         >
             <path d="M448,0H0v448h448V0z M224,192c17.7,0,32,14.3,32,32s-14.3,32-32,32s-32-14.3-32-32S206.3,192,224,192z" />
         </svg>

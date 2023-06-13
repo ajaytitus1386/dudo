@@ -60,14 +60,14 @@ const Room = () => {
             </button>
             <div
                 id="table"
-                className="bg-red-400 flex flex-col py-20 px-4 gap-y-2 min-h-screen"
+                className="flex flex-col py-20 px-4 gap-y-2 min-h-screen"
             >
                 <DiceTable />
                 <DicePicker />
             </div>
             <div
                 id="controls"
-                className="bg-green-300 flex flex-col py-16 min-h-screen w-full"
+                className="flex flex-col py-16 min-h-screen w-full"
             >
                 <RoomControls />
             </div>

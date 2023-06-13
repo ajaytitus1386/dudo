@@ -70,10 +70,14 @@ const TableRow = ({
     children: React.ReactNode
     index: number
 }) =>
-    index % 2 === 0 ? (
-        <tr className="bg-white border-b">{children}</tr>
+    index % 2 !== 0 ? (
+        <tr className="bg-background-light-100 dark:bg-background-dark-100 text-text-light-500 dark:text-text-dark-500">
+            {children}
+        </tr>
     ) : (
-        <tr className="border-b bg-gray-50">{children}</tr>
+        <tr className="bg-background-light-300 dark:bg-background-dark-300 text-text-light-500 dark:text-text-dark-500">
+            {children}
+        </tr>
     )
 
 const TableHeadCell = ({ children }: { children: React.ReactNode }) => (
@@ -92,23 +96,29 @@ const RoomControls = () => {
     return (
         <div className="flex flex-col w-full h-full">
             {/* tabs - Full Width */}
-            <div className="flex items-center justify-center bg-gray-400">
+            <div className="flex items-center justify-center bg-background-light-200 dark:bg-background-dark-200">
                 {tabs.map((tab, index) => (
                     <div
                         key={`tab_${tab.name}`}
-                        className={`flex items-center justify-center w-full py-2 px-4 border-gray-500 ${
+                        className={`flex items-center justify-center w-full py-2 px-4 border-gray-400 dark:border-gray-600 ${
                             index < tabs.length - 1 && "border-r-2"
-                        } ${selectedTab === index && "bg-gray-500"}`}
+                        } ${
+                            selectedTab === index &&
+                            "bg-gray-400 dark:bg-gray-600"
+                        }`}
                         onClick={() => changeTab(index)}
                     >
-                        <FontAwesomeIcon icon={tab.icon} />
+                        <FontAwesomeIcon
+                            icon={tab.icon}
+                            className="text-text-light-500 dark:text-text-dark-500"
+                        />
                     </div>
                 ))}
             </div>
             <div className="px-4 py-2 h-full">
                 {/* Info */}
                 {selectedTab === 0 && (
-                    <RoomControlHug>
+                    <RoomControlHug className="h-full overflow-y-auto">
                         <HowToPlay />
                     </RoomControlHug>
                 )}
@@ -116,7 +126,7 @@ const RoomControls = () => {
                 {selectedTab === 1 && (
                     <RoomControlHug>
                         <table className="w-full">
-                            <thead className="text-gray-700 bg-gray-50 uppercase text-left">
+                            <thead className="text-text-light-400 dark:text-text-dark-200 bg-background-light-100 dark:bg-background-dark-100 uppercase text-left border-b border-background-light-500 dark:border-background-dark-500">
                                 <tr>
                                     <TableHeadCell>Player Name</TableHeadCell>
                                     <TableHeadCell>Wins</TableHeadCell>
@@ -138,6 +148,13 @@ const RoomControls = () => {
                                     <TableCell>1</TableCell>
                                     <TableCell>4</TableCell>
                                 </TableRow>
+                                <TableRow index={2}>
+                                    <TableCell>
+                                        <Username username="Player C" />
+                                    </TableCell>
+                                    <TableCell>1</TableCell>
+                                    <TableCell>4</TableCell>
+                                </TableRow>
                             </tbody>
                         </table>
                     </RoomControlHug>
@@ -152,17 +169,19 @@ const RoomControls = () => {
                 {/* Settings */}
                 {selectedTab === 3 && (
                     <RoomControlHug>
-                        <h1>Room Settings</h1>
+                        <h1 className="m-auto text-text-light-500 dark:text-text-dark-500">
+                            Room Settings
+                        </h1>
                     </RoomControlHug>
                 )}
                 {/* Exit */}
                 {selectedTab === 4 && (
                     <RoomControlHug className="gap-4">
-                        <Button className="w-full text-white">
+                        <Button className="w-full text-text-light-100 dark:text-text-dark-100">
                             Leave Room
                         </Button>
 
-                        <Button className="w-full text-white bg-red-500">
+                        <Button className="w-full text-text-light-100 dark:text-text-dark-100 bg-red-500">
                             End Room
                         </Button>
                     </RoomControlHug>

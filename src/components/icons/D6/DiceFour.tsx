@@ -6,7 +6,10 @@ const DiceFour = ({ className }: { className: string }) => {
             version="1.1"
             id="Layer_1"
             xmlns="http://www.w3.org/2000/svg"
-            className={className}
+            className={[
+                "fill-text-light-500 dark:fill-text-dark-500",
+                className,
+            ].join(" ")}
             x="0px"
             y="0px"
             viewBox="0 0 448 448"

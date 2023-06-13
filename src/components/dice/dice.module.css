@@ -24,17 +24,15 @@
     /* border: 1px solid black; */
 }
 
-.dieBg {
-    width: 50%;
-    height: 50%;
-    position: absolute;
-    background: red;
-    transform: translateZ(-10px);
-}
-
 .dieFaceIcon {
     position: relative;
     background-color: white;
+    font-size: 74px;
+}
+
+.dieFaceIconDark {
+    position: relative;
+    background-color: black;
     font-size: 74px;
 }
 

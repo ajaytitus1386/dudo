@@ -31,14 +31,17 @@ const Message = ({
             }`}
         >
             {isHead && sender && (
-                <Username className="text-xs text-gray-500" username={sender} />
+                <Username
+                    className="text-xs text-text-light-300 dark:text-text-dark-300"
+                    username={sender}
+                />
             )}
             <div
                 className={`px-2 py-1 
                 ${
                     isSent
-                        ? "bg-gray-400 text-black"
-                        : "bg-primary-light-200 text-black"
+                        ? "bg-background-light-500 dark:bg-background-dark-500 text-text-light-500 dark:text-text-dark-500"
+                        : "bg-primary-light-200 dark:bg-primary-light-500 text-text-light-500 dark:text-text-dark-500"
                 }
                  ${
                      isSent
@@ -52,7 +55,11 @@ const Message = ({
             >
                 {message}
             </div>
-            {isTail && <sub className="text-xs text-gray-500">{timestamp}</sub>}
+            {isTail && (
+                <sub className="text-xs text-text-light-300 dark:text-text-dark-300">
+                    {timestamp}
+                </sub>
+            )}
         </div>
     )
 }
@@ -60,7 +67,7 @@ const Message = ({
 const SystemMessage = ({ message }: { message: string }) => {
     return (
         <div className="mx-auto">
-            <p className="text-sm text-center font-light text-gray-600">
+            <p className="text-sm text-center font-light text-text-light-300 dark:text-text-dark-300">
                 {message}
             </p>
         </div>
