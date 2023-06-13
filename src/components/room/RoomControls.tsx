@@ -3,6 +3,7 @@ import Hug from "../Hug"
 import {
     faCircleInfo,
     faGear,
+    faLink,
     faMessage,
     faRightFromBracket,
     faUsers,
@@ -115,7 +116,21 @@ const RoomControls = () => {
                     </div>
                 ))}
             </div>
-            <div className="px-4 py-2 h-full">
+            <div className="flex flex-col gap-y-2 px-4 py-2 h-full">
+                <Hug className="flex flex-row items-center justify-center gap-x-2">
+                    <h2 className="text-text-light-500 dark:text-text-dark-500 font-bold">
+                        Room Name:
+                    </h2>
+                    <text className="text-text-light-500 dark:text-text-dark-500 select-all">
+                        room_name
+                    </text>
+                    <button>
+                        <FontAwesomeIcon
+                            icon={faLink}
+                            className="text-text-light-500 dark:text-text-dark-500 text-lg"
+                        />
+                    </button>
+                </Hug>
                 {/* Info */}
                 {selectedTab === 0 && (
                     <RoomControlHug className="h-full overflow-y-auto">
