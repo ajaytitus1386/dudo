@@ -19,6 +19,8 @@ import {
 } from "@fortawesome/free-solid-svg-icons"
 import Layout from "../components/Layout"
 import { ThemeProvider } from "../context/themeContext"
+import { AppProvider } from "context/appContext"
+import { RoomProvider } from "context/roomContext"
 
 library.add(
     faPaperPlane,
@@ -39,10 +41,14 @@ library.add(
 
 export default function App({ Component, pageProps }: AppProps) {
     return (
-        <ThemeProvider>
-            <Layout>
-                <Component {...pageProps} />
-            </Layout>
-        </ThemeProvider>
+        <AppProvider>
+            <RoomProvider>
+                <ThemeProvider>
+                    <Layout>
+                        <Component {...pageProps} />
+                    </Layout>
+                </ThemeProvider>
+            </RoomProvider>
+        </AppProvider>
     )
 }
