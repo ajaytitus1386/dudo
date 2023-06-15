@@ -2,13 +2,19 @@ import { addRoomEventListeners, addSocketListeners } from "lib/socket/listeners"
 import { WEBSOCKET_URL } from "../constants"
 import { createContext, useContext, useEffect, useState } from "react"
 import { Socket, io } from "socket.io-client"
+import {
+    ClientToServerEvents,
+    ServerToClientEvents,
+} from "constants/events/serverEventInterfaces"
 
 const SocketContext = createContext({
-    socket: null as Socket | null,
+    socket: null as Socket<ServerToClientEvents, ClientToServerEvents> | null,
 })
 
 export const SocketProvider = ({ children }: { children: React.ReactNode }) => {
-    const [socket, setSocket] = useState(null as Socket | null)
+    const [socket, setSocket] = useState(
+        null as Socket<ServerToClientEvents, ClientToServerEvents> | null
+    )
 
     useEffect(() => {
         // Initialize socket if not done
