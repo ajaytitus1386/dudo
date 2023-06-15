@@ -6,10 +6,26 @@ import { faChevronDown } from "@fortawesome/free-solid-svg-icons"
 import RoomControls from "../components/room/RoomControls"
 import DiceList from "components/dice/DiceList"
 import DiceInputWrapper from "components/dice/DiceInputWrapper"
+import { useRouter } from "next/router"
+import { useRoomContext } from "context/roomContext"
+import { useAppContext } from "context/appContext"
 
 const Room = () => {
+    const { roomName, setRoomName } = useRoomContext()
+    const { username } = useAppContext()
+
     const [isHigh, setIsHigh] = useState(true)
     const [showDiceList, setShowDiceList] = useState(true)
+
+    const router = useRouter()
+    const roomNameInPath = router.asPath.split("/").slice(-1)[0]
+    useEffect(() => {
+        // If roomName is not set, set it to the roomName in the path (so it auto-fills the room name field)
+        if (!roomName) setRoomName(roomNameInPath)
+
+        // If username is not set, redirect to home
+        if (!username) router.push("/")
+    }, [roomName, roomNameInPath, router, setRoomName, username])
 
     const onScroll = () => {
         if (!window) return

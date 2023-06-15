@@ -3,6 +3,9 @@ import Hug from "../Hug"
 import Input from "../Input"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faArrowsRotate } from "@fortawesome/free-solid-svg-icons"
+import { useAppContext } from "context/appContext"
+import { useRoomContext } from "context/roomContext"
+import { useRouter } from "next/router"
 
 const RoomTypeTab = ({
     label,
@@ -35,6 +38,11 @@ const RoomTypeTab = ({
 }
 
 const RoomDialogBox = () => {
+    const { username, setUsername } = useAppContext()
+    const { roomName, setRoomName } = useRoomContext()
+
+    const router = useRouter()
+
     const tabs = ["join_game", "create_game"]
     const [selectedTab, setSelectedTab] = useState(tabs[0])
 
@@ -42,6 +50,16 @@ const RoomDialogBox = () => {
 
     const changeTab = (tab: string) => {
         setSelectedTab(tab)
+    }
+
+    const handleJoinGame = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault()
+        router.push(`/${roomName}`)
+    }
+
+    const handleCreateGame = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault()
+        router.push(`/${roomName}`)
     }
 
     return (
@@ -59,7 +77,10 @@ const RoomDialogBox = () => {
                     onClick={() => changeTab(tabs[1])}
                 />
             </div>
-            <form className="flex flex-col gap-2 justify-center items-center">
+            <form
+                onSubmit={isJoinGame ? handleJoinGame : handleCreateGame}
+                className="flex flex-col gap-2 justify-center items-center"
+            >
                 <h3 className="text-center text-gray-400 text-sm mb-4">
                     {isJoinGame
                         ? "Join an existing room with your friends"
@@ -67,17 +88,17 @@ const RoomDialogBox = () => {
                 </h3>
 
                 <Input
-                    value=""
+                    value={username || ""}
                     type="text"
                     placeholder="Your Name"
-                    onChange={() => {}}
+                    onChange={(e) => setUsername(e.target.value)}
                 />
 
                 <Input
-                    value=""
+                    value={roomName || ""}
                     type="text"
                     placeholder={isJoinGame ? "Room Name" : "New Room Name"}
-                    onChange={() => {}}
+                    onChange={(e) => setRoomName(e.target.value)}
                     RightElement={
                         !isJoinGame && (
                             <FontAwesomeIcon
@@ -88,7 +109,10 @@ const RoomDialogBox = () => {
                     }
                 />
 
-                <button className="px-4 py-2 bg-gradient-to-l from-primary-light-200 to-80% to-primary-light-300 bg-[length:200%_200%] hover:bg-right transition-all duration-500 rounded-md text-white font-medium w-full">
+                <button
+                    type="submit"
+                    className="px-4 py-2 bg-gradient-to-l from-primary-light-200 to-80% to-primary-light-300 bg-[length:200%_200%] hover:bg-right transition-all duration-500 rounded-md text-white font-medium w-full"
+                >
                     {isJoinGame ? "Join" : "Create"}
                 </button>
             </form>
