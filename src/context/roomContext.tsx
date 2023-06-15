@@ -1,5 +1,4 @@
-import { useRouter } from "next/router"
-import { createContext, useContext, useEffect, useState } from "react"
+import { createContext, useContext, useState } from "react"
 
 const RoomContext = createContext({
     roomName: null as string | null,
