@@ -151,9 +151,9 @@ const RoomControls = () => {
                         <table className="w-full">
                             <thead className="text-text-light-400 dark:text-text-dark-200 bg-background-light-100 dark:bg-background-dark-100 uppercase text-left border-b border-background-light-500 dark:border-background-dark-500">
                                 <tr>
-                                    <TableHeadCell>Player Name</TableHeadCell>
-                                    <TableHeadCell>Wins</TableHeadCell>
-                                    <TableHeadCell>Losses</TableHeadCell>
+                                    <TableHeadCell>Player</TableHeadCell>
+                                    <TableHeadCell>Win</TableHeadCell>
+                                    <TableHeadCell>Loss</TableHeadCell>
                                 </tr>
                             </thead>
                             <tbody>
@@ -184,7 +184,7 @@ const RoomControls = () => {
                 )}
                 {/* Chat */}
                 {selectedTab === 2 && (
-                    <RoomControlHug className="h-full max-h-[90%] md:max-h-full">
+                    <RoomControlHug className="h-full max-h-[90%]">
                         <MessageList />
                         <MessageInput />
                     </RoomControlHug>
