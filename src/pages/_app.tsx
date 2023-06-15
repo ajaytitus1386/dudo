@@ -21,6 +21,7 @@ import Layout from "../components/Layout"
 import { ThemeProvider } from "../context/themeContext"
 import { AppProvider } from "context/appContext"
 import { RoomProvider } from "context/roomContext"
+import { SocketProvider } from "context/socketContext"
 
 library.add(
     faPaperPlane,
@@ -42,13 +43,15 @@ library.add(
 export default function App({ Component, pageProps }: AppProps) {
     return (
         <AppProvider>
-            <RoomProvider>
-                <ThemeProvider>
-                    <Layout>
-                        <Component {...pageProps} />
-                    </Layout>
-                </ThemeProvider>
-            </RoomProvider>
+            <SocketProvider>
+                <RoomProvider>
+                    <ThemeProvider>
+                        <Layout>
+                            <Component {...pageProps} />
+                        </Layout>
+                    </ThemeProvider>
+                </RoomProvider>
+            </SocketProvider>
         </AppProvider>
     )
 }
