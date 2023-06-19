@@ -1,7 +1,7 @@
 import {
     ClientToServerEvents,
     ServerToClientEvents,
-} from "constants/events/serverEventInterfaces"
+} from "../../../dudo_submodules/constants/serverEventInterfaces"
 import { Socket } from "socket.io-client"
 
 export const addSocketListeners = (
