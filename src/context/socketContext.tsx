@@ -5,7 +5,7 @@ import { Socket, io } from "socket.io-client"
 import {
     ClientToServerEvents,
     ServerToClientEvents,
-} from "constants/events/serverEventInterfaces"
+} from "../../dudo_submodules/constants/serverEventInterfaces"
 
 const SocketContext = createContext({
     socket: null as Socket<ServerToClientEvents, ClientToServerEvents> | null,
