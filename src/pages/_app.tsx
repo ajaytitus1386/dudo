@@ -43,15 +43,15 @@ library.add(
 export default function App({ Component, pageProps }: AppProps) {
     return (
         <AppProvider>
-            <SocketProvider>
-                <RoomProvider>
-                    <ThemeProvider>
+            <RoomProvider>
+                <ThemeProvider>
+                    <SocketProvider>
                         <Layout>
                             <Component {...pageProps} />
                         </Layout>
-                    </ThemeProvider>
-                </RoomProvider>
-            </SocketProvider>
+                    </SocketProvider>
+                </ThemeProvider>
+            </RoomProvider>
         </AppProvider>
     )
 }
