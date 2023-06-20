@@ -17,6 +17,8 @@ import {
     faDiceD6,
     faLink,
 } from "@fortawesome/free-solid-svg-icons"
+import { ToastContainer } from "react-toastify"
+import "react-toastify/dist/ReactToastify.css"
 import Layout from "../components/Layout"
 import { ThemeProvider } from "../context/themeContext"
 import { AppProvider } from "context/appContext"
@@ -49,6 +51,7 @@ export default function App({ Component, pageProps }: AppProps) {
                         <Layout>
                             <Component {...pageProps} />
                         </Layout>
+                        <ToastContainer />
                     </SocketProvider>
                 </ThemeProvider>
             </RoomProvider>
