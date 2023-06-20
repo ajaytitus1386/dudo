@@ -6,6 +6,8 @@ import {
     ClientToServerEvents,
     ServerToClientEvents,
 } from "../../dudo_submodules/constants/serverEventInterfaces"
+import { useRoomContext } from "./roomContext"
+import { useRouter } from "next/router"
 
 const SocketContext = createContext({
     socket: null as Socket<ServerToClientEvents, ClientToServerEvents> | null,
@@ -15,6 +17,8 @@ export const SocketProvider = ({ children }: { children: React.ReactNode }) => {
     const [socket, setSocket] = useState(
         null as Socket<ServerToClientEvents, ClientToServerEvents> | null
     )
+    const { setRoomName } = useRoomContext()
+    const router = useRouter()
 
     useEffect(() => {
         // Initialize socket if not done
@@ -24,7 +28,7 @@ export const SocketProvider = ({ children }: { children: React.ReactNode }) => {
             transports: ["websocket"],
         })
         addSocketListeners(newSocket)
-        addRoomEventListeners(newSocket)
+        addRoomEventListeners(newSocket, router, setRoomName)
 
         setSocket(newSocket)
 

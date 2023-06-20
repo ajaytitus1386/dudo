@@ -5,7 +5,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faArrowsRotate } from "@fortawesome/free-solid-svg-icons"
 import { useAppContext } from "context/appContext"
 import { useRoomContext } from "context/roomContext"
-import { useRouter } from "next/router"
+import { useSocketContext } from "context/socketContext"
+import { createGameRoom } from "lib/socket/emitters"
 
 const RoomTypeTab = ({
     label,
@@ -40,8 +41,13 @@ const RoomTypeTab = ({
 const RoomDialogBox = () => {
     const { username, setUsername } = useAppContext()
     const { roomName, setRoomName } = useRoomContext()
+    const { socket } = useSocketContext()
 
-    const router = useRouter()
+    const defaultErrors = {
+        username: "",
+        roomName: "",
+    }
+    const [errors, setErrors] = useState(defaultErrors)
 
     const tabs = ["join_game", "create_game"]
     const [selectedTab, setSelectedTab] = useState(tabs[0])
@@ -52,14 +58,33 @@ const RoomDialogBox = () => {
         setSelectedTab(tab)
     }
 
+    const validateForm = () => {
+        if (!username || !roomName) {
+            setErrors({
+                username: !username ? "Username is required" : "",
+                roomName: !roomName ? "Room name is required" : "",
+            })
+            return false
+        }
+
+        setErrors(defaultErrors)
+
+        return (
+            username && roomName && username.length > 0 && roomName.length > 0
+        )
+    }
+
     const handleJoinGame = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
-        router.push(`/${roomName}`)
+        if (!validateForm()) return
     }
 
     const handleCreateGame = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
-        router.push(`/${roomName}`)
+        if (!validateForm()) return
+        if (!socket) return
+
+        createGameRoom(socket, roomName!, username!)
     }
 
     return (
@@ -92,6 +117,7 @@ const RoomDialogBox = () => {
                     type="text"
                     placeholder="Your Name"
                     onChange={(e) => setUsername(e.target.value)}
+                    error={errors.username}
                 />
 
                 <Input
@@ -107,6 +133,7 @@ const RoomDialogBox = () => {
                             />
                         )
                     }
+                    error={errors.roomName}
                 />
 
                 <button
