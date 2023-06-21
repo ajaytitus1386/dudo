@@ -1,20 +1,33 @@
-import { createContext, useContext, useState } from "react"
+import { createContext, useContext, useEffect, useState } from "react"
+import Room from "../../dudo_submodules/models/room"
 
 const RoomContext = createContext({
-    roomName: null as string | null,
-    setRoomName: (roomName: string | null) => {},
-    roomState: "lobby",
-    setRoomState: (roomState: "lobby" | "game") => {},
+    room: {
+        name: "",
+        host: {},
+        id: "",
+        players: [{}],
+        roomState: "lobby",
+    } as Room,
+    setRoom: (() => {}) as React.Dispatch<React.SetStateAction<Room>>,
+    setRoomName: (name: string) => {},
 })
 
 export const RoomProvider = ({ children }: { children: React.ReactNode }) => {
-    const [roomName, setRoomName] = useState(null as string | null)
-    const [roomState, setRoomState] = useState("lobby")
+    const [room, setRoom] = useState({} as Room)
+
+    const setRoomName = (name: string) => {
+        setRoom((prevRoom) => {
+            return { ...prevRoom, name }
+        })
+    }
+
+    useEffect(() => {
+        console.log(room)
+    }, [room])
 
     return (
-        <RoomContext.Provider
-            value={{ roomName, setRoomName, roomState, setRoomState }}
-        >
+        <RoomContext.Provider value={{ room, setRoom, setRoomName }}>
             {children}
         </RoomContext.Provider>
     )

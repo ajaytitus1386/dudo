@@ -14,6 +14,10 @@ import MessageInput from "../chat/MessageInput"
 import Button from "../Button"
 import HowToPlay from "../content/HowToPlay"
 import Username from "../Username"
+import { useRoomContext } from "context/roomContext"
+import { endGameRoom, leaveGameRoom } from "lib/socket/emitters"
+import { useSocketContext } from "context/socketContext"
+import { useAppContext } from "context/appContext"
 
 const tabs = [
     {
@@ -92,6 +96,22 @@ const TableCell = ({ children }: { children: React.ReactNode }) => (
 const RoomControls = () => {
     const [selectedTab, setSelectedTab] = useState(0)
 
+    const { room } = useRoomContext()
+    const { socket } = useSocketContext()
+    const { username } = useAppContext()
+
+    const onLeaveRoom = () => {
+        if (!socket || !username) return
+
+        leaveGameRoom(socket, room.name, username)
+    }
+
+    const onEndRoom = () => {
+        if (!socket || !username) return
+
+        endGameRoom(socket, room.name)
+    }
+
     const changeTab = (index: number) => setSelectedTab(index)
 
     return (
@@ -130,7 +150,7 @@ const RoomControls = () => {
                         Room Name:
                     </h2>
                     <text className="text-text-light-500 dark:text-text-dark-500 select-all">
-                        room_name
+                        {room.name || "Room Name"}
                     </text>
                     <button>
                         <FontAwesomeIcon
@@ -157,27 +177,21 @@ const RoomControls = () => {
                                 </tr>
                             </thead>
                             <tbody>
-                                <TableRow index={0}>
-                                    <TableCell>
-                                        <Username username="Player 1" />
-                                    </TableCell>
-                                    <TableCell>3</TableCell>
-                                    <TableCell>2</TableCell>
-                                </TableRow>
-                                <TableRow index={1}>
-                                    <TableCell>
-                                        <Username username="Player 2" />
-                                    </TableCell>
-                                    <TableCell>1</TableCell>
-                                    <TableCell>4</TableCell>
-                                </TableRow>
-                                <TableRow index={2}>
-                                    <TableCell>
-                                        <Username username="Player C" />
-                                    </TableCell>
-                                    <TableCell>1</TableCell>
-                                    <TableCell>4</TableCell>
-                                </TableRow>
+                                {room.players &&
+                                    room.players.map((player, index) => (
+                                        <TableRow
+                                            key={player.name}
+                                            index={index}
+                                        >
+                                            <TableCell>
+                                                <Username
+                                                    username={player.name}
+                                                />
+                                            </TableCell>
+                                            <TableCell>0</TableCell>
+                                            <TableCell>0</TableCell>
+                                        </TableRow>
+                                    ))}
                             </tbody>
                         </table>
                     </RoomControlHug>
@@ -200,11 +214,17 @@ const RoomControls = () => {
                 {/* Exit */}
                 {selectedTab === 4 && (
                     <RoomControlHug className="gap-4">
-                        <Button className="w-full text-text-light-100 dark:text-text-dark-100">
+                        <Button
+                            onClick={onLeaveRoom}
+                            className="w-full text-text-light-100 dark:text-text-dark-500"
+                        >
                             Leave Room
                         </Button>
 
-                        <Button className="w-full text-text-light-100 dark:text-text-dark-100 bg-red-500">
+                        <Button
+                            onClick={onEndRoom}
+                            className="w-full text-text-light-100 dark:text-text-dark-500 bg-red-500 hover:bg-red-600 focus:bg-red-700"
+                        >
                             End Room
                         </Button>
                     </RoomControlHug>

@@ -11,3 +11,26 @@ export const createGameRoom = (
 ) => {
     socket.emit("create_room", { roomName, hostName })
 }
+
+export const joinGameRoom = (
+    socket: Socket<ServerToClientEvents, ClientToServerEvents>,
+    roomName: string,
+    userName: string
+) => {
+    socket.emit("user_join_room", { roomName, userName })
+}
+
+export const leaveGameRoom = (
+    socket: Socket<ServerToClientEvents, ClientToServerEvents>,
+    roomName: string,
+    userName: string
+) => {
+    socket.emit("user_leave_room", { roomName, userName })
+}
+
+export const endGameRoom = (
+    socket: Socket<ServerToClientEvents, ClientToServerEvents>,
+    roomName: string
+) => {
+    socket.emit("end_room", { roomName })
+}

@@ -6,7 +6,7 @@ import { faArrowsRotate } from "@fortawesome/free-solid-svg-icons"
 import { useAppContext } from "context/appContext"
 import { useRoomContext } from "context/roomContext"
 import { useSocketContext } from "context/socketContext"
-import { createGameRoom } from "lib/socket/emitters"
+import { createGameRoom, joinGameRoom } from "lib/socket/emitters"
 
 const RoomTypeTab = ({
     label,
@@ -40,7 +40,7 @@ const RoomTypeTab = ({
 
 const RoomDialogBox = () => {
     const { username, setUsername } = useAppContext()
-    const { roomName, setRoomName } = useRoomContext()
+    const { room, setRoom } = useRoomContext()
     const { socket } = useSocketContext()
 
     const defaultErrors = {
@@ -59,24 +59,36 @@ const RoomDialogBox = () => {
     }
 
     const validateForm = () => {
-        if (!username || !roomName) {
+        if (!username || !room.name) {
             setErrors({
                 username: !username ? "Username is required" : "",
-                roomName: !roomName ? "Room name is required" : "",
+                roomName: !room.name ? "Room name is required" : "",
             })
+            return false
+        }
+
+        const uriRoomName = encodeURIComponent(room.name)
+        if (uriRoomName !== room.name) {
+            setErrors((errors) => ({
+                ...errors,
+                roomName: "Room name cannot contain special characters",
+            }))
             return false
         }
 
         setErrors(defaultErrors)
 
         return (
-            username && roomName && username.length > 0 && roomName.length > 0
+            username && room.name && username.length > 0 && room.name.length > 0
         )
     }
 
     const handleJoinGame = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
         if (!validateForm()) return
+        if (!socket) return
+
+        joinGameRoom(socket, room.name!, username!)
     }
 
     const handleCreateGame = (e: React.FormEvent<HTMLFormElement>) => {
@@ -84,7 +96,7 @@ const RoomDialogBox = () => {
         if (!validateForm()) return
         if (!socket) return
 
-        createGameRoom(socket, roomName!, username!)
+        createGameRoom(socket, room.name!, username!)
     }
 
     return (
@@ -121,10 +133,10 @@ const RoomDialogBox = () => {
                 />
 
                 <Input
-                    value={roomName || ""}
+                    value={room.name || ""}
                     type="text"
                     placeholder={isJoinGame ? "Room Name" : "New Room Name"}
-                    onChange={(e) => setRoomName(e.target.value)}
+                    onChange={(e) => setRoom({ ...room, name: e.target.value })}
                     RightElement={
                         !isJoinGame && (
                             <FontAwesomeIcon

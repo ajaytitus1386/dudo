@@ -11,7 +11,7 @@ import { useRoomContext } from "context/roomContext"
 import { useAppContext } from "context/appContext"
 
 const Room = () => {
-    const { roomName, setRoomName } = useRoomContext()
+    const { room, setRoomName } = useRoomContext()
     const { username } = useAppContext()
 
     const [isHigh, setIsHigh] = useState(true)
@@ -21,11 +21,12 @@ const Room = () => {
     const roomNameInPath = router.asPath.split("/").slice(-1)[0]
     useEffect(() => {
         // If roomName is not set, set it to the roomName in the path (so it auto-fills the room name field)
-        if (!roomName) setRoomName(roomNameInPath)
+        if (!room.name && roomNameInPath !== "[room_name]")
+            setRoomName(roomNameInPath)
 
         // If username is not set, redirect to home
         if (!username) router.push("/")
-    }, [roomName, roomNameInPath, router, setRoomName, username])
+    }, [room.name, roomNameInPath, router, setRoomName, username])
 
     const onScroll = () => {
         if (!window) return
@@ -55,11 +56,11 @@ const Room = () => {
 
         if (!isHigh) {
             document
-                .getElementById("table")
+                .getElementById("table")!
                 .scrollIntoView({ behavior: "smooth", block: "start" })
         } else {
             document
-                .getElementById("controls")
+                .getElementById("controls")!
                 .scrollIntoView({ behavior: "smooth", block: "start" })
         }
     }
