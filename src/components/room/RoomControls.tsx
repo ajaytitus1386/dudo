@@ -177,15 +177,15 @@ const RoomControls = () => {
                                 </tr>
                             </thead>
                             <tbody>
-                                {room.players &&
-                                    room.players.map((player, index) => (
+                                {room.roomUsers &&
+                                    room.roomUsers.map((roomUser, index) => (
                                         <TableRow
-                                            key={player.name}
+                                            key={roomUser.name}
                                             index={index}
                                         >
                                             <TableCell>
                                                 <Username
-                                                    username={player.name}
+                                                    username={roomUser.name}
                                                 />
                                             </TableCell>
                                             <TableCell>0</TableCell>

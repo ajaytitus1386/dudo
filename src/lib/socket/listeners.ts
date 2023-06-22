@@ -51,7 +51,7 @@ export const addRoomEventListeners = (
         setRoom((prevRoom) => {
             return {
                 ...prevRoom,
-                players: [...prevRoom.players, user],
+                roomUsers: [...prevRoom.roomUsers, user],
             }
         })
     })
@@ -60,8 +60,8 @@ export const addRoomEventListeners = (
         setRoom((prevRoom) => {
             return {
                 ...prevRoom,
-                players: prevRoom.players.filter(
-                    (player) => player.name !== user.name
+                roomUsers: prevRoom.roomUsers.filter(
+                    (roomUser) => roomUser.name !== user.name
                 ),
             }
         })
@@ -92,14 +92,14 @@ export const addRoomEventListeners = (
         setRoom((prevRoom) => {
             return {
                 ...prevRoom,
-                players: prevRoom.players.map((player) => {
-                    if (player.name === username) {
+                roomUsers: prevRoom.roomUsers.map((roomUser) => {
+                    if (roomUser.name === username) {
                         return {
-                            ...player,
+                            ...roomUser,
                             isReady: true,
                         }
                     }
-                    return player
+                    return roomUser
                 }),
             }
         })
@@ -112,14 +112,14 @@ export const addRoomEventListeners = (
         setRoom((prevRoom) => {
             return {
                 ...prevRoom,
-                players: prevRoom.players.map((player) => {
-                    if (player.name === username) {
+                roomUsers: prevRoom.roomUsers.map((roomUser) => {
+                    if (roomUser.name === username) {
                         return {
-                            ...player,
+                            ...roomUser,
                             isReady: false,
                         }
                     }
-                    return player
+                    return roomUser
                 }),
             }
         })
@@ -132,14 +132,14 @@ export const addRoomEventListeners = (
         setRoom((prevRoom) => {
             return {
                 ...prevRoom,
-                players: prevRoom.players.map((player) => {
-                    if (player.name === user.name) {
+                roomUsers: prevRoom.roomUsers.map((roomUser) => {
+                    if (roomUser.name === user.name) {
                         return {
-                            ...player,
+                            ...roomUser,
                             isReady: true,
                         }
                     }
-                    return player
+                    return roomUser
                 }),
             }
         })
@@ -152,14 +152,14 @@ export const addRoomEventListeners = (
         setRoom((prevRoom) => {
             return {
                 ...prevRoom,
-                players: prevRoom.players.map((player) => {
-                    if (player.name === user.name) {
+                roomUsers: prevRoom.roomUsers.map((roomUser) => {
+                    if (roomUser.name === user.name) {
                         return {
-                            ...player,
+                            ...roomUser,
                             isReady: false,
                         }
                     }
-                    return player
+                    return roomUser
                 }),
             }
         })

@@ -132,8 +132,8 @@ const DiceTable = () => {
     const { username } = useAppContext()
     const { socket } = useSocketContext()
 
-    const otherPlayers = room.players
-        ? room.players.filter((player) => player.name !== username)
+    const otherRoomUsers = room.roomUsers
+        ? room.roomUsers.filter((roomUser) => roomUser.name !== username)
         : []
 
     const isGame = room.roomState === "game"
@@ -158,8 +158,8 @@ const DiceTable = () => {
         unreadyUser(socket!, room.name, username!)
     }
 
-    const isReady = room.players?.find(
-        (player) => player.name === username
+    const isReady = room.roomUsers?.find(
+        (roomUser) => roomUser.name === username
     )?.isReady
 
     return (
@@ -192,25 +192,25 @@ const DiceTable = () => {
                     gridTemplateColumns: `repeat(${numberOfColumns},minmax(0,1fr))`,
                 }}
             >
-                {otherPlayers && otherPlayers.length === 0 && (
+                {otherRoomUsers && otherRoomUsers.length === 0 && (
                     <h3 className="col-span-full flex items-center m-auto text-text-light-500 dark:text-text-dark-500">
                         Invite other players to join the game!
                     </h3>
                 )}
-                {otherPlayers &&
-                    otherPlayers.map((player, i) =>
+                {otherRoomUsers &&
+                    otherRoomUsers.map((roomUser, i) =>
                         isGame ? (
                             <PlayerHand
-                                key={`${player.id}_hand`}
-                                playerName={player.name}
+                                key={`${roomUser.id}_hand`}
+                                playerName={roomUser.name}
                                 playerHand={[0, 0, 0, 0, 0]}
                                 maxDice={5}
                             />
                         ) : (
                             <PlayerStatus
-                                key={`${player.id}_hand`}
-                                playerName={player.name}
-                                isReady={player.isReady}
+                                key={`${roomUser.id}_hand`}
+                                playerName={roomUser.name}
+                                isReady={roomUser.isReady}
                                 numberOfDice={numberOfDice}
                             />
                         )

@@ -6,7 +6,7 @@ const RoomContext = createContext({
         name: "",
         host: {},
         id: "",
-        players: [{}],
+        roomUsers: [{}],
         roomState: "lobby",
     } as Room,
     setRoom: (() => {}) as React.Dispatch<React.SetStateAction<Room>>,
