@@ -102,6 +102,16 @@ module.exports = {
                 "gradient-conic":
                     "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
             },
+            animation: {
+                ellipsis: "ellipsis steps(4,end) 1s infinite",
+            },
+            keyframes: {
+                ellipsis: {
+                    "0%": { width: "0" },
+                    "50%": { width: "1.25em" },
+                    "100%": { width: "0" },
+                },
+            },
         },
     },
     plugins: [],

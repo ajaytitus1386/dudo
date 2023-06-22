@@ -226,8 +226,13 @@ const DiceTable = () => {
                     </h3>
                 </>
             ) : (
-                <h3 className="col-span-full m-auto text-text-light-500 dark:text-text-dark-500">
-                    Waiting for game start...
+                <h3
+                    className={[
+                        "col-span-full m-auto text-lg text-text-light-500 dark:text-text-dark-500",
+                        "after:content-['...'] after:absolute after:overflow-hidden after:animate-ellipsis after:inline-block after:align-bottom",
+                    ].join(" ")}
+                >
+                    Waiting for the game to start
                 </h3>
             )}
         </Hug>
