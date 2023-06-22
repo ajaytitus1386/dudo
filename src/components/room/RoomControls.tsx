@@ -18,6 +18,7 @@ import { useRoomContext } from "context/roomContext"
 import { endGameRoom, leaveGameRoom } from "lib/socket/emitters"
 import { useSocketContext } from "context/socketContext"
 import { useAppContext } from "context/appContext"
+import { usePopper } from "react-popper"
 
 const tabs = [
     {
@@ -96,6 +97,44 @@ const TableCell = ({ children }: { children: React.ReactNode }) => (
 const RoomControls = () => {
     const [selectedTab, setSelectedTab] = useState(0)
 
+    const defaultRoomLinkTooltipMessage = "Copy Room Link"
+    const [roomLinkTooltipMessage, setRoomLinkTooltipMessage] = useState(
+        defaultRoomLinkTooltipMessage
+    )
+    const [showRoomLinkTooltip, setShowRoomLinkTooltip] = useState(false)
+
+    const [roomLinkElement, setRoomLinkElement] = useState(null)
+    const [roomLinkTooltipElement, setRoomLinkTooltipElement] = useState(null)
+    const [roomLinkTooltipArrowElement, setRoomLinkTooltipArrowElement] =
+        useState(null)
+
+    const { styles, attributes } = usePopper(
+        roomLinkElement,
+        roomLinkTooltipElement,
+        {
+            modifiers: [
+                {
+                    name: "arrow",
+                    options: { element: roomLinkTooltipArrowElement },
+                },
+            ],
+        }
+    )
+
+    const handleShowTooltip = () => setShowRoomLinkTooltip(true)
+    const handleHideTooltip = () => setShowRoomLinkTooltip(false)
+
+    const onCopyRoomLink = () => {
+        if (!navigator.clipboard) return
+
+        navigator.clipboard.writeText(window.location.href)
+        setRoomLinkTooltipMessage("Copied Link!")
+
+        setTimeout(() => {
+            setRoomLinkTooltipMessage(defaultRoomLinkTooltipMessage)
+        }, 2000)
+    }
+
     const { room } = useRoomContext()
     const { socket } = useSocketContext()
     const { username } = useAppContext()
@@ -152,12 +191,35 @@ const RoomControls = () => {
                     <text className="text-text-light-500 dark:text-text-dark-500 select-all">
                         {room.name || "Room Name"}
                     </text>
-                    <button>
+                    <button
+                        type="button"
+                        ref={setRoomLinkElement}
+                        onClick={onCopyRoomLink}
+                        onMouseEnter={handleShowTooltip}
+                        onFocus={handleShowTooltip}
+                        onMouseLeave={handleHideTooltip}
+                        onBlur={handleHideTooltip}
+                    >
                         <FontAwesomeIcon
                             icon={faLink}
                             className="text-text-light-500 dark:text-text-dark-500 text-lg"
                         />
                     </button>
+                    {showRoomLinkTooltip && (
+                        <div
+                            ref={setRoomLinkTooltipElement}
+                            style={styles.popper}
+                            {...attributes.popper}
+                            className="bg-background-light-500 dark:bg-background-dark-500 text-text-light-500 dark:text-text-dark-500 rounded-lg shadow-lg p-2 z-10"
+                        >
+                            {roomLinkTooltipMessage}
+                            <div
+                                ref={setRoomLinkTooltipArrowElement}
+                                style={styles.arrow}
+                                className="bg-background-light-500 dark:bg-background-dark-500"
+                            />
+                        </div>
+                    )}
                 </Hug>
                 {/* Info */}
                 {selectedTab === 0 && (
