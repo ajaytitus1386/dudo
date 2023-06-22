@@ -85,6 +85,9 @@ export const addRoomEventListeners = (
         toast.warning("User not in room")
     })
 
+    /**
+     * Listener for when current user readys self
+     */
     socket.on("ready_success", () => {
         setRoom((prevRoom) => {
             return {
@@ -102,6 +105,9 @@ export const addRoomEventListeners = (
         })
     })
 
+    /**
+     * Listener for when current user unreadys self
+     */
     socket.on("unready_success", () => {
         setRoom((prevRoom) => {
             return {
@@ -119,6 +125,9 @@ export const addRoomEventListeners = (
         })
     })
 
+    /**
+     * Listener for when another user readys up
+     */
     socket.on("user_ready", ({ user }) => {
         setRoom((prevRoom) => {
             return {
@@ -136,6 +145,9 @@ export const addRoomEventListeners = (
         })
     })
 
+    /**
+     * Listener for when another user unreadys
+     */
     socket.on("user_unready", ({ user }) => {
         setRoom((prevRoom) => {
             return {

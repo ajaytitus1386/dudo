@@ -29,16 +29,26 @@ export const SocketProvider = ({ children }: { children: React.ReactNode }) => {
         const newSocket = io(WEBSOCKET_URL, {
             transports: ["websocket"],
         })
-        addSocketListeners(newSocket)
-        addRoomEventListeners(newSocket, router, setRoom, setRoomName, username)
 
         setSocket(newSocket)
 
-        return () => {
-            newSocket.disconnect()
-        }
+        // return () => {
+        //     newSocket.disconnect()
+        // }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
+
+    useEffect(() => {
+        // Add listeners when socket is ready
+        if (!socket) return
+
+        // Remove all listeners before adding new ones
+        socket.removeAllListeners()
+
+        // Some listeners require context and state and so are in the useEffect dependency array
+        addSocketListeners(socket)
+        addRoomEventListeners(socket, router, setRoom, setRoomName, username)
+    }, [router, setRoom, setRoomName, socket, username])
 
     return (
         <SocketContext.Provider value={{ socket }}>

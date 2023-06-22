@@ -62,6 +62,22 @@ module.exports = {
                         DEFAULT: "#FFF",
                     },
                 },
+                negative: {
+                    light: {
+                        DEFAULT: colors.red[500],
+                    },
+                    dark: {
+                        DEFAULT: colors.red[300],
+                    },
+                },
+                positive: {
+                    light: {
+                        DEFAULT: colors.green[500],
+                    },
+                    dark: {
+                        DEFAULT: colors.green[200],
+                    },
+                },
                 background: {
                     light: {
                         DEFAULT: "#FFF",

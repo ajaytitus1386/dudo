@@ -34,3 +34,19 @@ export const endGameRoom = (
 ) => {
     socket.emit("end_room", { roomName })
 }
+
+export const readyUser = (
+    socket: Socket<ServerToClientEvents, ClientToServerEvents>,
+    roomName: string,
+    userName: string
+) => {
+    socket.emit("user_ready", { roomName, userName })
+}
+
+export const unreadyUser = (
+    socket: Socket<ServerToClientEvents, ClientToServerEvents>,
+    roomName: string,
+    userName: string
+) => {
+    socket.emit("user_unready", { roomName, userName })
+}
