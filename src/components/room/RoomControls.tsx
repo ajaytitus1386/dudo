@@ -158,11 +158,11 @@ const RoomControls = () => {
     return (
         <div className="flex flex-col w-full h-full gap-y-2">
             {/* tabs - Full Width */}
-            <div className="flex items-center justify-center bg-background-light-200 dark:bg-background-dark-200 md:mx-4 md:rounded-lg">
+            <div className="flex items-center justify-center cursor-pointer bg-background-light-200 dark:bg-background-dark-200 md:mx-4 md:rounded-lg">
                 {tabs.map((tab, index) => (
                     <div
                         key={`tab_${tab.name}`}
-                        className={`flex items-center justify-center w-full py-2 px-4 border-gray-400 dark:border-gray-600 ${
+                        className={`flex items-center justify-center w-full py-2 px-4 border-gray-400 dark:border-gray-600 hover:bg-gray-400 hover:dark:bg-gray-600 ${
                             index < tabs.length - 1 && "border-r-2"
                         } ${
                             selectedTab === index &&
