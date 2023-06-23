@@ -24,7 +24,7 @@ const DiceInputWrapper: React.FC<Props> = ({
             {children}
             <Button
                 onClick={() => setShowList((prev) => !prev)}
-                className="order-last px-2 py-1 col-span-1 ml-auto bg-primary-light-300 dark:bg-primary-light-200 font-bold"
+                className="order-last px-2 py-1 col-span-1 ml-auto font-bold"
             >
                 {showList ? (
                     <FontAwesomeIcon
@@ -38,7 +38,7 @@ const DiceInputWrapper: React.FC<Props> = ({
                     />
                 )}
             </Button>
-            <Button className="order-last px-2 py-1 col-span-1 mr-auto bg-primary-light-300 dark:bg-primary-light-200 text-text-light-100 dark:text-text-dark-500 font-medium w-24">
+            <Button className="order-last px-2 py-1 col-span-1 mr-auto text-text-light-100 dark:text-text-dark-500 font-medium w-24">
                 Confirm
             </Button>
         </Hug>
