@@ -16,6 +16,8 @@ import {
     faList,
     faDiceD6,
     faLink,
+    faCrown,
+    faEllipsisVertical,
 } from "@fortawesome/free-solid-svg-icons"
 import { ToastContainer } from "react-toastify"
 import "react-toastify/dist/ReactToastify.css"
@@ -39,7 +41,9 @@ library.add(
     faMoon,
     faList,
     faDiceD6,
-    faLink
+    faLink,
+    faCrown,
+    faEllipsisVertical
 )
 
 export default function App({ Component, pageProps }: AppProps) {

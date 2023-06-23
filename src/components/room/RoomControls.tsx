@@ -2,6 +2,8 @@ import React, { useState } from "react"
 import Hug from "../Hug"
 import {
     faCircleInfo,
+    faCrown,
+    faEllipsisVertical,
     faGear,
     faLink,
     faMessage,
@@ -86,7 +88,7 @@ const TableRow = ({
         </tr>
     )
 
-const TableHeadCell = ({ children }: { children: React.ReactNode }) => (
+const TableHeadCell = ({ children }: { children?: React.ReactNode }) => (
     <th className="px-4 py-2">{children}</th>
 )
 
@@ -236,6 +238,7 @@ const RoomControls = () => {
                                     <TableHeadCell>Player</TableHeadCell>
                                     <TableHeadCell>Win</TableHeadCell>
                                     <TableHeadCell>Loss</TableHeadCell>
+                                    <TableHeadCell />
                                 </tr>
                             </thead>
                             <tbody>
@@ -252,6 +255,22 @@ const RoomControls = () => {
                                             </TableCell>
                                             <TableCell>0</TableCell>
                                             <TableCell>0</TableCell>
+                                            <TableCell>
+                                                {roomUser.name ===
+                                                room.host?.name ? (
+                                                    <FontAwesomeIcon
+                                                        icon={faCrown}
+                                                        className="m-auto w-full"
+                                                    />
+                                                ) : (
+                                                    <FontAwesomeIcon
+                                                        icon={
+                                                            faEllipsisVertical
+                                                        }
+                                                        className="m-auto w-full"
+                                                    />
+                                                )}
+                                            </TableCell>
                                         </TableRow>
                                     ))}
                             </tbody>
