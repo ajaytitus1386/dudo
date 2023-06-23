@@ -139,6 +139,8 @@ const RoomControls = () => {
     const { socket } = useSocketContext()
     const { username } = useAppContext()
 
+    const isHost = room.host.name === username
+
     const onLeaveRoom = () => {
         if (!socket || !username) return
 
@@ -275,20 +277,23 @@ const RoomControls = () => {
                 )}
                 {/* Exit */}
                 {selectedTab === 4 && (
-                    <RoomControlHug className="gap-4">
+                    <RoomControlHug className="gap-4 py-4">
                         <Button
                             onClick={onLeaveRoom}
-                            className="w-full text-text-light-100 dark:text-text-dark-500"
+                            className="w-1/2 m-auto text-text-light-100 dark:text-text-dark-500"
                         >
                             Leave Room
                         </Button>
 
-                        <Button
-                            onClick={onEndRoom}
-                            className="w-full text-text-light-100 dark:text-text-dark-500 bg-red-500 hover:bg-red-600 focus:bg-red-700"
-                        >
-                            End Room
-                        </Button>
+                        {isHost && (
+                            <Button
+                                onClick={onEndRoom}
+                                variant="none"
+                                className="w-1/2 m-auto text-text-light-100 dark:text-text-dark-500 bg-red-500 hover:bg-red-600 focus:bg-red-700"
+                            >
+                                End Room
+                            </Button>
+                        )}
                     </RoomControlHug>
                 )}
             </div>

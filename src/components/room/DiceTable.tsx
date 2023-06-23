@@ -137,6 +137,11 @@ const DiceTable = () => {
         : []
 
     const isGame = room.roomState === "game"
+    const isHost = room.host.name === username
+
+    const numberOfPlayersReady = room.roomUsers?.filter(
+        (roomUser) => roomUser.isReady
+    ).length
 
     const Divider = () => (
         <div className="col-span-full w-full h-0.5 bg-background-light-500 dark:bg-background-dark-500 opacity-50" />
@@ -163,7 +168,7 @@ const DiceTable = () => {
     )?.isReady
 
     return (
-        <Hug className="flex flex-[3] flex-col items-center justify-center gap-y-4 px-8 py-8 md:flex-[4]">
+        <Hug className="flex flex-[3] flex-col items-center justify-start gap-y-4 px-8 py-8 md:flex-[4]">
             <div
                 className={`grid px-1 gap-y-4 gap-x-2 w-full`}
                 style={{
@@ -226,14 +231,31 @@ const DiceTable = () => {
                     </h3>
                 </>
             ) : (
-                <h3
-                    className={[
-                        "col-span-full m-auto text-lg text-text-light-500 dark:text-text-dark-500",
-                        "after:content-['...'] after:absolute after:overflow-hidden after:animate-ellipsis after:inline-block after:align-bottom",
-                    ].join(" ")}
-                >
-                    Waiting for the game to start
-                </h3>
+                <div className="col-span-full flex flex-col gap-y-2 justify-center items-center m-auto w-full">
+                    {isHost ? (
+                        <div>
+                            <Button
+                                className="flex items-center m-auto font-bold px-2"
+                                // onClick={() => startGame(socket!, room.name)}
+                            >
+                                Start Game
+                            </Button>
+                        </div>
+                    ) : (
+                        <h3
+                            className={[
+                                "col-span-full m-auto text-lg text-text-light-500 dark:text-text-dark-500",
+                                "after:content-['...'] after:absolute after:overflow-hidden after:animate-ellipsis after:inline-block after:align-bottom",
+                            ].join(" ")}
+                        >
+                            Waiting for the game to start
+                        </h3>
+                    )}
+                    <span className="text-text-light-500 dark:text-text-dark-500 ">
+                        Players Ready:{" "}
+                        {`${numberOfPlayersReady}/${room.roomUsers?.length}`}
+                    </span>
+                </div>
             )}
         </Hug>
     )
