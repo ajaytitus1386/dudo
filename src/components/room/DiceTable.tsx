@@ -128,7 +128,7 @@ const PlayerHand = ({
 }
 
 const DiceTable = () => {
-    const { room } = useRoomContext()
+    const { room, isHost } = useRoomContext()
     const { username } = useAppContext()
     const { socket } = useSocketContext()
 
@@ -137,7 +137,6 @@ const DiceTable = () => {
         : []
 
     const isGame = room.roomState === "game"
-    const isHost = room.host.name === username
 
     const numberOfPlayersReady = room.roomUsers?.filter(
         (roomUser) => roomUser.isReady

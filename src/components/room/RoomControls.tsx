@@ -135,11 +135,9 @@ const RoomControls = () => {
         }, 2000)
     }
 
-    const { room } = useRoomContext()
+    const { room, isHost } = useRoomContext()
     const { socket } = useSocketContext()
     const { username } = useAppContext()
-
-    const isHost = room.host.name === username
 
     const onLeaveRoom = () => {
         if (!socket || !username) return
