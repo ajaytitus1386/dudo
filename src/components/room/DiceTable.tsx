@@ -233,7 +233,7 @@ const DiceTable = () => {
                 <div className="col-span-full flex flex-col gap-y-2 justify-center items-center m-auto w-full">
                     {isHost ? (
                         <Button
-                            className="m-auto w-3/4 font-bold px-2"
+                            className="m-auto !w-3/4 font-bold px-2"
                             // onClick={() => startGame(socket!, room.name)}
                         >
                             Start Game
