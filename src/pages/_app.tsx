@@ -26,6 +26,7 @@ import { ThemeProvider } from "../context/themeContext"
 import { AppProvider } from "context/appContext"
 import { RoomProvider } from "context/roomContext"
 import { SocketProvider } from "context/socketContext"
+import { GameProvider } from "context/gameContext"
 
 library.add(
     faPaperPlane,
@@ -50,14 +51,16 @@ export default function App({ Component, pageProps }: AppProps) {
     return (
         <AppProvider>
             <RoomProvider>
-                <ThemeProvider>
-                    <SocketProvider>
-                        <Layout>
-                            <Component {...pageProps} />
-                        </Layout>
-                        <ToastContainer />
-                    </SocketProvider>
-                </ThemeProvider>
+                <GameProvider>
+                    <ThemeProvider>
+                        <SocketProvider>
+                            <Layout>
+                                <Component {...pageProps} />
+                            </Layout>
+                            <ToastContainer />
+                        </SocketProvider>
+                    </ThemeProvider>
+                </GameProvider>
             </RoomProvider>
         </AppProvider>
     )
