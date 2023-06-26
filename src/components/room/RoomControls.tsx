@@ -145,14 +145,8 @@ const RoomControls = () => {
                         } ${
                             selectedTab === index &&
                             "bg-gray-400 dark:bg-gray-600"
-                        } ${
-                            selectedTab === index &&
-                            index === 0 &&
-                            "rounded-l-lg"
-                        } ${
-                            selectedTab === index &&
-                            index === tabs.length - 1 &&
-                            "rounded-r-lg"
+                        } ${index === 0 && "md:rounded-l-lg"} ${
+                            index === tabs.length - 1 && "md:rounded-r-lg"
                         }`}
                         onClick={() => changeTab(index)}
                     >
