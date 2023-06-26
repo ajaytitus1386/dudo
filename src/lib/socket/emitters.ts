@@ -50,3 +50,11 @@ export const unreadyUser = (
 ) => {
     socket.emit("user_unready", { roomName, userName })
 }
+
+export const startNewGame = (
+    socket: Socket<ServerToClientEvents, ClientToServerEvents>,
+    hostName: string,
+    roomName: string
+) => {
+    socket.emit("start_game", { hostName, roomName })
+}

@@ -1,4 +1,8 @@
-import { addRoomEventListeners, addSocketListeners } from "lib/socket/listeners"
+import {
+    addGameEventListeners,
+    addRoomEventListeners,
+    addSocketListeners,
+} from "lib/socket/listeners"
 import { WEBSOCKET_URL } from "../constants"
 import { createContext, useContext, useEffect, useState } from "react"
 import { Socket, io } from "socket.io-client"
@@ -9,6 +13,7 @@ import {
 import { useRoomContext } from "./roomContext"
 import { useRouter } from "next/router"
 import { useAppContext } from "./appContext"
+import { useGameContext } from "./gameContext"
 
 const SocketContext = createContext({
     socket: null as Socket<ServerToClientEvents, ClientToServerEvents> | null,
@@ -20,6 +25,7 @@ export const SocketProvider = ({ children }: { children: React.ReactNode }) => {
     )
     const { setRoomName, setRoom } = useRoomContext()
     const { username } = useAppContext()
+    const { setGame, setCurrentHand } = useGameContext()
     const router = useRouter()
 
     useEffect(() => {
@@ -48,7 +54,22 @@ export const SocketProvider = ({ children }: { children: React.ReactNode }) => {
         // Some listeners require context and state and so are in the useEffect dependency array
         addSocketListeners(socket)
         addRoomEventListeners(socket, router, setRoom, setRoomName, username)
-    }, [router, setRoom, setRoomName, socket, username])
+        addGameEventListeners(
+            socket,
+            setRoom,
+            setGame,
+            setCurrentHand,
+            username
+        )
+    }, [
+        router,
+        setCurrentHand,
+        setGame,
+        setRoom,
+        setRoomName,
+        socket,
+        username,
+    ])
 
     return (
         <SocketContext.Provider value={{ socket }}>

@@ -6,6 +6,7 @@ import {
 import { Socket } from "socket.io-client"
 import { toast } from "react-toastify"
 import Room from "../../../dudo_submodules/models/room"
+import Game from "../../../dudo_submodules/models/game"
 
 export const addSocketListeners = (
     socket: Socket<ServerToClientEvents, ClientToServerEvents>
@@ -163,5 +164,24 @@ export const addRoomEventListeners = (
                 }),
             }
         })
+    })
+}
+
+export const addGameEventListeners = (
+    socket: Socket<ServerToClientEvents, ClientToServerEvents>,
+    setRoom: React.Dispatch<React.SetStateAction<Room>>,
+    setGame: React.Dispatch<React.SetStateAction<Game>>,
+    setCurrentHand: React.Dispatch<React.SetStateAction<number[]>>,
+    username: string | null
+) => {
+    socket.on("host_starts_game", ({ game, room }) => {
+        // roomState has changed to "game" from "lobby"
+        setRoom(room)
+        // Iniitialized game state
+        setGame(game)
+    })
+
+    socket.on("deal_player_hand", ({ hand }) => {
+        setCurrentHand(hand)
     })
 }
