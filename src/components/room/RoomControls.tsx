@@ -62,11 +62,7 @@ const RoomControlHug = ({
     children: React.ReactNode
     className?: string
 }) => (
-    <Hug
-        className={["flex flex-col justify-between w-full", className].join(
-            " "
-        )}
-    >
+    <Hug className={["flex flex-col w-full", className].join(" ")}>
         {children}
     </Hug>
 )
@@ -157,26 +153,10 @@ const RoomControls = () => {
                     </div>
                 ))}
             </div>
-            <div className="flex flex-col gap-y-2 px-4 py-2 h-full md:py-0">
-                <Hug className="flex flex-row items-center justify-center gap-x-2">
-                    <h2 className="text-text-light-500 dark:text-text-dark-500 font-bold">
-                        Room Name:
-                    </h2>
-                    <text className="text-text-light-500 dark:text-text-dark-500 select-all">
-                        {room.name || "Room Name"}
-                    </text>
-                    <Tooltip tooltipContent={roomLinkTooltipMessage}>
-                        <button type="button" onClick={onCopyRoomLink}>
-                            <FontAwesomeIcon
-                                icon={faLink}
-                                className="text-text-light-500 dark:text-text-dark-500 text-lg"
-                            />
-                        </button>
-                    </Tooltip>
-                </Hug>
+            <div className="flex flex-col gap-y-2 px-4 py-2 h-full max-h-full md:py-0">
                 {/* Info */}
                 {selectedTab === 0 && (
-                    <RoomControlHug className="h-auto flex flex-col gap-y-2 overflow-y-auto">
+                    <RoomControlHug className="flex flex-col gap-y-2 overflow-y-auto">
                         <HowToPlay />
                     </RoomControlHug>
                 )}
@@ -230,10 +210,14 @@ const RoomControls = () => {
                 )}
                 {/* Chat */}
                 {selectedTab === 2 && (
-                    <RoomControlHug className="h-full max-h-[90%]">
-                        <MessageList />
-                        <MessageInput />
-                    </RoomControlHug>
+                    <>
+                        <Hug className="flex flex-col gap-y-1 h-full max-h-full overflow-y-auto md:h-[60vh]">
+                            <MessageList />
+                        </Hug>
+                        <Hug>
+                            <MessageInput />
+                        </Hug>
+                    </>
                 )}
                 {/* Settings */}
                 {selectedTab === 3 && (
