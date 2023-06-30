@@ -80,7 +80,7 @@ const Room = () => {
             </button>
             <div
                 id="table"
-                className="flex flex-col pt-20 pb-4 px-4 gap-y-2 h-screen min-h-screen md:w-1/2 md:gap-y-8"
+                className="flex flex-col pt-20 pb-4 px-4 gap-y-2 h-screen min-h-screen md:w-1/2 md:gap-y-4"
             >
                 <DiceTable />
                 <DiceInputWrapper

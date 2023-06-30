@@ -11,8 +11,10 @@ import Username from "components/Username"
 import { useRoomContext } from "context/roomContext"
 import { useAppContext } from "context/appContext"
 import Button from "components/Button"
-import { readyUser, unreadyUser } from "lib/socket/emitters"
+import { readyUser, startNewGame, unreadyUser } from "lib/socket/emitters"
 import { useSocketContext } from "context/socketContext"
+import { useGameContext } from "context/gameContext"
+import { Bid } from "../../../dudo_submodules/models/game"
 
 const PlayerStatus = ({
     playerName,
@@ -131,24 +133,90 @@ const DiceTable = () => {
     const { room, isHost } = useRoomContext()
     const { username } = useAppContext()
     const { socket } = useSocketContext()
+    const { game, currentHand, totalNumberOfDice } = useGameContext()
+
+    /* -------------------------------- Stateful variables ------------------------------- */
+
+    const isGame = room.roomState === "game"
 
     const otherRoomUsers = room.roomUsers
         ? room.roomUsers.filter((roomUser) => roomUser.name !== username)
         : []
 
-    const isGame = room.roomState === "game"
+    const otherPlayers = game.currentRound?.playerHands.filter(
+        (player) => player.name !== username
+    )
 
     const numberOfPlayersReady = room.roomUsers?.filter(
         (roomUser) => roomUser.isReady
     ).length
 
+    const numberOfColumns = 7
+
+    const numberOfDice = 5
+
+    const emptyHand = Array.from(Array(numberOfDice).keys()).map(() => 0)
+
+    const isReady = room.roomUsers?.find(
+        (roomUser) => roomUser.name === username
+    )?.isReady
+
+    const latestBid = game.currentRound?.bids[game.currentRound.bids.length - 1]
+
+    const isChallengeDisabled =
+        game?.gamePhase !== "round" ||
+        game?.currentRound?.currentPlayerTurn === username
+
+    /* ----------------------------- Sub Components ----------------------------- */
+
     const Divider = () => (
         <div className="col-span-full w-full h-0.5 bg-background-light-500 dark:bg-background-dark-500 opacity-50" />
     )
 
-    const numberOfColumns = 7
+    const CurrentPlayerTurn = ({
+        currentPlayer,
+    }: {
+        currentPlayer: string
+    }) => {
+        return (
+            <h3 className="text-text-light-500 dark:text-text-dark-500">
+                Waiting on {currentPlayer} to make a bid
+            </h3>
+        )
+    }
 
-    const numberOfDice = 5
+    const LatestBid = ({ latestBid }: { latestBid: Bid }) => {
+        const d6 = [DiceOne, DiceTwo, DiceThree, DiceFour, DiceFive, DiceSix]
+        const Die = d6[latestBid.face - 1]
+
+        return (
+            <h3 className="text-text-light-500 dark:text-text-dark-500">
+                {latestBid.playerId} bids {latestBid.quantity}{" "}
+                <Die className="w-8 h-8 m-1" /> out of {totalNumberOfDice} dice
+            </h3>
+        )
+    }
+
+    const ChallengeButton = ({ isDisabled }: { isDisabled: boolean }) => {
+        const handleChallenge = () => {
+            if (!socket || !username) return
+
+            // challengeBid(socket!, username!, room.name)
+        }
+
+        return (
+            <Button
+                onClick={() => handleChallenge()}
+                variant="primary"
+                className="w-full font-medium tracking-wide px-2 md:px-8"
+                disabled={isDisabled}
+            >
+                Challenge
+            </Button>
+        )
+    }
+
+    /* ----------------------------- Event Handlers ----------------------------- */
 
     const handleReadyUp = () => {
         if (!socket || !username) return
@@ -162,9 +230,11 @@ const DiceTable = () => {
         unreadyUser(socket!, room.name, username!)
     }
 
-    const isReady = room.roomUsers?.find(
-        (roomUser) => roomUser.name === username
-    )?.isReady
+    const handleStartGame = () => {
+        if (!socket || !username) return
+
+        startNewGame(socket!, username!, room.name)
+    }
 
     return (
         <Hug className="flex flex-[3] flex-col items-center justify-start gap-y-4 px-8 py-8 md:flex-[4]">
@@ -177,8 +247,8 @@ const DiceTable = () => {
                 {isGame ? (
                     <PlayerHand
                         playerName={username || "Me"}
-                        playerHand={[3, 4, 5, 6, 6]}
-                        maxDice={5}
+                        playerHand={currentHand || emptyHand}
+                        maxDice={numberOfDice}
                     />
                 ) : (
                     <PlayerStatus
@@ -201,40 +271,50 @@ const DiceTable = () => {
                         Invite other players to join the game!
                     </h3>
                 )}
-                {otherRoomUsers &&
-                    otherRoomUsers.map((roomUser, i) =>
-                        isGame ? (
-                            <PlayerHand
-                                key={`${roomUser.id}_hand`}
-                                playerName={roomUser.name}
-                                playerHand={[0, 0, 0, 0, 0]}
-                                maxDice={5}
-                            />
-                        ) : (
-                            <PlayerStatus
-                                key={`${roomUser.id}_hand`}
-                                playerName={roomUser.name}
-                                isReady={roomUser.isReady}
-                                numberOfDice={numberOfDice}
-                            />
-                        )
-                    )}
+
+                {isGame
+                    ? otherPlayers &&
+                      otherPlayers.map((player) => (
+                          <PlayerHand
+                              key={`${player.id}_hand`}
+                              playerName={player.name}
+                              playerHand={player.hand}
+                              maxDice={numberOfDice}
+                          />
+                      ))
+                    : otherRoomUsers &&
+                      otherRoomUsers.map((roomUser, i) => (
+                          <PlayerStatus
+                              key={`${roomUser.id}_hand`}
+                              playerName={roomUser.name}
+                              isReady={roomUser.isReady}
+                              numberOfDice={numberOfDice}
+                          />
+                      ))}
             </div>
             <Divider />
-            {/* Results */}
+            {/* Game Board */}
             {isGame ? (
-                <>
-                    <h3 className="col-span-full flex items-center m-auto text-text-light-500 dark:text-text-dark-500">
-                        Player 2 bids 3 <DiceFive className="w-8 h-8 m-1" /> out
-                        of 10 dice
-                    </h3>
-                </>
+                <div className="col-span-full my-auto flex flex-col gap-y-2 items-center justify-center">
+                    {game?.currentRound?.currentPlayerTurn && (
+                        <CurrentPlayerTurn
+                            currentPlayer={
+                                game?.currentRound?.currentPlayerTurn ===
+                                username
+                                    ? "You"
+                                    : game?.currentRound?.currentPlayerTurn
+                            }
+                        />
+                    )}
+                    {latestBid && <LatestBid latestBid={latestBid} />}
+                    <ChallengeButton isDisabled={isChallengeDisabled} />
+                </div>
             ) : (
                 <div className="col-span-full flex flex-col gap-y-2 justify-center items-center m-auto w-full">
                     {isHost ? (
                         <Button
                             className="m-auto !w-3/4 font-bold px-2"
-                            // onClick={() => startGame(socket!, room.name)}
+                            onClick={handleStartGame}
                         >
                             Start Game
                         </Button>

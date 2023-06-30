@@ -21,15 +21,29 @@ const GameContext = createContext({
     setCurrentHand: (() => {}) as React.Dispatch<
         React.SetStateAction<number[]>
     >,
+    totalNumberOfDice: 0,
 })
 
 export const GameProvider = ({ children }: { children: React.ReactNode }) => {
     const [game, setGame] = useState({} as Game)
     const [currentHand, setCurrentHand] = useState<number[]>([])
 
+    const totalNumberOfDice = game.currentRound?.playerHands?.reduce(
+        (acc, curr) => {
+            return acc + curr.hand.length
+        },
+        0
+    )
+
     return (
         <GameContext.Provider
-            value={{ game, setGame, currentHand, setCurrentHand }}
+            value={{
+                game,
+                setGame,
+                currentHand,
+                setCurrentHand,
+                totalNumberOfDice,
+            }}
         >
             {children}
         </GameContext.Provider>
