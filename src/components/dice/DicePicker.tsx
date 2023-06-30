@@ -62,11 +62,11 @@ const DicePicker = () => {
 
     return (
         // The parent element should have display:grid and grid-template-columns: 1fr 1fr
-        <>
+        <div className="flex flex-col justify-center items-center gap-2 md: gap-y-4">
             {/* <h2 className="mx-4 order-1 text-center text-text-light-500 dark:text-text-dark-500">
                 Amount
             </h2> */}
-            <div className="flex items-center justify-center h-full order-3 md:col-span-2 md:order-4">
+            <div className="flex items-center justify-center h-full w-min">
                 <div className="flex flex-row items-center justify-center h-10 rounded-md">
                     <button
                         className="text-text-light-300 hover:text-text-light-400 dark:text-text-dark-300 dark:hover:text-text-dark-200 bg-background-light-300 dark:bg-background-dark-300 h-full w-20 rounded-l cursor-pointer outline-none"
@@ -93,7 +93,7 @@ const DicePicker = () => {
             {/* <h2 className="mx-4 order-2 text-center text-text-light-500 dark:text-text-dark-500">
                 Face
             </h2> */}
-            <div className="flex items-center justify-center h-full order-4 md:col-span-2 md:order-3">
+            <div className="flex items-center gap-x-4 gap-y-4 flex-wrap justify-center h-full">
                 <div className={`${diceStyles.dieView}`}>
                     <div
                         className={`${diceStyles.die} ${diceFaceClass} cursor-pointer`}
@@ -168,7 +168,7 @@ const DicePicker = () => {
                     </div>
                 </div>
             </div>
-        </>
+        </div>
     )
 }
 
