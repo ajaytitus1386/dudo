@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from "react"
 import DiceTable from "../components/room/DiceTable"
-import DicePicker from "../components/dice/DicePicker"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faChevronDown } from "@fortawesome/free-solid-svg-icons"
 import RoomControls from "../components/room/RoomControls"
-import DiceList from "components/dice/DiceList"
 import DiceInputWrapper from "components/dice/DiceInputWrapper"
 import { useRouter } from "next/router"
 import { useRoomContext } from "context/roomContext"
@@ -86,9 +84,7 @@ const Room = () => {
                 <DiceInputWrapper
                     showList={showDiceList}
                     setShowList={setShowDiceList}
-                >
-                    {showDiceList ? <DiceList /> : <DicePicker />}
-                </DiceInputWrapper>
+                />
             </div>
             <div
                 id="controls"
