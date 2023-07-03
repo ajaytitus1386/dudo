@@ -184,4 +184,28 @@ export const addGameEventListeners = (
     socket.on("deal_player_hand", ({ hand }) => {
         setCurrentHand(hand)
     })
+
+    socket.on("player_bid_made", ({ bid }) => {
+        setGame((prevGame) => {
+            return {
+                ...prevGame,
+                currentRound: {
+                    ...prevGame.currentRound,
+                    bids: [...prevGame.currentRound.bids, bid],
+                },
+            }
+        })
+    })
+
+    socket.on("next_player_turn", ({ playerId }) => {
+        setGame((prevGame) => {
+            return {
+                ...prevGame,
+                currentRound: {
+                    ...prevGame.currentRound,
+                    currentPlayerTurn: playerId,
+                },
+            }
+        })
+    })
 }

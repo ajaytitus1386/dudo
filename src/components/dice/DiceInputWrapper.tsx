@@ -7,6 +7,10 @@ import { Bid } from "../../../dudo_submodules/models/game"
 import { useAppContext } from "context/appContext"
 import DiceList from "./DiceList"
 import DicePicker from "./DicePicker"
+import { useGameContext } from "context/gameContext"
+import { playerMakesBid } from "lib/socket/emitters"
+import { useSocketContext } from "context/socketContext"
+import { useRoomContext } from "context/roomContext"
 
 type Props = {
     setShowList: React.Dispatch<React.SetStateAction<boolean>>
@@ -15,11 +19,22 @@ type Props = {
 
 const DiceInputWrapper: React.FC<Props> = ({ setShowList, showList }) => {
     const { username } = useAppContext()
-    const [selectedBid, setSelectedBid] = useState({
+    const { socket } = useSocketContext()
+    const { room } = useRoomContext()
+    const { game } = useGameContext()
+    const isPlayerTurn = game.currentRound?.currentPlayerTurn == username
+    const defaultBid = {
         face: 1,
         quantity: 1,
         playerId: username,
-    } as Bid)
+    } as Bid
+    const [selectedBid, setSelectedBid] = useState(defaultBid)
+
+    const onConfirmBid = () => {
+        if (!socket || !room) return
+
+        playerMakesBid(socket, room.name, selectedBid)
+    }
 
     return (
         <Hug
@@ -53,7 +68,11 @@ const DiceInputWrapper: React.FC<Props> = ({ setShowList, showList }) => {
                         />
                     )}
                 </Button>
-                <Button className="px-2 py-1 text-text-light-100 dark:text-text-dark-500 font-medium">
+                <Button
+                    disabled={!isPlayerTurn}
+                    onClick={onConfirmBid}
+                    className="px-2 py-1 text-text-light-100 dark:text-text-dark-500 font-medium"
+                >
                     Confirm
                 </Button>
             </div>
