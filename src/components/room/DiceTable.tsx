@@ -192,7 +192,8 @@ const DiceTable = () => {
         return (
             <h3 className="text-text-light-500 dark:text-text-dark-500">
                 {latestBid.playerId} bids {latestBid.quantity}{" "}
-                <Die className="w-8 h-8 m-1" /> out of {totalNumberOfDice} dice
+                <Die className="w-8 h-8 m-1 inline-block" /> out of{" "}
+                {totalNumberOfDice} dice
             </h3>
         )
     }
