@@ -1,5 +1,4 @@
 import React, { useState } from "react"
-import Hug from "../Hug"
 import diceStyles from "./dice.module.css"
 import DiceOne from "../icons/D6/DiceOne"
 import DiceTwo from "../icons/D6/DiceTwo"
@@ -7,10 +6,7 @@ import DiceSix from "../icons/D6/DiceSix"
 import DiceFive from "../icons/D6/DiceFive"
 import DiceThree from "../icons/D6/DiceThree"
 import DiceFour from "../icons/D6/DiceFour"
-import Button from "../Button"
 import { useThemeContext } from "context/themeContext"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faDiceD6 } from "@fortawesome/free-solid-svg-icons"
 
 // The die styles are set in the dice.module.css file
 
