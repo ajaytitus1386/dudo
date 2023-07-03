@@ -7,9 +7,9 @@ import DiceFour from "../icons/D6/DiceFour"
 import DiceFive from "../icons/D6/DiceFive"
 import DiceSix from "../icons/D6/DiceSix"
 import { useGameContext } from "context/gameContext"
-import { getMinimumBid } from "utils/functions"
 import { Bid } from "../../../dudo_submodules/models/game"
 import { useAppContext } from "context/appContext"
+import { isValidBid } from "utils/functions"
 
 interface Props {
     selectedBid: Bid
@@ -19,12 +19,28 @@ interface Props {
 const DiceList: React.FC<Props> = ({ selectedBid, setSelectedBid }) => {
     const { username } = useAppContext()
     const { game, totalNumberOfDice } = useGameContext()
-    const { minFace, minQuantity } = getMinimumBid(
-        game.currentRound?.bids?.length ? game.currentRound.bids[-1] : null
-    )
+
+    const { currentFace, currentQuantity } = game.currentRound?.bids?.length
+        ? {
+              currentFace:
+                  game.currentRound.bids[game.currentRound.bids.length - 1]
+                      .face,
+              currentQuantity:
+                  game.currentRound.bids[game.currentRound.bids.length - 1]
+                      .quantity,
+          }
+        : { currentFace: 0, currentQuantity: 0 }
 
     const changeSelectedBid = (quantity: number, face: number) => {
-        if (isValidBid(quantity, face) && username) {
+        if (
+            isValidBid({
+                newQuantity: quantity,
+                newFace: face,
+                currentQuantity,
+                currentFace,
+            }) &&
+            username
+        ) {
             setSelectedBid({ quantity, face, playerId: username })
         }
     }
@@ -32,7 +48,7 @@ const DiceList: React.FC<Props> = ({ selectedBid, setSelectedBid }) => {
     useEffect(() => {
         if (!document) return
         const nextChoice = document.querySelector(
-            `#bid-${minQuantity}-${minFace}`
+            `#bid-${currentQuantity}-${currentFace}`
         )
         if (!nextChoice) return
         nextChoice.scrollIntoView({
@@ -40,17 +56,9 @@ const DiceList: React.FC<Props> = ({ selectedBid, setSelectedBid }) => {
             block: "nearest",
             inline: "start",
         })
-    }, [minFace, minQuantity])
+    }, [currentFace, currentQuantity])
 
     const dice = [DiceOne, DiceTwo, DiceThree, DiceFour, DiceFive, DiceSix]
-
-    const isValidBid = (quantity: number, face: number) => {
-        return (
-            (face > minFace && quantity >= minQuantity) ||
-            (face == minFace && quantity > minQuantity) ||
-            quantity > minQuantity
-        )
-    }
 
     const isSelectedBid = (quantity: number, face: number) => {
         return quantity == selectedBid.quantity && face == selectedBid.face
@@ -80,7 +88,12 @@ const DiceList: React.FC<Props> = ({ selectedBid, setSelectedBid }) => {
                             >
                                 <Hug
                                     className={`flex flex-row justify-between items-center gap-2 ${
-                                        !isValidBid(quantity, faceIndex + 1)
+                                        !isValidBid({
+                                            newQuantity: quantity,
+                                            newFace: faceIndex + 1,
+                                            currentQuantity,
+                                            currentFace,
+                                        })
                                             ? "opacity-50 bg-background-light-300 dark:bg-background-dark-300"
                                             : isSelectedBid(
                                                   quantity,

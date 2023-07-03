@@ -38,14 +38,22 @@ const setColorScheme = (colorScheme: string) => {
 /**
  * Using the Ruleset given: Player can re-assert by bidding a higher quantity of any face value, or the same quantity of a higher face value.
  * https://en.wikipedia.org/wiki/Dudo#Rules
- * @param currentBid
  */
-export const getMinimumBid = (currentBid: Bid | undefined | null) => {
-    if (!currentBid) return { minFace: 0, minQuantity: 0 }
-    return {
-        minFace: currentBid.face,
-        minQuantity: currentBid.quantity + 1,
-    }
+export const isValidBid = ({
+    newQuantity,
+    newFace,
+    currentQuantity,
+    currentFace,
+}: {
+    newQuantity: number
+    newFace: number
+    currentQuantity: number
+    currentFace: number
+}) => {
+    return (
+        newQuantity > currentQuantity ||
+        (newFace > currentFace && newQuantity == currentQuantity)
+    )
 }
 
 export { readCookie, readColorScheme, setColorScheme }
