@@ -21,6 +21,7 @@ import { endGameRoom, leaveGameRoom } from "lib/socket/emitters"
 import { useSocketContext } from "context/socketContext"
 import { useAppContext } from "context/appContext"
 import Tooltip from "components/Tooltip"
+import { useGameContext } from "context/gameContext"
 
 const tabs = [
     {
@@ -114,6 +115,7 @@ const RoomControls = () => {
     const { room, isHost } = useRoomContext()
     const { socket } = useSocketContext()
     const { username } = useAppContext()
+    const { game } = useGameContext()
 
     const onLeaveRoom = () => {
         if (!socket || !username) return
@@ -154,6 +156,17 @@ const RoomControls = () => {
                 ))}
             </div>
             <div className="flex flex-col gap-y-2 px-4 py-2 h-full max-h-full md:py-0">
+                <Hug className="flex justify-center items-center text-text-light-500 dark:text-text-dark-500">
+                    <h2>Room Name:</h2>
+                    <h3 className="select-all px-2 underline">
+                        {room.name || "room_name"}
+                    </h3>
+                    <Tooltip tooltipContent={roomLinkTooltipMessage}>
+                        <button type="button" onClick={onCopyRoomLink}>
+                            <FontAwesomeIcon icon={faLink} />
+                        </button>
+                    </Tooltip>
+                </Hug>
                 {/* Info */}
                 {selectedTab === 0 && (
                     <RoomControlHug className="flex flex-col gap-y-2 overflow-y-auto">
@@ -188,16 +201,9 @@ const RoomControls = () => {
                                             <TableCell>0</TableCell>
                                             <TableCell>
                                                 {roomUser.name ===
-                                                room.host?.name ? (
+                                                    room.host?.name && (
                                                     <FontAwesomeIcon
                                                         icon={faCrown}
-                                                        className="m-auto w-full"
-                                                    />
-                                                ) : (
-                                                    <FontAwesomeIcon
-                                                        icon={
-                                                            faEllipsisVertical
-                                                        }
                                                         className="m-auto w-full"
                                                     />
                                                 )}
