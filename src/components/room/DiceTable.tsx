@@ -93,7 +93,7 @@ const PlayerHand = ({
         <>
             <div
                 className={`m-auto text-md text-text-light-500 dark:text-text-dark-500 col-span-2 rounded-md p-1 ${
-                    isActive && "border-2 border-green-400"
+                    isActive && "border-b-2 border-green-400 rounded-b-none"
                 }`}
             >
                 <Username username={playerName} />
@@ -150,9 +150,18 @@ const DiceTable = () => {
         ? room.roomUsers.filter((roomUser) => roomUser.name !== username)
         : []
 
-    const otherPlayers = game.currentRound?.playerHands.filter(
-        (player) => player.name !== username
+    const currentPlayerIndex = game.currentRound?.playerHands.findIndex(
+        (player) => player.name === username
     )
+
+    const allPlayers = game.currentRound?.playerHands
+
+    const sortedOtherPlayers = allPlayers
+        ? [
+              ...allPlayers.slice(currentPlayerIndex + 1),
+              ...allPlayers.slice(0, currentPlayerIndex),
+          ]
+        : []
 
     const numberOfPlayersReady = room.roomUsers?.filter(
         (roomUser) => roomUser.isReady
@@ -177,6 +186,8 @@ const DiceTable = () => {
     const showPlayersTurn =
         game?.currentRound?.currentPlayerTurn &&
         (game?.gamePhase === "round" || game?.gamePhase === "pre-round")
+
+    const currentPlayerTurn = game?.currentRound?.currentPlayerTurn
 
     const latestBid = game.currentRound?.bids[game.currentRound.bids.length - 1]
 
@@ -373,6 +384,12 @@ const DiceTable = () => {
                         playerName={username || "Me"}
                         playerHand={currentHand || emptyHand}
                         maxDice={numberOfDice}
+                        highlightedFace={
+                            game?.gamePhase === "post-round"
+                                ? latestBid?.face
+                                : undefined
+                        }
+                        isActive={currentPlayerTurn === username}
                     />
                 ) : (
                     <PlayerStatus
@@ -397,13 +414,19 @@ const DiceTable = () => {
                 )}
 
                 {isGame
-                    ? otherPlayers &&
-                      otherPlayers.map((player) => (
+                    ? sortedOtherPlayers &&
+                      sortedOtherPlayers.map((player) => (
                           <PlayerHand
                               key={`${player.id}_hand`}
                               playerName={player.name}
                               playerHand={player.hand}
                               maxDice={numberOfDice}
+                              highlightedFace={
+                                  game?.gamePhase === "post-round"
+                                      ? latestBid?.face
+                                      : undefined
+                              }
+                              isActive={currentPlayerTurn === player.name}
                           />
                       ))
                     : otherRoomUsers &&
