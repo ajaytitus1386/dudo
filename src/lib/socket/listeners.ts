@@ -31,6 +31,14 @@ export const addRoomEventListeners = (
     setRoomName: (roomName: string) => void,
     username: string | null
 ) => {
+    socket.on("unknown_error", ({ code, message }) => {
+        if (code === 400) {
+            toast.error(message)
+        } else {
+            toast.warning(message)
+        }
+    })
+
     socket.on("start_room", ({ newRoom }) => {
         setRoom(newRoom)
         router.push(`/${newRoom.name}`)
@@ -207,5 +215,53 @@ export const addGameEventListeners = (
                 },
             }
         })
+    })
+
+    socket.on("change_game_phase", ({ newPhase }) => {
+        setGame((prevGame) => {
+            return {
+                ...prevGame,
+                gamePhase: newPhase,
+            }
+        })
+    })
+
+    socket.on("player_challenge_made", ({ challengingPlayerId, lastBid }) => {
+        setGame((prevGame) => {
+            return {
+                ...prevGame,
+                currentRound: {
+                    ...prevGame.currentRound,
+                    hasChallengeBeenMade: true,
+                    challengingPlayerId,
+                },
+            }
+        })
+    })
+
+    socket.on("game_winner", ({ winningPlayerId, playerHands }) => {
+        setGame((prevGame) => {
+            return {
+                ...prevGame,
+                currentRound: {
+                    ...prevGame.currentRound,
+                    winningPlayerId,
+                    playerHands,
+                },
+            }
+        })
+    })
+
+    socket.on("round_ends", ({ game }) => {
+        setGame(game)
+    })
+
+    socket.on("round_starts", ({ game }) => {
+        setGame(game)
+    })
+
+    socket.on("host_ends_game", ({ room }) => {
+        setRoom(room)
+        setGame({} as Game)
     })
 }

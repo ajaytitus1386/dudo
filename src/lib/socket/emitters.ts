@@ -67,3 +67,26 @@ export const playerMakesBid = (
 ) => {
     socket.emit("player_makes_bid", { bid, roomName })
 }
+
+export const playerMakesChallenge = (
+    socket: Socket<ServerToClientEvents, ClientToServerEvents>,
+    userName: string,
+    roomName: string
+) => {
+    socket.emit("player_makes_challenge", { playerName: userName, roomName })
+}
+
+export const startNextRound = (
+    socket: Socket<ServerToClientEvents, ClientToServerEvents>,
+    roomName: string
+) => {
+    socket.emit("start_next_round", { roomName })
+}
+
+export const endGame = (
+    socket: Socket<ServerToClientEvents, ClientToServerEvents>,
+    userName: string,
+    roomName: string
+) => {
+    socket.emit("end_game", { hostName: userName, roomName })
+}

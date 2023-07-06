@@ -11,7 +11,14 @@ import Username from "components/Username"
 import { useRoomContext } from "context/roomContext"
 import { useAppContext } from "context/appContext"
 import Button from "components/Button"
-import { readyUser, startNewGame, unreadyUser } from "lib/socket/emitters"
+import {
+    endGame,
+    playerMakesChallenge,
+    readyUser,
+    startNewGame,
+    startNextRound,
+    unreadyUser,
+} from "lib/socket/emitters"
 import { useSocketContext } from "context/socketContext"
 import { useGameContext } from "context/gameContext"
 import { Bid } from "../../../dudo_submodules/models/game"
@@ -155,17 +162,34 @@ const DiceTable = () => {
 
     const numberOfDice = 5
 
+    const d6 = [DiceOne, DiceTwo, DiceThree, DiceFour, DiceFive, DiceSix]
+
+    const dieClassName = "w-8 h-8 m-1 inline-block"
+
     const emptyHand = Array.from(Array(numberOfDice).keys()).map(() => 0)
 
     const isReady = room.roomUsers?.find(
         (roomUser) => roomUser.name === username
     )?.isReady
 
+    const isPlayerYou = (playerName: string) => playerName === username
+
+    const showPlayersTurn =
+        game?.currentRound?.currentPlayerTurn &&
+        (game?.gamePhase === "round" || game?.gamePhase === "pre-round")
+
     const latestBid = game.currentRound?.bids[game.currentRound.bids.length - 1]
 
     const isChallengeDisabled =
         game?.gamePhase !== "round" ||
-        game?.currentRound?.currentPlayerTurn === username
+        game?.currentRound?.currentPlayerTurn !== username
+
+    const isChallengeOver =
+        game?.currentRound?.hasChallengeBeenMade &&
+        game?.currentRound?.winningPlayerId
+
+    const showPostRoundActions =
+        game?.gamePhase === "post-round" && username === room?.host?.id
 
     /* ----------------------------- Sub Components ----------------------------- */
 
@@ -185,15 +209,31 @@ const DiceTable = () => {
         )
     }
 
-    const LatestBid = ({ latestBid }: { latestBid: Bid }) => {
-        const d6 = [DiceOne, DiceTwo, DiceThree, DiceFour, DiceFive, DiceSix]
-        const Die = d6[latestBid.face - 1]
+    const BidComponent = ({
+        quantity,
+        face,
+    }: {
+        quantity: number
+        face: number
+    }) => {
+        const Die = d6[face - 1]
+        return (
+            <div className="whitespace- inline-block">
+                {quantity} <Die className={dieClassName} />
+            </div>
+        )
+    }
 
+    const LatestBid = ({ latestBid }: { latestBid: Bid }) => {
         return (
             <h3 className="text-text-light-500 dark:text-text-dark-500">
-                {latestBid.playerId} bids {latestBid.quantity}{" "}
-                <Die className="w-8 h-8 m-1 inline-block" /> out of{" "}
-                {totalNumberOfDice} dice
+                {isPlayerYou(latestBid.playerId) ? "You" : latestBid.playerId}{" "}
+                {`bid${isPlayerYou(latestBid.playerId) ? "" : "s"}`}{" "}
+                <BidComponent
+                    face={latestBid.face}
+                    quantity={latestBid.quantity}
+                />
+                {` out of ${totalNumberOfDice} dice`}
             </h3>
         )
     }
@@ -202,18 +242,89 @@ const DiceTable = () => {
         const handleChallenge = () => {
             if (!socket || !username) return
 
-            // challengeBid(socket!, username!, room.name)
+            playerMakesChallenge(socket!, username!, room.name)
         }
 
         return (
             <Button
                 onClick={() => handleChallenge()}
                 variant="primary"
-                className="w-full font-medium tracking-wide px-2 md:px-8"
+                className="font-medium tracking-wide px-2 md:px-8"
                 disabled={isDisabled}
             >
                 Challenge
             </Button>
+        )
+    }
+
+    const GameResult = ({ latestBid }: { latestBid: Bid }) => {
+        const challengingPlayer = game.currentRound?.challengingPlayerId
+        const challengedPlayer =
+            game.currentRound?.bids[game.currentRound.bids.length - 1].playerId
+        const winningPlayer = game.currentRound?.winningPlayerId
+
+        // vars for each player name
+
+        // conditional: did you win/lose
+        // if you didnt lose, show who won
+        // if you did lose, show you lost
+
+        const didChallengerWin = challengingPlayer === winningPlayer
+
+        const trueQuantity = game.currentRound?.playerHands.reduce(
+            (acc, player) =>
+                acc +
+                player.hand.filter((face) => face === latestBid.face).length,
+            0
+        )
+
+        return (
+            <>
+                <h3 className="text-text-light-500 dark:text-text-dark-500">
+                    {challengingPlayer} challenged {challengedPlayer}
+                </h3>
+                <h3 className="text-text-light-500 dark:text-text-dark-500 font-medium">
+                    {challengingPlayer}{" "}
+                    <strong
+                        className={
+                            didChallengerWin
+                                ? "text-positive-light dark:text-positive-dark"
+                                : "text-negative-light dark:text-negative-dark"
+                        }
+                    >
+                        {didChallengerWin ? "won" : "lost"}
+                    </strong>{" "}
+                    the round
+                </h3>
+                <h3 className="text-text-light-500 dark:text-text-dark-500">
+                    In total, there are{" "}
+                    <BidComponent
+                        face={latestBid.face}
+                        quantity={trueQuantity}
+                    />
+                </h3>
+            </>
+        )
+    }
+
+    const PostRoundActions = ({}) => {
+        return (
+            <div className="flex gap-2">
+                <Button
+                    onClick={() => handleEndGame()}
+                    variant="none"
+                    className="text-text-light-500 dark:text-text-dark-500 underline font-medium tracking-wide px-2 md:px-8"
+                >
+                    End Game
+                </Button>
+                <Button
+                    onClick={() => handleNextRound()}
+                    variant="none"
+                    className="text-text-light-500 dark:text-text-dark-500 underline font-medium tracking-wide px-2 md:px-8"
+                >
+                    Next Round
+                </Button>
+            </div>
         )
     }
 
@@ -235,6 +346,18 @@ const DiceTable = () => {
         if (!socket || !username) return
 
         startNewGame(socket!, username!, room.name)
+    }
+
+    const handleNextRound = () => {
+        if (!socket || !username) return
+
+        startNextRound(socket!, room.name)
+    }
+
+    const handleEndGame = () => {
+        if (!socket || !username) return
+
+        endGame(socket!, username!, room.name)
     }
 
     return (
@@ -296,8 +419,8 @@ const DiceTable = () => {
             <Divider />
             {/* Game Board */}
             {isGame ? (
-                <div className="col-span-full my-auto flex flex-col gap-y-2 items-center justify-center">
-                    {game?.currentRound?.currentPlayerTurn && (
+                <div className="flex flex-1 w-full flex-col gap-y-2 items-center justify-center">
+                    {showPlayersTurn && (
                         <CurrentPlayerTurn
                             currentPlayer={
                                 game?.currentRound?.currentPlayerTurn ===
@@ -308,10 +431,12 @@ const DiceTable = () => {
                         />
                     )}
                     {latestBid && <LatestBid latestBid={latestBid} />}
+                    {isChallengeOver && <GameResult latestBid={latestBid} />}
                     <ChallengeButton isDisabled={isChallengeDisabled} />
+                    {showPostRoundActions && <PostRoundActions />}
                 </div>
             ) : (
-                <div className="col-span-full flex flex-col gap-y-2 justify-center items-center m-auto w-full">
+                <div className="flex flex-col gap-y-2 justify-center items-center m-auto w-full">
                     {isHost ? (
                         <Button
                             className="m-auto !w-3/4 font-bold px-2"
