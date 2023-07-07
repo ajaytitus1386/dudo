@@ -232,6 +232,7 @@ const RoomControls = () => {
                     </div>
                 ))}
             </div>
+            {/* overflow-hidden prevents the chat elements from overflowing the full height */}
             <div className="flex flex-col gap-y-2 px-4 py-2 h-full max-h-full md:py-0 overflow-hidden">
                 <Hug className="flex justify-center items-center text-text-light-500 dark:text-text-dark-500">
                     <h2>Room Name:</h2>
