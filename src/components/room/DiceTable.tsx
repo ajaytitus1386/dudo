@@ -53,8 +53,8 @@ const PlayerStatus = ({
                         variant="none"
                         className={`font-bold text-background-light-100 dark:text-background-dark-100 ${
                             isReady
-                                ? "bg-positive-light dark:bg-positive-dark"
-                                : "bg-negative-light dark:bg-negative-dark"
+                                ? "bg-positive-light dark:bg-positive-dark hover:brightness-90 dark:hover:brightness-125"
+                                : "bg-negative-light dark:bg-negative-dark hover:brightness-90 dark:hover:brightness-125"
                         }`}
                     >
                         {isReady ? "Ready" : "Not Ready"}
@@ -462,7 +462,7 @@ const DiceTable = () => {
                 <div className="flex flex-col gap-y-2 justify-center items-center m-auto w-full">
                     {isHost ? (
                         <Button
-                            className="m-auto !w-3/4 font-bold px-2"
+                            className="m-auto button-primary-gradient button-gradient-ltr !w-3/4 font-bold px-2"
                             onClick={handleStartGame}
                         >
                             Start Game
