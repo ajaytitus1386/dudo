@@ -1,4 +1,5 @@
 import DiceFour from "components/icons/D6/DiceFour"
+import DiceOne from "components/icons/D6/DiceOne"
 import DiceSix from "components/icons/D6/DiceSix"
 import DiceTwo from "components/icons/D6/DiceTwo"
 import React from "react"
@@ -47,11 +48,22 @@ const HowToPlay = () => {
             <h2 className="text-center text-lg font-bold text-text-light-500 dark:text-text-dark-500">
                 Optional Rules
             </h2>
+            <sub className="text-center text-sm italic text-text-light-300 dark:text-text-dark-300">
+                Choose these options from Room Settings
+            </sub>
             <ul className="list-disc px-4 text-text-light-500 dark:text-text-dark-500">
-                <li>Aces are wild and count for every face</li>
                 <li>
-                    The Winner of a round removes 1 die from their set of dice.
-                    The first Player to reach 0 dice wins the game
+                    <b>Aces are wild</b>:{" "}
+                    <DiceOne className="w-5 h-5 inline-block" />
+                    &lsquo;s count for any face. So for example: 3{" "}
+                    <DiceSix className="w-5 h-5 inline-block" /> and 2{" "}
+                    <DiceOne className="w-5 h-5 inline-block" /> sum up to 5{" "}
+                    <DiceSix className="w-5 h-5 inline-block" /> in total.
+                </li>
+                <li>
+                    <b>Win a round, drop a die</b>: The Winner of a round
+                    removes 1 die from their set of dice. The first Player to
+                    reach 0 dice wins the game.
                 </li>
             </ul>
         </>
