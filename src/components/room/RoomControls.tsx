@@ -232,7 +232,7 @@ const RoomControls = () => {
                     </div>
                 ))}
             </div>
-            <div className="flex flex-col gap-y-2 px-4 py-2 h-full max-h-full md:py-0">
+            <div className="flex flex-col gap-y-2 px-4 py-2 h-full max-h-full md:py-0 overflow-hidden">
                 <Hug className="flex justify-center items-center text-text-light-500 dark:text-text-dark-500">
                     <h2>Room Name:</h2>
                     <h3 className="select-all px-2 underline">
@@ -326,7 +326,7 @@ const RoomControls = () => {
                 {/* Chat */}
                 {selectedTab === 2 && (
                     <>
-                        <Hug className="flex flex-col gap-y-1 h-full max-h-full overflow-y-auto md:h-[60vh]">
+                        <Hug className="flex flex-col gap-y-1 h-full max-h-full overflow-y-auto">
                             <MessageList />
                         </Hug>
                         <Hug>
