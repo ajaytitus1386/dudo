@@ -150,7 +150,7 @@ const RoomDialogBox = () => {
 
                 <button
                     type="submit"
-                    className="px-4 py-2 button-gradient-ltr rounded-md text-white font-medium w-full"
+                    className="px-4 py-2 button-primary-gradient button-gradient-ltr rounded-md text-white font-medium w-full"
                 >
                     {isJoinGame ? "Join" : "Create"}
                 </button>

@@ -15,7 +15,7 @@ const Hero = () => {
             </p>
             <Modal
                 invoker={
-                    <Button className="w-fit button-gradient-ltr px-4 py-1 font-medium text-text-light-100 dark:text-text-dark-100">
+                    <Button className="w-fit button-primary-gradient button-gradient-ltr px-4 py-1 font-medium text-text-light-100 dark:text-text-dark-100">
                         How to Play
                     </Button>
                 }

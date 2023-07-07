@@ -33,12 +33,16 @@ body {
 }
 
 @layer components {
+    .button-primary-gradient {
+        @apply from-primary-light-200 to-80% to-primary-light-300;
+    }
+
     /* Applies a background that transitions a gradient from left to right */
     .button-gradient-ltr {
-        @apply bg-gradient-to-l from-primary-light-200 to-80% to-primary-light-300 bg-[length:200%_200%] hover:bg-right transition-all duration-500;
+        @apply bg-gradient-to-l bg-[length:200%_200%] hover:bg-right transition-all duration-500;
     }
 
     .button-gradient-rtl {
-        @apply bg-gradient-to-r from-primary-light-200 to-80% to-primary-light-300 bg-[length:200%_200%] hover:bg-left transition-all duration-500;
+        @apply bg-gradient-to-r bg-[length:200%_200%] hover:bg-left transition-all duration-500;
     }
 }
