@@ -104,8 +104,13 @@ module.exports = {
             },
             animation: {
                 ellipsis: "ellipsis steps(4,end) 1s infinite",
+                pop_in: "pop_in 0.2s ease-in-out",
             },
             keyframes: {
+                pop_in: {
+                    "0%": { transform: "scale(0.75)", opacity: "0" },
+                    "100%": { transform: "scale(1)", opacity: "1" },
+                },
                 ellipsis: {
                     "0%": { width: "0" },
                     "50%": { width: "1.25em" },
