@@ -125,6 +125,7 @@ const MessageList = () => {
                             message={message.message}
                             isTail={
                                 index === messages.length - 1 ||
+                                !isNextMessageChatMessage ||
                                 (isNextMessageChatMessage &&
                                     nextMessage.senderId !== message.senderId)
                             }
