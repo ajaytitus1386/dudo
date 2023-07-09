@@ -10,6 +10,7 @@ type Props = {
     RightElement?: React.ReactNode
     error?: string
     required?: boolean
+    autoFocus?: boolean
 }
 
 const Input = forwardRef<HTMLInputElement, Props>(
@@ -23,6 +24,7 @@ const Input = forwardRef<HTMLInputElement, Props>(
             RightElement,
             error,
             required,
+            autoFocus,
         },
         ref
     ) => {
@@ -31,6 +33,7 @@ const Input = forwardRef<HTMLInputElement, Props>(
                 <input
                     ref={ref}
                     required={required}
+                    autoFocus={autoFocus}
                     type={type}
                     value={value}
                     onChange={onChange}
