@@ -1,5 +1,11 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import React, { FormEvent, useState } from "react"
+import React, {
+    FormEvent,
+    forwardRef,
+    useEffect,
+    useRef,
+    useState,
+} from "react"
 import { faPaperPlane } from "@fortawesome/free-solid-svg-icons"
 import Input from "../Input"
 import { useChatContext } from "context/chatContext"
@@ -15,6 +21,13 @@ const MessageInput = () => {
     const { socket } = useSocketContext()
     const { room } = useRoomContext()
     const [messageString, setMessageString] = useState("")
+
+    const inputRef = useRef<HTMLInputElement>(null)
+
+    useEffect(() => {
+        if (!inputRef.current) return
+        inputRef.current.focus()
+    }, [])
 
     const sendYourMessage = (e: FormEvent) => {
         e.preventDefault()
@@ -41,6 +54,7 @@ const MessageInput = () => {
             className="flex flex-row gap-x-2 px-2 justify-start items-start"
         >
             <Input
+                ref={inputRef}
                 placeholder="Send a message to the room"
                 type="text"
                 value={messageString}
