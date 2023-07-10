@@ -95,6 +95,15 @@ export const addRoomEventListeners = (
         toast.warning("User not in room")
     })
 
+    socket.on("change_host", ({ newHost }) => {
+        setRoom((prevRoom) => {
+            return {
+                ...prevRoom,
+                host: newHost,
+            }
+        })
+    })
+
     /**
      * Listener for when current user readys self
      */
@@ -225,6 +234,10 @@ export const addGameEventListeners = (
                 gamePhase: newPhase,
             }
         })
+    })
+
+    socket.on("broadcast_game_state", ({ game }) => {
+        setGame(game)
     })
 
     socket.on("player_challenge_made", ({ challengingPlayerId, lastBid }) => {
