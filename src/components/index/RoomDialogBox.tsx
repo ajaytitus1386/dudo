@@ -7,6 +7,8 @@ import { useAppContext } from "context/appContext"
 import { useRoomContext } from "context/roomContext"
 import { useSocketContext } from "context/socketContext"
 import { createGameRoom, joinGameRoom } from "lib/socket/emitters"
+import { fetchRandomRoomName } from "lib/services/roomName"
+import { toast } from "react-toastify"
 
 const RoomTypeTab = ({
     label,
@@ -108,6 +110,20 @@ const RoomDialogBox = () => {
         createGameRoom(socket, room.name!, username!)
     }
 
+    const handleGetRandomRoomName = async () => {
+        const time = new Date().getTime()
+        const randomName = await fetchRandomRoomName({
+            seed: username + "_" + time.toString() || undefined,
+        })
+        if (!randomName) {
+            toast.error(
+                "Sorry, we couldn't generate a random room name. Try again later!"
+            )
+            return
+        }
+        setRoom({ ...room, name: randomName })
+    }
+
     return (
         <Hug className="flex flex-col gap-4 w-[400px] px-8 py-8 md:w-3/4 lg:w-1/2 xl:w-1/3">
             <div className="flex flex-row gap-4 justify-center items-center">
@@ -150,8 +166,10 @@ const RoomDialogBox = () => {
                     RightElement={
                         !isJoinGame && (
                             <FontAwesomeIcon
+                                type="button"
                                 className="cursor-pointer text-text-light-500 dark:text-text-dark-500 hover:rotate-180 transition-transform"
                                 icon={faArrowsRotate}
+                                onClick={handleGetRandomRoomName}
                             />
                         )
                     }
