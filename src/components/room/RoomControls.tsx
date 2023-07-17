@@ -327,9 +327,8 @@ const RoomControls = () => {
                 {/* Chat */}
                 {selectedTab === 2 && (
                     <>
-                        <Hug className="flex flex-col gap-y-1 h-full max-h-full overflow-y-auto">
-                            <MessageList />
-                        </Hug>
+                        <MessageList />
+
                         <Hug>
                             <MessageInput />
                         </Hug>
