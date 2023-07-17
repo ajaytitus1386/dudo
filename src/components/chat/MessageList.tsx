@@ -81,8 +81,7 @@ const SystemMessage = ({ message }: { message: string }) => {
 }
 
 const MessageList = () => {
-    const { messages, latestTimestampViewed, setLatestTimestampViewed } =
-        useChatContext()
+    const { messages, setLatestTimestampViewed } = useChatContext()
     const { username } = useAppContext()
 
     const [currentDate, setCurrentDate] = useState(new Date())
@@ -111,6 +110,10 @@ const MessageList = () => {
             clearInterval(timer)
         }
     }, [])
+
+    useEffect(() => {
+        setLatestTimestampViewed(messages[messages.length - 1].timestamp)
+    }, [messages, setLatestTimestampViewed])
 
     const onScroll = (e: React.UIEvent<HTMLDivElement, UIEvent>) => {
         setMessagesScrollHeight(e.currentTarget.scrollTop)

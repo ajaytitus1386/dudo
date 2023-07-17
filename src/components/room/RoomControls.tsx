@@ -26,6 +26,7 @@ import Toggle from "components/Toggle"
 import Credit from "components/content/Credit"
 import DiceOne from "components/icons/D6/DiceOne"
 import DiceSix from "components/icons/D6/DiceSix"
+import { useChatContext } from "context/chatContext"
 
 const tabs = [
     {
@@ -156,6 +157,7 @@ const RoomControls = () => {
     const { socket } = useSocketContext()
     const { username } = useAppContext()
     const { game } = useGameContext()
+    const { messages, latestTimestampViewed } = useChatContext()
 
     /* --------------------------- Stateful Variables --------------------------- */
     const [selectedTab, setSelectedTab] = useState(0)
@@ -215,7 +217,7 @@ const RoomControls = () => {
                 {tabs.map((tab, index) => (
                     <div
                         key={`tab_${tab.name}`}
-                        className={`flex items-center justify-center w-full py-2 px-4 border-gray-400 dark:border-gray-600 hover:bg-gray-400 hover:dark:bg-gray-600 ${
+                        className={`flex items-center justify-center w-full py-1 px-2 border-gray-400 dark:border-gray-600 hover:bg-gray-400 hover:dark:bg-gray-600 ${
                             index < tabs.length - 1 && "border-r-2"
                         } ${
                             selectedTab === index &&
@@ -225,10 +227,21 @@ const RoomControls = () => {
                         }`}
                         onClick={() => changeTab(index)}
                     >
-                        <FontAwesomeIcon
-                            icon={tab.icon}
-                            className="text-text-light-500 dark:text-text-dark-500"
-                        />
+                        <div className="relative">
+                            <FontAwesomeIcon
+                                icon={tab.icon}
+                                className={[
+                                    "text-text-light-500 dark:text-text-dark-500",
+                                    // For messages tab, show if unread messages
+                                ].join(" ")}
+                            />
+                            {index == 2 &&
+                                messages.length > 0 &&
+                                latestTimestampViewed <
+                                    messages[messages.length - 1].timestamp && (
+                                    <div className="absolute animate-pulse -right-1 top-0 w-2 h-2 bg-negative-light dark:bg-negative-dark rounded-full" />
+                                )}
+                        </div>
                     </div>
                 ))}
             </div>
