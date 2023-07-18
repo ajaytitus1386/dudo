@@ -299,22 +299,34 @@ const DiceTable = () => {
 
         return (
             <>
+                {/* Players in challenge */}
                 <h3 className="text-text-light-500 dark:text-text-dark-500">
                     {challengingPlayer} challenged {challengedPlayer}
                 </h3>
+                {/* Winner */}
                 <h3 className="text-text-light-500 dark:text-text-dark-500 font-medium">
-                    {challengingPlayer}{" "}
+                    {"Since the call was "}
+                    {didChallengerWin ? "false" : "true"}
+                    {", "}
                     <strong
-                        className={
-                            didChallengerWin
-                                ? "text-positive-light dark:text-positive-dark"
-                                : "text-negative-light dark:text-negative-dark"
-                        }
+                        className={`${
+                            isPlayerYou(winningPlayer) &&
+                            "text-positive-light dark:text-positive-dark"
+                        }`}
                     >
-                        {didChallengerWin ? "won" : "lost"}
+                        {isPlayerYou(winningPlayer) ? "You" : winningPlayer}
                     </strong>{" "}
-                    the round
+                    {` win${isPlayerYou(winningPlayer) ? "" : "s"} the round!`}
                 </h3>
+                {/* You lost message */}
+                {(isPlayerYou(challengingPlayer) ||
+                    isPlayerYou(challengedPlayer)) &&
+                    !isPlayerYou(winningPlayer) && (
+                        <h3 className="text-negative-light dark:text-negative-dark">
+                            {"You lost the round!"}
+                        </h3>
+                    )}
+                {/* Explanation */}
                 <h3 className="text-text-light-500 dark:text-text-dark-500">
                     In total, there are{" "}
                     <BidComponent
