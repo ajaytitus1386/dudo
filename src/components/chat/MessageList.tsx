@@ -112,6 +112,8 @@ const MessageList = () => {
     }, [])
 
     useEffect(() => {
+        if (messages?.length === 0) return
+
         setLatestTimestampViewed(messages[messages.length - 1].timestamp)
     }, [messages, setLatestTimestampViewed])
 
