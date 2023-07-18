@@ -135,14 +135,14 @@ const RoomSettings = ({
                 <Toggle
                     checked={acesAreWild}
                     onToggle={toggleAcesAreWild}
-                    disabled={!isHost}
+                    disabled={true}
                 >
                     Aces are Wild
                 </Toggle>
                 <Toggle
                     checked={wardad}
                     onToggle={toggleWardad}
-                    disabled={!isHost}
+                    disabled={true}
                 >
                     Win a round, drop a die
                 </Toggle>
