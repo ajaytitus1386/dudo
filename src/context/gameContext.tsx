@@ -22,6 +22,7 @@ const GameContext = createContext({
         React.SetStateAction<number[]>
     >,
     totalNumberOfDice: 0,
+    resetGameContext: (() => {}) as () => void,
 })
 
 export const GameProvider = ({ children }: { children: React.ReactNode }) => {
@@ -35,6 +36,11 @@ export const GameProvider = ({ children }: { children: React.ReactNode }) => {
         0
     )
 
+    const resetGameContext = () => {
+        setGame({} as Game)
+        setCurrentHand([])
+    }
+
     return (
         <GameContext.Provider
             value={{
@@ -43,6 +49,7 @@ export const GameProvider = ({ children }: { children: React.ReactNode }) => {
                 currentHand,
                 setCurrentHand,
                 totalNumberOfDice,
+                resetGameContext,
             }}
         >
             {children}

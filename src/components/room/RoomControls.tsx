@@ -153,11 +153,12 @@ const RoomSettings = ({
 
 /* ---------------------------- Parent Component ---------------------------- */
 const RoomControls = () => {
-    const { room, isHost } = useRoomContext()
+    const { room, isHost, resetRoomContext } = useRoomContext()
     const { socket } = useSocketContext()
     const { username } = useAppContext()
-    const { game } = useGameContext()
-    const { messages, latestTimestampViewed } = useChatContext()
+    const { game, resetGameContext } = useGameContext()
+    const { messages, latestTimestampViewed, resetChatContext } =
+        useChatContext()
 
     /* --------------------------- Stateful Variables --------------------------- */
     const [selectedTab, setSelectedTab] = useState(0)
@@ -180,15 +181,23 @@ const RoomControls = () => {
         }, 2000)
     }
 
+    const resetContexts = () => {
+        resetChatContext()
+        resetGameContext()
+        resetRoomContext()
+    }
+
     const onLeaveRoom = () => {
         if (!socket || !username) return
 
+        resetContexts()
         leaveGameRoom(socket, room.name, username)
     }
 
     const onEndRoom = () => {
         if (!socket || !username) return
 
+        resetContexts()
         endGameRoom(socket, room.name)
     }
 
@@ -310,29 +319,42 @@ const RoomControls = () => {
                             </thead>
                             <tbody>
                                 {room.roomUsers &&
-                                    room.roomUsers.map((roomUser, index) => (
-                                        <TableRow
-                                            key={roomUser.name}
-                                            index={index}
-                                        >
-                                            <TableCell>
-                                                <Username
-                                                    username={roomUser.name}
-                                                />
-                                            </TableCell>
-                                            <TableCell>0</TableCell>
-                                            <TableCell>0</TableCell>
-                                            <TableCell>
-                                                {roomUser.name ===
-                                                    room.host?.name && (
-                                                    <FontAwesomeIcon
-                                                        icon={faCrown}
-                                                        className="m-auto w-full text-primary-light-300 dark:text-text-dark-500"
+                                    room.roomUsers.map((roomUser, index) => {
+                                        const playerStat =
+                                            game?.playerStats?.find(
+                                                (playerStat) =>
+                                                    playerStat.name ===
+                                                    roomUser.name
+                                            )
+
+                                        return (
+                                            <TableRow
+                                                key={roomUser.name}
+                                                index={index}
+                                            >
+                                                <TableCell>
+                                                    <Username
+                                                        username={roomUser.name}
                                                     />
-                                                )}
-                                            </TableCell>
-                                        </TableRow>
-                                    ))}
+                                                </TableCell>
+                                                <TableCell>
+                                                    {playerStat?.wins || 0}
+                                                </TableCell>
+                                                <TableCell>
+                                                    {playerStat?.losses || 0}
+                                                </TableCell>
+                                                <TableCell>
+                                                    {roomUser.name ===
+                                                        room.host?.name && (
+                                                        <FontAwesomeIcon
+                                                            icon={faCrown}
+                                                            className="m-auto w-full text-primary-light-300 dark:text-text-dark-500"
+                                                        />
+                                                    )}
+                                                </TableCell>
+                                            </TableRow>
+                                        )
+                                    })}
                             </tbody>
                         </table>
                     </RoomControlHug>

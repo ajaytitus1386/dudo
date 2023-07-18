@@ -13,6 +13,7 @@ const RoomContext = createContext({
     setRoom: (() => {}) as React.Dispatch<React.SetStateAction<Room>>,
     setRoomName: (name: string) => {},
     isHost: false,
+    resetRoomContext: (() => {}) as () => void,
 })
 
 export const RoomProvider = ({ children }: { children: React.ReactNode }) => {
@@ -26,12 +27,14 @@ export const RoomProvider = ({ children }: { children: React.ReactNode }) => {
         })
     }
 
-    useEffect(() => {
-        console.log(room)
-    }, [room])
+    const resetRoomContext = () => {
+        setRoom({} as Room)
+    }
 
     return (
-        <RoomContext.Provider value={{ room, setRoom, setRoomName, isHost }}>
+        <RoomContext.Provider
+            value={{ room, setRoom, setRoomName, isHost, resetRoomContext }}
+        >
             {children}
         </RoomContext.Provider>
     )

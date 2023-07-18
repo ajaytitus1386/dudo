@@ -12,11 +12,19 @@ const ChatContext = createContext({
     setLatestTimestampViewed: ((timestamp: number) => {}) as React.Dispatch<
         React.SetStateAction<number>
     >,
+    resetChatContext: (() => {}) as () => void,
 })
 
 export const ChatProvider = ({ children }: { children: React.ReactNode }) => {
     const [messages, setMessages] = useState([] as AllMessages)
-    const [latestTimestampViewed, setLatestTimestampViewed] = useState(0)
+    const [latestTimestampViewed, setLatestTimestampViewed] = useState(
+        new Date().getTime()
+    )
+
+    const resetChatContext = () => {
+        setMessages([] as AllMessages)
+        setLatestTimestampViewed(new Date().getTime())
+    }
 
     return (
         <ChatContext.Provider
@@ -25,6 +33,7 @@ export const ChatProvider = ({ children }: { children: React.ReactNode }) => {
                 setMessages,
                 latestTimestampViewed,
                 setLatestTimestampViewed,
+                resetChatContext,
             }}
         >
             {children}
