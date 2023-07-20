@@ -66,14 +66,14 @@ const Room = () => {
     return (
         <div className="relative flex items-center justify-between min-h-screen h-[200vh] flex-col md:min-h-0 md:h-screen md:flex-row lg:px-16 xl:px-[10%] 2xl:px-[15%]">
             <button
-                className="fixed bottom-4 right-8 bg-blue-500 rounded-full w-8 h-8 md:hidden"
+                className="fixed z-50 bottom-4 right-8 bg-blue-500 rounded-full w-8 h-8 md:hidden"
                 onClick={toggleView}
             >
                 <FontAwesomeIcon
                     icon={faChevronDown}
                     className={`text-white ${
                         !isHigh && "rotate-180"
-                    } transition-transform duration-300`}
+                    } transition-transform duration-200`}
                 />
             </button>
             <div

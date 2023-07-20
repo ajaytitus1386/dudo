@@ -54,8 +54,8 @@ const PlayerStatus = ({
                         variant="none"
                         className={`font-bold text-background-light-100 dark:text-background-dark-100 ${
                             isReady
-                                ? "bg-positive-light dark:bg-positive-dark hover:brightness-90 dark:hover:brightness-125"
-                                : "bg-negative-light dark:bg-negative-dark hover:brightness-90 dark:hover:brightness-125"
+                                ? "bg-positive-light dark:bg-positive-dark"
+                                : "bg-negative-light dark:bg-negative-dark"
                         }`}
                     >
                         {isReady ? "Ready" : "Not Ready"}
@@ -421,7 +421,7 @@ const DiceTable = () => {
                 }}
             >
                 {otherRoomUsers && otherRoomUsers.length === 0 && (
-                    <h3 className="col-span-full flex items-center m-auto text-text-light-500 dark:text-text-dark-500">
+                    <h3 className="col-span-full flex items-center m-auto text-center text-text-light-500 dark:text-text-dark-500">
                         Invite other players to join the game!
                     </h3>
                 )}

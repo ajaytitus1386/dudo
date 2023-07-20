@@ -34,6 +34,8 @@ const MessageInput = () => {
 
         if (!username || !room || !socket) return
 
+        if (!messageString) return
+
         const newMessage: Message = {
             senderId: username,
             senderName: username,
