@@ -22,6 +22,7 @@ import {
 import { useSocketContext } from "context/socketContext"
 import { useGameContext } from "context/gameContext"
 import { Bid } from "../../../dudo_submodules/models/game"
+import { toast } from "react-toastify"
 
 const PlayerStatus = ({
     playerName,
@@ -160,10 +161,14 @@ const DiceTable = () => {
     const allPlayers = game.currentRound?.playerHands
 
     const sortedOtherPlayers = allPlayers
-        ? [
-              ...allPlayers.slice(currentPlayerIndex + 1),
-              ...allPlayers.slice(0, currentPlayerIndex),
-          ]
+        ? // If the user is not in the game, no sorting needed
+          currentPlayerIndex === -1
+            ? allPlayers
+            : // Sort the players relative to the current player turn index
+              [
+                  ...allPlayers.slice(currentPlayerIndex + 1),
+                  ...allPlayers.slice(0, currentPlayerIndex),
+              ]
         : []
 
     const numberOfPlayersReady = room.roomUsers?.filter(
@@ -357,6 +362,11 @@ const DiceTable = () => {
     }
 
     const handleStartGame = () => {
+        if (numberOfPlayersReady < 2) {
+            toast.error(`You need at least 2 players "Ready" to start a game`)
+            return
+        }
+
         if (!socket || !username) return
 
         startNewGame(socket!, username!, room.name)

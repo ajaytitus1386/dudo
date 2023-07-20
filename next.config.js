@@ -5,7 +5,7 @@ const nextConfig = {
         BACKEND_URL:
             process.env.NODE_ENV === "production"
                 ? process.env.BACKEND_URL
-                : "http://localhost:5000",
+                : "https://dudo-api.fly.dev/",
     },
 }
 

@@ -11,6 +11,7 @@ import { useGameContext } from "context/gameContext"
 import { playerMakesBid } from "lib/socket/emitters"
 import { useSocketContext } from "context/socketContext"
 import { useRoomContext } from "context/roomContext"
+import { toast } from "react-toastify"
 
 type Props = {
     setShowList: React.Dispatch<React.SetStateAction<boolean>>
@@ -32,6 +33,11 @@ const DiceInputWrapper: React.FC<Props> = ({ setShowList, showList }) => {
 
     const onConfirmBid = () => {
         if (!socket || !room) return
+
+        if (selectedBid.face == 0 || selectedBid.quantity == 0) {
+            toast.warn("Please select a valid bid")
+            return
+        }
 
         playerMakesBid(socket, room.name, selectedBid)
     }
