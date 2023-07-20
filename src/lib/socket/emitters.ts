@@ -4,6 +4,7 @@ import {
 } from "../../../dudo_submodules/constants/serverEventInterfaces"
 import { Socket } from "socket.io-client"
 import { Bid } from "../../../dudo_submodules/models/game"
+import { Message } from "../../../dudo_submodules/models/chat"
 
 export const createGameRoom = (
     socket: Socket<ServerToClientEvents, ClientToServerEvents>,
@@ -89,4 +90,13 @@ export const endGame = (
     roomName: string
 ) => {
     socket.emit("end_game", { hostName: userName, roomName })
+}
+
+/* ------------------------------- Chat Emits ------------------------------- */
+export const sendMessage = (
+    socket: Socket<ServerToClientEvents, ClientToServerEvents>,
+    roomName: string,
+    message: Message
+) => {
+    socket.emit("send_chat_message", { roomName, message })
 }

@@ -22,6 +22,10 @@ import { useSocketContext } from "context/socketContext"
 import { useAppContext } from "context/appContext"
 import Tooltip from "components/Tooltip"
 import { useGameContext } from "context/gameContext"
+import Toggle from "components/Toggle"
+import Credit from "components/content/Credit"
+import DiceOne from "components/icons/D6/DiceOne"
+import DiceSix from "components/icons/D6/DiceSix"
 
 const tabs = [
     {
@@ -56,14 +60,18 @@ const tabs = [
     },
 ]
 
+/* ----------------------------- Sub Components ----------------------------- */
+
 const RoomControlHug = ({
     children,
     className,
+    id,
 }: {
     children: React.ReactNode
     className?: string
+    id?: string
 }) => (
-    <Hug className={["flex flex-col w-full", className].join(" ")}>
+    <Hug id={id} className={["flex flex-col w-full", className].join(" ")}>
         {children}
     </Hug>
 )
@@ -93,13 +101,71 @@ const TableCell = ({ children }: { children: React.ReactNode }) => (
     <td className="px-4 py-2">{children}</td>
 )
 
+const RoomSettings = ({
+    goToOptionalRules,
+}: {
+    goToOptionalRules: () => void
+}) => {
+    const { isHost } = useRoomContext()
+    const [acesAreWild, setAcesAreWild] = useState(false)
+    // Win a round, drop a die
+    const [wardad, setWardad] = useState(false)
+
+    const toggleAcesAreWild = () => setAcesAreWild((prev) => !prev)
+
+    const toggleWardad = () => setWardad((prev) => !prev)
+
+    return (
+        <RoomControlHug className="py-4">
+            <h1 className="text-xl mb-2 font-bold m-auto text-text-light-500 dark:text-text-dark-500">
+                Settings
+            </h1>
+            <div className="flex flex-col justify-start items-start gap-1 px-1 md:px-8">
+                <h2 className="text-lg font-medium text-text-light-500 dark:text-text-dark-500">
+                    <FontAwesomeIcon icon={faCrown} className="mr-1" />
+                    Optional Game Rules
+                </h2>
+                <sub
+                    onClick={goToOptionalRules}
+                    className="mb-1 text-center text-sm italic text-text-light-300 dark:text-text-dark-300 cursor-pointer"
+                >
+                    More about <u>Optional Rules</u>
+                </sub>
+                <Toggle
+                    checked={acesAreWild}
+                    onToggle={toggleAcesAreWild}
+                    disabled={!isHost}
+                >
+                    Aces are Wild
+                </Toggle>
+                <Toggle
+                    checked={wardad}
+                    onToggle={toggleWardad}
+                    disabled={!isHost}
+                >
+                    Win a round, drop a die
+                </Toggle>
+            </div>
+        </RoomControlHug>
+    )
+}
+
+/* ---------------------------- Parent Component ---------------------------- */
 const RoomControls = () => {
+    const { room, isHost } = useRoomContext()
+    const { socket } = useSocketContext()
+    const { username } = useAppContext()
+    const { game } = useGameContext()
+
+    /* --------------------------- Stateful Variables --------------------------- */
     const [selectedTab, setSelectedTab] = useState(0)
 
     const defaultRoomLinkTooltipMessage = "Copy Room Link"
     const [roomLinkTooltipMessage, setRoomLinkTooltipMessage] = useState(
         defaultRoomLinkTooltipMessage
     )
+
+    /* ------------------------- Functions and Handlers ------------------------- */
 
     const onCopyRoomLink = () => {
         if (!navigator.clipboard) return
@@ -111,11 +177,6 @@ const RoomControls = () => {
             setRoomLinkTooltipMessage(defaultRoomLinkTooltipMessage)
         }, 2000)
     }
-
-    const { room, isHost } = useRoomContext()
-    const { socket } = useSocketContext()
-    const { username } = useAppContext()
-    const { game } = useGameContext()
 
     const onLeaveRoom = () => {
         if (!socket || !username) return
@@ -130,6 +191,22 @@ const RoomControls = () => {
     }
 
     const changeTab = (index: number) => setSelectedTab(index)
+
+    const goToSettings = () => setSelectedTab(3)
+
+    const goToOptionalRules = () => {
+        setSelectedTab(0)
+        //TODO: Scroll to Optional Rules
+        // const infoElement = document.getElementById("info")
+        // const optionalRulesElement = document.getElementById("optional_rules")
+
+        // if (!infoElement || !optionalRulesElement) return
+
+        // infoElement.scrollTo({
+        //     top: optionalRulesElement.offsetTop,
+        //     behavior: "smooth",
+        // })
+    }
 
     return (
         <div className="flex flex-col w-full h-full gap-y-2">
@@ -155,7 +232,8 @@ const RoomControls = () => {
                     </div>
                 ))}
             </div>
-            <div className="flex flex-col gap-y-2 px-4 py-2 h-full max-h-full md:py-0">
+            {/* overflow-hidden prevents the chat elements from overflowing the full height */}
+            <div className="flex flex-col gap-y-2 px-4 py-2 h-full max-h-full md:py-0 overflow-hidden">
                 <Hug className="flex justify-center items-center text-text-light-500 dark:text-text-dark-500">
                     <h2>Room Name:</h2>
                     <h3 className="select-all px-2 underline">
@@ -169,8 +247,40 @@ const RoomControls = () => {
                 </Hug>
                 {/* Info */}
                 {selectedTab === 0 && (
-                    <RoomControlHug className="flex flex-col gap-y-2 overflow-y-auto">
+                    <RoomControlHug
+                        id="info"
+                        className="flex flex-col gap-y-1 overflow-y-auto"
+                    >
                         <HowToPlay />
+                        <h2
+                            id="optional_rules"
+                            className="text-center text-lg font-bold text-text-light-500 dark:text-text-dark-500"
+                        >
+                            Optional Rules
+                        </h2>
+                        <sub
+                            onClick={goToSettings}
+                            className="text-center text-sm italic text-text-light-300 dark:text-text-dark-300 cursor-pointer"
+                        >
+                            Choose these options from <u>Room Settings</u>
+                        </sub>
+                        <ul className="list-disc px-4 text-text-light-500 dark:text-text-dark-500">
+                            <li>
+                                <b>Aces are wild</b>:{" "}
+                                <DiceOne className="w-5 h-5 inline-block" />
+                                &lsquo;s count for any face. So for example: 3{" "}
+                                <DiceSix className="w-5 h-5 inline-block" /> and
+                                2 <DiceOne className="w-5 h-5 inline-block" />{" "}
+                                sum up to 5{" "}
+                                <DiceSix className="w-5 h-5 inline-block" /> in
+                                total.
+                            </li>
+                            <li>
+                                <b>Win a round, drop a die</b>: The Winner of a
+                                round removes 1 die from their set of dice. The
+                                first Player to reach 0 dice wins the game.
+                            </li>
+                        </ul>
                     </RoomControlHug>
                 )}
                 {/* Players */}
@@ -204,7 +314,7 @@ const RoomControls = () => {
                                                     room.host?.name && (
                                                     <FontAwesomeIcon
                                                         icon={faCrown}
-                                                        className="m-auto w-full"
+                                                        className="m-auto w-full text-primary-light-300 dark:text-text-dark-500"
                                                     />
                                                 )}
                                             </TableCell>
@@ -217,7 +327,7 @@ const RoomControls = () => {
                 {/* Chat */}
                 {selectedTab === 2 && (
                     <>
-                        <Hug className="flex flex-col gap-y-1 h-full max-h-full overflow-y-auto md:h-[60vh]">
+                        <Hug className="flex flex-col gap-y-1 h-full max-h-full overflow-y-auto">
                             <MessageList />
                         </Hug>
                         <Hug>
@@ -227,18 +337,14 @@ const RoomControls = () => {
                 )}
                 {/* Settings */}
                 {selectedTab === 3 && (
-                    <RoomControlHug>
-                        <h1 className="m-auto text-text-light-500 dark:text-text-dark-500">
-                            Room Settings
-                        </h1>
-                    </RoomControlHug>
+                    <RoomSettings goToOptionalRules={goToOptionalRules} />
                 )}
                 {/* Exit */}
                 {selectedTab === 4 && (
                     <RoomControlHug className="gap-4 py-4">
                         <Button
                             onClick={onLeaveRoom}
-                            className="text-text-light-100 dark:text-text-dark-500"
+                            className="text-text-light-100 dark:text-text-dark-500 button-primary-gradient button-gradient-ltr"
                         >
                             Leave Room
                         </Button>
@@ -247,11 +353,18 @@ const RoomControls = () => {
                             <Button
                                 onClick={onEndRoom}
                                 variant="none"
-                                className="text-text-light-100 dark:text-text-dark-500 bg-red-500 hover:bg-red-600 focus:bg-red-700"
+                                className="text-text-light-100 dark:text-text-dark-500 from-red-700 to-red-600 button-gradient-ltr"
                             >
                                 End Room
                             </Button>
                         )}
+
+                        <h2 className="text-center text-lg text-text-light-500 dark:text-text-dark-500">
+                            Thanks for playing!
+                        </h2>
+                        <div className="flex flex-col gap-y-1 justify-center items-center">
+                            <Credit />
+                        </div>
                     </RoomControlHug>
                 )}
             </div>

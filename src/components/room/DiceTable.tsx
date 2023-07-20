@@ -53,8 +53,8 @@ const PlayerStatus = ({
                         variant="none"
                         className={`font-bold text-background-light-100 dark:text-background-dark-100 ${
                             isReady
-                                ? "bg-positive-light dark:bg-positive-dark"
-                                : "bg-negative-light dark:bg-negative-dark"
+                                ? "bg-positive-light dark:bg-positive-dark hover:brightness-90 dark:hover:brightness-125"
+                                : "bg-negative-light dark:bg-negative-dark hover:brightness-90 dark:hover:brightness-125"
                         }`}
                     >
                         {isReady ? "Ready" : "Not Ready"}
@@ -92,11 +92,14 @@ const PlayerHand = ({
     return (
         <>
             <div
-                className={`m-auto text-md text-text-light-500 dark:text-text-dark-500 col-span-2 rounded-md p-1 ${
-                    isActive && "border-b-2 border-green-400 rounded-b-none"
-                }`}
+                className={`relative m-auto text-md text-text-light-500 dark:text-text-dark-500 col-span-2 p-1`}
             >
                 <Username username={playerName} />
+                {isActive && (
+                    <div
+                        className={`absolute z-10 -left-2 top-1/2 -translate-y-1/2 w-2 h-2 rounded-full bg-green-400 animate-pulse`}
+                    />
+                )}
             </div>
             {Array.from(Array(maxDice).keys()).map((i) => {
                 // Known Die
@@ -462,7 +465,7 @@ const DiceTable = () => {
                 <div className="flex flex-col gap-y-2 justify-center items-center m-auto w-full">
                     {isHost ? (
                         <Button
-                            className="m-auto !w-3/4 font-bold px-2"
+                            className="m-auto button-primary-gradient button-gradient-ltr !w-3/4 font-bold px-2"
                             onClick={handleStartGame}
                         >
                             Start Game

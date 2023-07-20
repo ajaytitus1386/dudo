@@ -30,11 +30,11 @@ module.exports = {
                 },
                 secondary: {
                     light: {
-                        100: "#9CB47E",
-                        200: "#92AC72",
-                        300: "#88A465",
-                        400: "#7E9A5B",
-                        500: "#748E54",
+                        100: "#7e06ef",
+                        200: "#6905C7",
+                        300: "#5F05B3",
+                        400: "#54049F",
+                        500: "#4A048B",
                     },
                     dark: {
                         100: "#3D3D3D",
@@ -104,8 +104,13 @@ module.exports = {
             },
             animation: {
                 ellipsis: "ellipsis steps(4,end) 1s infinite",
+                pop_in: "pop_in 0.2s ease-in-out",
             },
             keyframes: {
+                pop_in: {
+                    "0%": { transform: "scale(0.75)", opacity: "0" },
+                    "100%": { transform: "scale(1)", opacity: "1" },
+                },
                 ellipsis: {
                     "0%": { width: "0" },
                     "50%": { width: "1.25em" },

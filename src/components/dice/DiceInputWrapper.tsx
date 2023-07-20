@@ -24,8 +24,8 @@ const DiceInputWrapper: React.FC<Props> = ({ setShowList, showList }) => {
     const { game } = useGameContext()
     const isPlayerTurn = game.currentRound?.currentPlayerTurn == username
     const defaultBid = {
-        face: 1,
-        quantity: 1,
+        face: 0,
+        quantity: 0,
         playerId: username,
     } as Bid
     const [selectedBid, setSelectedBid] = useState(defaultBid)
@@ -44,15 +44,22 @@ const DiceInputWrapper: React.FC<Props> = ({ setShowList, showList }) => {
             }
         >
             {showList ? (
-                <DiceList
-                    selectedBid={selectedBid}
-                    setSelectedBid={setSelectedBid}
-                />
+                game?.currentRound ? (
+                    <DiceList
+                        selectedBid={selectedBid}
+                        setSelectedBid={setSelectedBid}
+                    />
+                ) : (
+                    <p className="text-center text-text-light-500 dark:text-text-dark-500 h-full">
+                        During your turn, pick a valid dice option and tap{" "}
+                        <b>Confirm</b> to make a bid
+                    </p>
+                )
             ) : (
                 <DicePicker />
             )}
             <div className="flex justify-center items-center gap-x-1 md:order-first">
-                <Button
+                {/* <Button
                     onClick={() => setShowList((prev) => !prev)}
                     className="px-2 py-1 font-bold"
                 >
@@ -67,7 +74,7 @@ const DiceInputWrapper: React.FC<Props> = ({ setShowList, showList }) => {
                             className="text-text-light-100 dark:text-text-dark-500"
                         />
                     )}
-                </Button>
+                </Button> */}
                 <Button
                     disabled={!isPlayerTurn}
                     onClick={onConfirmBid}

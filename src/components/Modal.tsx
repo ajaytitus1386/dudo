@@ -38,7 +38,7 @@ const Modal: React.FC<Props> = ({ children, invoker, className, heading }) => {
                 {/* Modal Body */}
                 <div
                     ref={modalRef}
-                    className="flex flex-col gap-4 w-[90%] max-h-[75%] m-auto py-8 px-4 bg-background-light-200 dark:bg-background-dark-200 rounded-md md:w-3/4 lg:w-1/2 xl:w-2/3"
+                    className="animate-pop_in flex flex-col gap-4 w-[90%] max-h-[75%] m-auto py-8 px-4 bg-background-light-200 dark:bg-background-dark-200 rounded-md md:w-3/4 lg:w-1/2 xl:w-2/3"
                 >
                     {/* Modal Header */}
                     <div className="flex flex-row items-center justify-between">

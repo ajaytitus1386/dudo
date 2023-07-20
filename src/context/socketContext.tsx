@@ -1,4 +1,5 @@
 import {
+    addChatEventListeners,
     addGameEventListeners,
     addRoomEventListeners,
     addSocketListeners,
@@ -14,6 +15,7 @@ import { useRoomContext } from "./roomContext"
 import { useRouter } from "next/router"
 import { useAppContext } from "./appContext"
 import { useGameContext } from "./gameContext"
+import { useChatContext } from "./chatContext"
 
 const SocketContext = createContext({
     socket: null as Socket<ServerToClientEvents, ClientToServerEvents> | null,
@@ -26,6 +28,7 @@ export const SocketProvider = ({ children }: { children: React.ReactNode }) => {
     const { setRoomName, setRoom } = useRoomContext()
     const { username } = useAppContext()
     const { setGame, setCurrentHand } = useGameContext()
+    const { setMessages } = useChatContext()
     const router = useRouter()
 
     useEffect(() => {
@@ -61,10 +64,12 @@ export const SocketProvider = ({ children }: { children: React.ReactNode }) => {
             setCurrentHand,
             username
         )
+        addChatEventListeners(socket, setMessages)
     }, [
         router,
         setCurrentHand,
         setGame,
+        setMessages,
         setRoom,
         setRoomName,
         socket,

@@ -7,6 +7,7 @@ import { Socket } from "socket.io-client"
 import { toast } from "react-toastify"
 import Room from "../../../dudo_submodules/models/room"
 import Game from "../../../dudo_submodules/models/game"
+import { AllMessages } from "context/chatContext"
 
 export const addSocketListeners = (
     socket: Socket<ServerToClientEvents, ClientToServerEvents>
@@ -263,5 +264,22 @@ export const addGameEventListeners = (
     socket.on("host_ends_game", ({ room }) => {
         setRoom(room)
         setGame({} as Game)
+    })
+}
+
+export const addChatEventListeners = (
+    socket: Socket<ServerToClientEvents, ClientToServerEvents>,
+    setMessages: React.Dispatch<React.SetStateAction<AllMessages>>
+) => {
+    socket.on("chat_message", ({ message }) => {
+        setMessages((prevMessages) => {
+            return [...prevMessages, message]
+        })
+    })
+
+    socket.on("system_message", ({ message }) => {
+        setMessages((prevMessages) => {
+            return [...prevMessages, message]
+        })
     })
 }

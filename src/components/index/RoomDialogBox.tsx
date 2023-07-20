@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import Hug from "../Hug"
 import Input from "../Input"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
@@ -49,6 +49,13 @@ const RoomDialogBox = () => {
     }
     const [errors, setErrors] = useState(defaultErrors)
 
+    const usernameInputRef = React.useRef<HTMLInputElement>(null)
+
+    useEffect(() => {
+        if (!usernameInputRef.current) return
+        usernameInputRef.current.focus()
+    }, [])
+
     const tabs = ["join_game", "create_game"]
     const [selectedTab, setSelectedTab] = useState(tabs[0])
 
@@ -56,6 +63,8 @@ const RoomDialogBox = () => {
 
     const changeTab = (tab: string) => {
         setSelectedTab(tab)
+        if (!usernameInputRef.current) return
+        usernameInputRef.current.focus()
     }
 
     const validateForm = () => {
@@ -126,6 +135,7 @@ const RoomDialogBox = () => {
 
                 <Input
                     value={username || ""}
+                    ref={usernameInputRef}
                     type="text"
                     placeholder="Your Name"
                     onChange={(e) => setUsername(e.target.value)}
@@ -150,7 +160,7 @@ const RoomDialogBox = () => {
 
                 <button
                     type="submit"
-                    className="px-4 py-2 bg-gradient-to-l from-primary-light-200 to-80% to-primary-light-300 bg-[length:200%_200%] hover:bg-right transition-all duration-500 rounded-md text-white font-medium w-full"
+                    className="px-4 py-2 button-primary-gradient button-gradient-ltr rounded-md text-white font-medium w-full"
                 >
                     {isJoinGame ? "Join" : "Create"}
                 </button>

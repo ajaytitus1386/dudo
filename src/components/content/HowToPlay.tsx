@@ -44,16 +44,6 @@ const HowToPlay = () => {
                     are revealed a winner for the round is decided{" "}
                 </li>
             </ol>
-            <h2 className="text-center text-lg font-bold text-text-light-500 dark:text-text-dark-500">
-                Optional Rules
-            </h2>
-            <ul className="list-disc px-4 text-text-light-500 dark:text-text-dark-500">
-                <li>Aces are wild and count for every face</li>
-                <li>
-                    The Winner of a round removes 1 die from their set of dice.
-                    The first Player to reach 0 dice wins the game
-                </li>
-            </ul>
         </>
     )
 }
