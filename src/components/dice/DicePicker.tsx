@@ -1,5 +1,4 @@
 import React, { useState } from "react"
-import Hug from "../Hug"
 import diceStyles from "./dice.module.css"
 import DiceOne from "../icons/D6/DiceOne"
 import DiceTwo from "../icons/D6/DiceTwo"
@@ -7,10 +6,7 @@ import DiceSix from "../icons/D6/DiceSix"
 import DiceFive from "../icons/D6/DiceFive"
 import DiceThree from "../icons/D6/DiceThree"
 import DiceFour from "../icons/D6/DiceFour"
-import Button from "../Button"
 import { useThemeContext } from "context/themeContext"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faDiceD6 } from "@fortawesome/free-solid-svg-icons"
 
 // The die styles are set in the dice.module.css file
 
@@ -61,12 +57,13 @@ const DicePicker = () => {
     }
 
     return (
-        <Hug className={"grid grid-cols-2 px-4 y-6 gap-4"}>
-            <h2 className="mx-4 order-1 text-center text-text-light-500 dark:text-text-dark-500">
+        // The parent element should have display:grid and grid-template-columns: 1fr 1fr
+        <div className="flex flex-col justify-center items-center gap-2 md: gap-y-4">
+            {/* <h2 className="mx-4 order-1 text-center text-text-light-500 dark:text-text-dark-500">
                 Amount
-            </h2>
-            <div className="m-auto order-3">
-                <div className="flex flex-row h-10 rounded-md">
+            </h2> */}
+            <div className="flex items-center justify-center h-full w-min">
+                <div className="flex flex-row items-center justify-center h-10 rounded-md">
                     <button
                         className="text-text-light-300 hover:text-text-light-400 dark:text-text-dark-300 dark:hover:text-text-dark-200 bg-background-light-300 dark:bg-background-dark-300 h-full w-20 rounded-l cursor-pointer outline-none"
                         onClick={decrementAmount}
@@ -75,7 +72,7 @@ const DicePicker = () => {
                     </button>
                     <input
                         type="number"
-                        className="custom-number-input text-center w-full font-semibold text-md hover:text-text-light-500 focus:text-text-light-500 flex items-center text-text-light-300 dark:text-text-dark-300 bg-background-light-100 dark:bg-background-dark-100 outline-none focus:outline-none "
+                        className="custom-number-input text-center h-full w-1/3 font-semibold text-md hover:text-text-light-500 focus:text-text-light-500 flex items-center text-text-light-300 dark:text-text-dark-300 bg-background-light-100 dark:bg-background-dark-100 outline-none focus:outline-none "
                         name="amount-input-number"
                         value={chosenAmount}
                         onChange={changeAmount}
@@ -89,10 +86,10 @@ const DicePicker = () => {
                 </div>
             </div>
 
-            <h2 className="mx-4 order-2 text-center text-text-light-500 dark:text-text-dark-500">
+            {/* <h2 className="mx-4 order-2 text-center text-text-light-500 dark:text-text-dark-500">
                 Face
-            </h2>
-            <div className="order-4">
+            </h2> */}
+            <div className="flex items-center gap-x-4 gap-y-4 flex-wrap justify-center h-full">
                 <div className={`${diceStyles.dieView}`}>
                     <div
                         className={`${diceStyles.die} ${diceFaceClass} cursor-pointer`}
@@ -167,16 +164,7 @@ const DicePicker = () => {
                     </div>
                 </div>
             </div>
-            <Button className="order-last px-2 py-1 col-span-1 ml-auto bg-primary-light-300 dark:bg-primary-light-200 font-bold">
-                <FontAwesomeIcon
-                    icon={faDiceD6}
-                    className="text-text-light-100 dark:text-text-dark-500"
-                />
-            </Button>
-            <Button className="order-last px-2 py-1 col-span-1 mr-auto bg-primary-light-300 dark:bg-primary-light-200 text-text-light-100 dark:text-text-dark-500 font-bold w-24">
-                Confirm
-            </Button>
-        </Hug>
+        </div>
     )
 }
 

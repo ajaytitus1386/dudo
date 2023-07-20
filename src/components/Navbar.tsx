@@ -8,8 +8,8 @@ const Navbar = () => {
 
     return (
         <div className="w-full flex items-center justify-between fixed z-10 top-0 px-4 py-2 bg-background-light-200 dark:bg-background-dark-200 shadow-md">
-            <h1 className="text-2xl font-bold text-primary-light-300 dark:text-text-dark-500">
-                Liars Dice
+            <h1 className="text-2xl tracking-wider font-bold text-primary-light-300 dark:text-text-dark-500">
+                Liar&apos;s Dice
             </h1>
             <button
                 type="button"

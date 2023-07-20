@@ -3,6 +3,10 @@ import Hug from "../Hug"
 import Input from "../Input"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faArrowsRotate } from "@fortawesome/free-solid-svg-icons"
+import { useAppContext } from "context/appContext"
+import { useRoomContext } from "context/roomContext"
+import { useSocketContext } from "context/socketContext"
+import { createGameRoom, joinGameRoom } from "lib/socket/emitters"
 
 const RoomTypeTab = ({
     label,
@@ -35,6 +39,16 @@ const RoomTypeTab = ({
 }
 
 const RoomDialogBox = () => {
+    const { username, setUsername } = useAppContext()
+    const { room, setRoom } = useRoomContext()
+    const { socket } = useSocketContext()
+
+    const defaultErrors = {
+        username: "",
+        roomName: "",
+    }
+    const [errors, setErrors] = useState(defaultErrors)
+
     const tabs = ["join_game", "create_game"]
     const [selectedTab, setSelectedTab] = useState(tabs[0])
 
@@ -44,8 +58,49 @@ const RoomDialogBox = () => {
         setSelectedTab(tab)
     }
 
+    const validateForm = () => {
+        if (!username || !room.name) {
+            setErrors({
+                username: !username ? "Username is required" : "",
+                roomName: !room.name ? "Room name is required" : "",
+            })
+            return false
+        }
+
+        const uriRoomName = encodeURIComponent(room.name)
+        if (uriRoomName !== room.name) {
+            setErrors((errors) => ({
+                ...errors,
+                roomName: "Room name cannot contain special characters",
+            }))
+            return false
+        }
+
+        setErrors(defaultErrors)
+
+        return (
+            username && room.name && username.length > 0 && room.name.length > 0
+        )
+    }
+
+    const handleJoinGame = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault()
+        if (!validateForm()) return
+        if (!socket) return
+
+        joinGameRoom(socket, room.name!, username!)
+    }
+
+    const handleCreateGame = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault()
+        if (!validateForm()) return
+        if (!socket) return
+
+        createGameRoom(socket, room.name!, username!)
+    }
+
     return (
-        <Hug className="flex flex-col gap-4 w-[400px] px-8 py-8">
+        <Hug className="flex flex-col gap-4 w-[400px] px-8 py-8 md:w-3/4 lg:w-1/2 xl:w-1/3">
             <div className="flex flex-row gap-4 justify-center items-center">
                 <RoomTypeTab
                     label="Join Game"
@@ -59,7 +114,10 @@ const RoomDialogBox = () => {
                     onClick={() => changeTab(tabs[1])}
                 />
             </div>
-            <form className="flex flex-col gap-2 justify-center items-center">
+            <form
+                onSubmit={isJoinGame ? handleJoinGame : handleCreateGame}
+                className="flex flex-col gap-2 justify-center items-center"
+            >
                 <h3 className="text-center text-gray-400 text-sm mb-4">
                     {isJoinGame
                         ? "Join an existing room with your friends"
@@ -67,17 +125,18 @@ const RoomDialogBox = () => {
                 </h3>
 
                 <Input
-                    value=""
+                    value={username || ""}
                     type="text"
                     placeholder="Your Name"
-                    onChange={() => {}}
+                    onChange={(e) => setUsername(e.target.value)}
+                    error={errors.username}
                 />
 
                 <Input
-                    value=""
+                    value={room.name || ""}
                     type="text"
                     placeholder={isJoinGame ? "Room Name" : "New Room Name"}
-                    onChange={() => {}}
+                    onChange={(e) => setRoom({ ...room, name: e.target.value })}
                     RightElement={
                         !isJoinGame && (
                             <FontAwesomeIcon
@@ -86,9 +145,13 @@ const RoomDialogBox = () => {
                             />
                         )
                     }
+                    error={errors.roomName}
                 />
 
-                <button className="px-4 py-2 bg-gradient-to-l from-primary-light-200 to-80% to-primary-light-300 bg-[length:200%_200%] hover:bg-right transition-all duration-500 rounded-md text-white font-medium w-full">
+                <button
+                    type="submit"
+                    className="px-4 py-2 bg-gradient-to-l from-primary-light-200 to-80% to-primary-light-300 bg-[length:200%_200%] hover:bg-right transition-all duration-500 rounded-md text-white font-medium w-full"
+                >
                     {isJoinGame ? "Join" : "Create"}
                 </button>
             </form>

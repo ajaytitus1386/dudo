@@ -62,6 +62,22 @@ module.exports = {
                         DEFAULT: "#FFF",
                     },
                 },
+                negative: {
+                    light: {
+                        DEFAULT: colors.red[500],
+                    },
+                    dark: {
+                        DEFAULT: colors.red[300],
+                    },
+                },
+                positive: {
+                    light: {
+                        DEFAULT: colors.green[500],
+                    },
+                    dark: {
+                        DEFAULT: colors.green[200],
+                    },
+                },
                 background: {
                     light: {
                         DEFAULT: "#FFF",
@@ -85,6 +101,16 @@ module.exports = {
                 "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
                 "gradient-conic":
                     "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
+            },
+            animation: {
+                ellipsis: "ellipsis steps(4,end) 1s infinite",
+            },
+            keyframes: {
+                ellipsis: {
+                    "0%": { width: "0" },
+                    "50%": { width: "1.25em" },
+                    "100%": { width: "0" },
+                },
             },
         },
     },

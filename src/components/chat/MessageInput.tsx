@@ -5,7 +5,7 @@ import Input from "../Input"
 
 const MessageInput = () => {
     return (
-        <div className="flex flex-row gap-2 px-2 py-1 justify-between items-center">
+        <div className="flex flex-row gap-x-2 px-2 justify-start items-start">
             <Input
                 placeholder="Send a message to the room"
                 type="text"

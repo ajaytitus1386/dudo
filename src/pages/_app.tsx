@@ -15,9 +15,18 @@ import {
     faMoon,
     faList,
     faDiceD6,
+    faLink,
+    faCrown,
+    faEllipsisVertical,
 } from "@fortawesome/free-solid-svg-icons"
+import { ToastContainer } from "react-toastify"
+import "react-toastify/dist/ReactToastify.css"
 import Layout from "../components/Layout"
 import { ThemeProvider } from "../context/themeContext"
+import { AppProvider } from "context/appContext"
+import { RoomProvider } from "context/roomContext"
+import { SocketProvider } from "context/socketContext"
+import { GameProvider } from "context/gameContext"
 
 library.add(
     faPaperPlane,
@@ -32,15 +41,27 @@ library.add(
     faSun,
     faMoon,
     faList,
-    faDiceD6
+    faDiceD6,
+    faLink,
+    faCrown,
+    faEllipsisVertical
 )
 
 export default function App({ Component, pageProps }: AppProps) {
     return (
-        <ThemeProvider>
-            <Layout>
-                <Component {...pageProps} />
-            </Layout>
-        </ThemeProvider>
+        <AppProvider>
+            <RoomProvider>
+                <GameProvider>
+                    <ThemeProvider>
+                        <SocketProvider>
+                            <Layout>
+                                <Component {...pageProps} />
+                            </Layout>
+                            <ToastContainer />
+                        </SocketProvider>
+                    </ThemeProvider>
+                </GameProvider>
+            </RoomProvider>
+        </AppProvider>
     )
 }

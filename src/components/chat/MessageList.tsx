@@ -76,7 +76,7 @@ const SystemMessage = ({ message }: { message: string }) => {
 
 const MessageList = () => {
     return (
-        <div className="flex flex-col gap-1 w-full overflow-y-auto">
+        <>
             <SystemMessage message="Welcome to the chatroom" />
             <SystemMessage message="There are currently 1 user(s) in the room: You" />
             <Message
@@ -184,7 +184,79 @@ const MessageList = () => {
                 timestamp="Jun 18 16:04"
             />
             <SystemMessage message="John Doe has left the chatroom" />
-        </div>
+            <Message
+                isSent={false}
+                message="Second Message"
+                isTail={false}
+                isHead={true}
+                sender="John Doe"
+            />
+            <Message
+                isSent={false}
+                message="Third Message"
+                isTail={false}
+                isHead={false}
+                sender="John Doe"
+                timestamp="Jun 18 16:04"
+            />
+            <Message
+                isSent={false}
+                message="Third Message"
+                isTail={false}
+                isHead={false}
+                sender="John Doe"
+                timestamp="Jun 18 16:04"
+            />
+            <Message
+                isSent={false}
+                message="Third Message"
+                isTail={false}
+                isHead={false}
+                sender="John Doe"
+                timestamp="Jun 18 16:04"
+            />
+            <Message
+                isSent={false}
+                message="Third Message"
+                isTail={false}
+                isHead={false}
+                sender="John Doe"
+                timestamp="Jun 18 16:04"
+            />
+            <Message
+                isSent={false}
+                message="Third Message"
+                isTail={false}
+                isHead={false}
+                sender="John Doe"
+                timestamp="Jun 18 16:04"
+            />
+            <Message
+                isSent={false}
+                message="Third Message"
+                isTail={false}
+                isHead={false}
+                sender="John Doe"
+                timestamp="Jun 18 16:04"
+            />
+            <Message
+                isSent={false}
+                message="Third Message"
+                isTail={false}
+                isHead={false}
+                sender="John Doe"
+                timestamp="Jun 18 16:04"
+            />
+            <Message
+                isSent={false}
+                message="Third Message"
+                isTail={true}
+                isHead={false}
+                sender="John Doe"
+                timestamp="Jun 18 16:04"
+            />
+            <SystemMessage message="John Doe has left the chatroom" />
+        </>
     )
 }
 

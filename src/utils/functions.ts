@@ -1,3 +1,5 @@
+import { Bid } from "../../dudo_submodules/models/game"
+
 const readCookie = (name: string) => {
     const match = document.cookie.match(new RegExp("(^| )" + name + "=([^;]+)"))
     if (match) {
@@ -31,6 +33,27 @@ const setColorScheme = (colorScheme: string) => {
     if (!localStorage) return
 
     localStorage.setItem("color-scheme", colorScheme)
+}
+
+/**
+ * Using the Ruleset given: Player can re-assert by bidding a higher quantity of any face value, or the same quantity of a higher face value.
+ * https://en.wikipedia.org/wiki/Dudo#Rules
+ */
+export const isValidBid = ({
+    newQuantity,
+    newFace,
+    currentQuantity,
+    currentFace,
+}: {
+    newQuantity: number
+    newFace: number
+    currentQuantity: number
+    currentFace: number
+}) => {
+    return (
+        newQuantity > currentQuantity ||
+        (newFace > currentFace && newQuantity == currentQuantity)
+    )
 }
 
 export { readCookie, readColorScheme, setColorScheme }
