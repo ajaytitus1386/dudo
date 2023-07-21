@@ -40,6 +40,7 @@ const DiceInputWrapper: React.FC<Props> = ({ setShowList, showList }) => {
         }
 
         playerMakesBid(socket, room.name, selectedBid)
+        setSelectedBid(defaultBid)
     }
 
     return (

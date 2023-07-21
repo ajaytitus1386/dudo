@@ -286,6 +286,11 @@ export const addGameEventListeners = (
         setRoom(room)
         setGame({} as Game)
     })
+
+    socket.on("game_over", ({ room }) => {
+        setRoom(room)
+        setGame({} as Game)
+    })
 }
 
 export const addChatEventListeners = (
