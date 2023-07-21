@@ -5,6 +5,9 @@ import {
 import { Socket } from "socket.io-client"
 import { Bid } from "../../../dudo_submodules/models/game"
 import { Message } from "../../../dudo_submodules/models/chat"
+import { RoomOptionalRules } from "../../../dudo_submodules/models/room"
+
+/* ------------------------------- Room Emits ------------------------------- */
 
 export const createGameRoom = (
     socket: Socket<ServerToClientEvents, ClientToServerEvents>,
@@ -52,6 +55,16 @@ export const unreadyUser = (
 ) => {
     socket.emit("user_unready", { roomName, userName })
 }
+
+export const setOptionalRules = (
+    socket: Socket<ServerToClientEvents, ClientToServerEvents>,
+    roomName: string,
+    rules: RoomOptionalRules
+) => {
+    socket.emit("set_optional_rules", { roomName, rules })
+}
+
+/* ------------------------------- Game Emits ------------------------------- */
 
 export const startNewGame = (
     socket: Socket<ServerToClientEvents, ClientToServerEvents>,

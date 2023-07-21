@@ -17,7 +17,11 @@ import Button from "../Button"
 import HowToPlay from "../content/HowToPlay"
 import Username from "../Username"
 import { useRoomContext } from "context/roomContext"
-import { endGameRoom, leaveGameRoom } from "lib/socket/emitters"
+import {
+    endGameRoom,
+    leaveGameRoom,
+    setOptionalRules,
+} from "lib/socket/emitters"
 import { useSocketContext } from "context/socketContext"
 import { useAppContext } from "context/appContext"
 import Tooltip from "components/Tooltip"
@@ -107,14 +111,51 @@ const RoomSettings = ({
 }: {
     goToOptionalRules: () => void
 }) => {
-    const { isHost } = useRoomContext()
-    const [acesAreWild, setAcesAreWild] = useState(false)
+    const { room, setRoom, isHost } = useRoomContext()
+    const { socket } = useSocketContext()
+
+    // Aces are wild
+    const acesAreWild = room?.rules?.acesAreWild || false
+    const setAcesAreWild = (value: boolean) => {
+        if (!socket) return
+
+        setRoom((prev) => ({
+            ...prev,
+            rules: {
+                ...prev.rules,
+                acesAreWild: value,
+            },
+        }))
+        setOptionalRules(socket, room.name, {
+            acesAreWild: value,
+            winRoundDropDie: room.rules.winRoundDropDie,
+        })
+    }
     // Win a round, drop a die
-    const [wardad, setWardad] = useState(false)
+    const wardad = room?.rules?.winRoundDropDie || false
+    const setWardad = (value: boolean) => {
+        if (!socket) return
 
-    const toggleAcesAreWild = () => setAcesAreWild((prev) => !prev)
+        setRoom((prev) => ({
+            ...prev,
+            rules: {
+                ...prev.rules,
+                winRoundDropDie: value,
+            },
+        }))
+        setOptionalRules(socket, room.name, {
+            acesAreWild: room.rules.acesAreWild,
+            winRoundDropDie: value,
+        })
+    }
 
-    const toggleWardad = () => setWardad((prev) => !prev)
+    const disableRules = !isHost || room.roomState !== "lobby"
+
+    const toggleAcesAreWild = () => {
+        setAcesAreWild(!room.rules.acesAreWild)
+    }
+
+    const toggleWardad = () => setWardad(!room.rules.winRoundDropDie)
 
     return (
         <RoomControlHug className="py-4">
@@ -135,14 +176,14 @@ const RoomSettings = ({
                 <Toggle
                     checked={acesAreWild}
                     onToggle={toggleAcesAreWild}
-                    disabled={true}
+                    disabled={disableRules}
                 >
                     Aces are Wild
                 </Toggle>
                 <Toggle
                     checked={wardad}
                     onToggle={toggleWardad}
-                    disabled={true}
+                    disabled={disableRules}
                 >
                     Win a round, drop a die
                 </Toggle>

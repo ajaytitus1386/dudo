@@ -183,6 +183,14 @@ export const addRoomEventListeners = (
             }
         })
     })
+
+    /* ----------------------------- Optional Rules ----------------------------- */
+    socket.on("update_optional_rules", ({ rules }) => {
+        setRoom((prevRoom) => ({
+            ...prevRoom,
+            rules: rules,
+        }))
+    })
 }
 
 export const addGameEventListeners = (
