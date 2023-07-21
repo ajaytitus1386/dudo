@@ -297,6 +297,12 @@ const DiceTable = () => {
             0
         )
 
+        const acesQuantity = game.currentRound?.playerHands.reduce(
+            (acc, player) =>
+                acc + player.hand.filter((face) => face === 1).length,
+            0
+        )
+
         return (
             <>
                 {/* Players in challenge */}
@@ -333,6 +339,12 @@ const DiceTable = () => {
                         face={latestBid.face}
                         quantity={trueQuantity}
                     />
+                    {room?.rules?.acesAreWild && (
+                        <>
+                            {" and including "}
+                            <BidComponent face={1} quantity={acesQuantity} />
+                        </>
+                    )}
                 </h3>
             </>
         )
@@ -467,7 +479,7 @@ const DiceTable = () => {
             <Divider />
             {/* Game Board */}
             {isGame ? (
-                <div className="flex flex-1 w-full flex-col gap-y-2 items-center justify-center">
+                <div className="flex flex-1 w-full flex-col gap-y-2 items-center justify-center text-center">
                     {showPlayersTurn && (
                         <CurrentPlayerTurn
                             currentPlayer={
