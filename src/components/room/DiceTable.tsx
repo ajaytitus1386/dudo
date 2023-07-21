@@ -80,13 +80,13 @@ const PlayerHand = ({
     playerName,
     playerHand,
     maxDice = 5,
-    highlightedFace,
+    highlightedFaces,
     isActive = false,
 }: {
     playerName: string
     playerHand: number[]
     maxDice: number
-    highlightedFace?: number
+    highlightedFaces?: number[]
     isActive?: boolean
 }) => {
     const Dice = [DiceOne, DiceTwo, DiceThree, DiceFour, DiceFive, DiceSix]
@@ -116,7 +116,7 @@ const PlayerHand = ({
                         <div
                             className={[
                                 "m-auto",
-                                highlightedFace === playerHand[i]
+                                highlightedFaces?.includes(playerHand[i])
                                     ? "border-2 border-green-400 bg-green-400"
                                     : "",
                             ].join(" ")}
@@ -421,9 +421,11 @@ const DiceTable = () => {
                         playerName={username || "Me"}
                         playerHand={currentHand || emptyHand}
                         maxDice={numberOfDice}
-                        highlightedFace={
+                        highlightedFaces={
                             game?.gamePhase === "post-round"
-                                ? latestBid?.face
+                                ? room?.rules?.acesAreWild
+                                    ? [1, latestBid?.face]
+                                    : [latestBid?.face]
                                 : undefined
                         }
                         isActive={currentPlayerTurn === username}
@@ -458,9 +460,11 @@ const DiceTable = () => {
                               playerName={player.name}
                               playerHand={player.hand}
                               maxDice={numberOfDice}
-                              highlightedFace={
+                              highlightedFaces={
                                   game?.gamePhase === "post-round"
-                                      ? latestBid?.face
+                                      ? room?.rules?.acesAreWild
+                                          ? [1, latestBid?.face]
+                                          : [latestBid?.face]
                                       : undefined
                               }
                               isActive={currentPlayerTurn === player.name}
