@@ -85,6 +85,7 @@ const MessageList = () => {
     const { username } = useAppContext()
 
     const [currentDate, setCurrentDate] = useState(new Date())
+    const [isChatVisible, setIsChatVisible] = useState(false)
     const [autoScroll, setAutoScroll] = useState(true)
     const [messagesScrollHeight, setMessagesScrollHeight] = useState(0)
     const prevMessageScrollHeight = usePrevious(messagesScrollHeight)
@@ -94,13 +95,14 @@ const MessageList = () => {
 
     useEffect(() => {
         // If new message received, auto scroll to bottom
-        if (autoScroll) {
+        if (autoScroll && isChatVisible) {
             endOfMessageBoxRef.current?.scrollIntoView({
                 behavior: "smooth",
             })
         }
-    }, [autoScroll, messages.length])
+    }, [autoScroll, isChatVisible, messages.length])
 
+    // Update message timestamp every second
     useEffect(() => {
         const timer = setInterval(() => {
             setCurrentDate(new Date())
@@ -111,11 +113,57 @@ const MessageList = () => {
         }
     }, [])
 
+    // Update latest timestamp viewed when new messages come in
     useEffect(() => {
         if (messages?.length === 0) return
 
         setLatestTimestampViewed(messages[messages.length - 1].timestamp)
     }, [messages, setLatestTimestampViewed])
+
+    // Intersection Observers
+    useEffect(() => {
+        const chatVisibleCallback = (entries: IntersectionObserverEntry[]) => {
+            const [entry] = entries
+            setIsChatVisible(entry.isIntersecting)
+        }
+
+        const endOfMessageObserverCallback = (
+            entries: IntersectionObserverEntry[]
+        ) => {
+            const [entry] = entries
+            if (entry.isIntersecting) {
+                enableAutoScroll()
+            }
+        }
+
+        const chatObserver = new IntersectionObserver(chatVisibleCallback, {
+            root: null,
+            rootMargin: "0px",
+            threshold: 0.5,
+        })
+        const endOfMessageObserver = new IntersectionObserver(
+            endOfMessageObserverCallback,
+            {
+                root: null,
+                rootMargin: "0px",
+                threshold: 1,
+            }
+        )
+
+        const messageListElement = messageListRef.current
+        if (messageListElement) chatObserver.observe(messageListElement)
+
+        const endOfMessageBoxElement = endOfMessageBoxRef.current
+        if (endOfMessageBoxElement)
+            endOfMessageObserver.observe(endOfMessageBoxElement)
+
+        return () => {
+            if (messageListElement) chatObserver.unobserve(messageListElement)
+
+            if (endOfMessageBoxElement)
+                endOfMessageObserver.unobserve(endOfMessageBoxElement)
+        }
+    }, [])
 
     const onScroll = (e: React.UIEvent<HTMLDivElement, UIEvent>) => {
         setMessagesScrollHeight(e.currentTarget.scrollTop)
@@ -180,7 +228,7 @@ const MessageList = () => {
                     if (isChatMessage(message)) {
                         return (
                             <MessageComponent
-                                key={message.timestamp}
+                                key={message.message + message.timestamp}
                                 isSent={message.senderId === username}
                                 message={message.message}
                                 isTail={
@@ -212,7 +260,7 @@ const MessageList = () => {
                     } else if (isSystemMessage(message)) {
                         return (
                             <SystemMessage
-                                key={message.message}
+                                key={message.message + message.timestamp}
                                 message={message.message}
                             />
                         )
