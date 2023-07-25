@@ -87,10 +87,10 @@ const RoomDialogBox = () => {
             return false
         }
 
-        if (uriRoomName.length > 20) {
+        if (uriRoomName.length > 30) {
             setErrors((errors) => ({
                 ...errors,
-                roomName: "Room name cannot be longer than 20 characters",
+                roomName: "Room name cannot be longer than 30 characters",
             }))
             return false
         }
