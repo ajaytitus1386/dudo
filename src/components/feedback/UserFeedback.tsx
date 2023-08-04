@@ -1,21 +1,39 @@
 import { faClipboardQuestion, faXmark } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 
-import React, { useEffect, useState } from "react"
+import React, { useEffect, useRef, useState } from "react"
 import Rating from "./Rating"
 import Comment from "./Comment"
 
 const UserFeedback = () => {
     const [isOpen, setIsOpen] = useState(false)
+    const [hasBeenOpened, setHasBeenOpened] = useState(false)
+    const containerRef = useRef<HTMLDivElement>(null)
 
     useEffect(() => {
-        setTimeout(() => {
-            setIsOpen(true)
-        }, 2 * 60 * 1000)
+        if (isOpen) setHasBeenOpened(true)
+    }, [isOpen])
+
+    useEffect(() => {
+        let endTimer: NodeJS.Timeout
+        const beginTimer = setTimeout(() => {
+            if (!hasBeenOpened && containerRef.current) {
+                containerRef.current.classList.add("animate-bounce")
+                endTimer = setTimeout(() => {
+                    containerRef.current?.classList.remove("animate-bounce")
+                }, 60 * 1000)
+            }
+        }, 60 * 1000)
+
+        return () => {
+            clearTimeout(beginTimer)
+            clearTimeout(endTimer)
+        }
     }, [])
 
     return (
         <div
+            ref={containerRef}
             className={[
                 `transition-[width_height] duration-500 ease-in-out`,
                 isOpen
