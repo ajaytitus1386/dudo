@@ -56,7 +56,7 @@ const Tooltip: React.FC<Props> = ({
                     ref={setTooltipElement}
                     style={styles.popper}
                     {...attributes.popper}
-                    className="bg-background-light-500 dark:bg-background-dark-500 text-text-light-500 dark:text-text-dark-500 rounded-lg shadow-lg p-2"
+                    className="z-40 bg-background-light-500 dark:bg-background-dark-500 text-text-light-500 dark:text-text-dark-500 rounded-lg shadow-lg p-2"
                 >
                     {tooltipContent}
                     <div
