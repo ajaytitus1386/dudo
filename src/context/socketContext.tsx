@@ -16,6 +16,7 @@ import { useRouter } from "next/router"
 import { useAppContext } from "./appContext"
 import { useGameContext } from "./gameContext"
 import { useChatContext } from "./chatContext"
+import { toast } from "react-toastify"
 
 const SocketContext = createContext({
     socket: null as Socket<ServerToClientEvents, ClientToServerEvents> | null,
@@ -25,6 +26,7 @@ export const SocketProvider = ({ children }: { children: React.ReactNode }) => {
     const [socket, setSocket] = useState(
         null as Socket<ServerToClientEvents, ClientToServerEvents> | null
     )
+    const [connectError, setConnectError] = useState(null as string | null)
     const { setRoomName, setRoom } = useRoomContext()
     const { username } = useAppContext()
     const { setGame, setCurrentHand } = useGameContext()
@@ -55,7 +57,7 @@ export const SocketProvider = ({ children }: { children: React.ReactNode }) => {
         socket.removeAllListeners()
 
         // Some listeners require context and state and so are in the useEffect dependency array
-        addSocketListeners(socket)
+        addSocketListeners(socket, connectError, setConnectError)
         addRoomEventListeners(socket, router, setRoom, setRoomName, username)
         addGameEventListeners(
             socket,
@@ -66,6 +68,7 @@ export const SocketProvider = ({ children }: { children: React.ReactNode }) => {
         )
         addChatEventListeners(socket, setMessages)
     }, [
+        connectError,
         router,
         setCurrentHand,
         setGame,
@@ -75,6 +78,15 @@ export const SocketProvider = ({ children }: { children: React.ReactNode }) => {
         socket,
         username,
     ])
+
+    useEffect(() => {
+        if (connectError) {
+            toast.error(
+                "Sorry, there was an error connecting to the server. Please try again later.",
+                { autoClose: false }
+            )
+        }
+    }, [connectError])
 
     return (
         <SocketContext.Provider value={{ socket }}>

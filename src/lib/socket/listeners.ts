@@ -10,10 +10,13 @@ import Game from "../../../dudo_submodules/models/game"
 import { AllMessages } from "context/chatContext"
 
 export const addSocketListeners = (
-    socket: Socket<ServerToClientEvents, ClientToServerEvents>
+    socket: Socket<ServerToClientEvents, ClientToServerEvents>,
+    connectError: string | null,
+    setConnectError: React.Dispatch<React.SetStateAction<string | null>>
 ) => {
     socket.on("connect", () => {
         console.log("connected")
+        setConnectError(null)
     })
 
     socket.on("disconnect", () => {
@@ -21,7 +24,8 @@ export const addSocketListeners = (
     })
 
     socket.on("connect_error", (error: any) => {
-        console.log("connect_error", error)
+        console.log(error)
+        setConnectError("error")
     })
 }
 
