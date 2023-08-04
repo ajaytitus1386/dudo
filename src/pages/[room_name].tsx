@@ -7,6 +7,7 @@ import DiceInputWrapper from "components/dice/DiceInputWrapper"
 import { useRouter } from "next/router"
 import { useRoomContext } from "context/roomContext"
 import { useAppContext } from "context/appContext"
+import UserFeedback from "components/feedback/UserFeedback"
 
 const Room = () => {
     const { room, setRoomName } = useRoomContext()
@@ -76,6 +77,7 @@ const Room = () => {
                     } transition-transform duration-200`}
                 />
             </button>
+            <UserFeedback />
             <div
                 id="table"
                 className="flex flex-col pt-20 pb-4 px-4 gap-y-2 h-screen min-h-screen md:w-1/2 md:gap-y-4"
