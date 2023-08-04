@@ -1,5 +1,4 @@
-import { error } from "console"
-import React, { FC, forwardRef } from "react"
+import React, { forwardRef } from "react"
 
 type Props = {
     className?: string
@@ -28,25 +27,41 @@ const Input = forwardRef<HTMLInputElement, Props>(
         },
         ref
     ) => {
+        // Conditional element for textarea
+        const ElementType = (
+            props: React.HTMLProps<HTMLTextAreaElement | HTMLInputElement>
+        ) =>
+            type === "textarea" ? (
+                <textarea
+                    {...(props as React.HTMLProps<HTMLTextAreaElement>)}
+                    maxLength={250}
+                    rows={3}
+                    cols={10}
+                    style={{ resize: "none" }}
+                />
+            ) : (
+                <input {...(props as React.HTMLProps<HTMLInputElement>)} />
+            )
+
         return (
             <span className="flex w-full relative mb-5">
-                <input
-                    ref={ref}
-                    required={required}
-                    autoFocus={autoFocus}
-                    type={type}
-                    value={value}
-                    onChange={onChange}
-                    placeholder={placeholder}
-                    className={[
+                {ElementType({
+                    ref: ref,
+                    required: required,
+                    autoFocus: autoFocus,
+                    type: type,
+                    value: value,
+                    onChange: onChange,
+                    placeholder: placeholder,
+                    className: [
                         "w-full px-2 py-1 bg-gray-50 dark:bg-background-dark-100 border text-text-light-500 dark:text-text-dark-500 placeholder-gray-400 dark:placeholder-gray-600 rounded-md focus-visible:outline-none",
                         RightElement ? " rounded-r-none" : "",
                         error
                             ? `border-red-500 focus:ring-red-500 focus:border-red-500`
                             : "border-gray-300 dark:border-background-dark-300 focus:ring-blue-500 focus:border-blue-500",
                         className,
-                    ].join(" ")}
-                />
+                    ].join(" "),
+                })}
                 {RightElement && (
                     <span className="flex items-center bg-gray-50 dark:bg-background-dark-100 border border-gray-300 dark:border-background-dark-300 rounded-md rounded-l-none border-l-0 px-2">
                         {RightElement}
