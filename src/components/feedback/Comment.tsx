@@ -1,8 +1,10 @@
 import Input from "components/Input"
-import React, { useState } from "react"
+import React from "react"
 
-const Comment = () => {
-    const [commentString, setCommentString] = useState("")
+const Comment: React.FC<{
+    commentString: string
+    setCommentString: React.Dispatch<React.SetStateAction<string>>
+}> = ({ commentString, setCommentString }) => {
     return (
         <Input
             type="textarea"

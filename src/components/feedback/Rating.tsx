@@ -1,10 +1,12 @@
 import { faFaceFrown, faFaceSmile } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import React, { useState } from "react"
+import React, { SetStateAction, useState } from "react"
 import ratingStyles from "../../styles/rating.module.css"
 
-const Rating = () => {
-    const [rating, setRating] = useState(5)
+const Rating: React.FC<{
+    rating: number
+    setRating: React.Dispatch<SetStateAction<number>>
+}> = ({ rating, setRating }) => {
     const [sliderFocused, setSliderFocused] = useState(false)
 
     const ratingPercentage = (rating / 10) * 100
