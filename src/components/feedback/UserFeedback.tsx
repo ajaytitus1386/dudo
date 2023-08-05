@@ -1,13 +1,25 @@
-import { faClipboardQuestion, faXmark } from "@fortawesome/free-solid-svg-icons"
+import {
+    faClipboardQuestion,
+    faPaperPlane,
+    faXmark,
+} from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 
 import React, { useEffect, useRef, useState } from "react"
 import Rating from "./Rating"
 import Comment from "./Comment"
+import { sendNewUserRating } from "lib/services/userRating"
+import { useAppContext } from "context/appContext"
 
 const UserFeedback = () => {
+    const { username } = useAppContext()
     const [isOpen, setIsOpen] = useState(false)
     const [hasBeenOpened, setHasBeenOpened] = useState(false)
+    const [hasBeenSubmitted, setHasBeenSubmitted] = useState(false)
+
+    const [rating, setRating] = useState(5)
+    const [commentString, setCommentString] = useState("")
+
     const containerRef = useRef<HTMLDivElement>(null)
 
     useEffect(() => {
@@ -17,7 +29,7 @@ const UserFeedback = () => {
     useEffect(() => {
         let endTimer: NodeJS.Timeout
         const beginTimer = setTimeout(() => {
-            if (!hasBeenOpened && containerRef.current) {
+            if (!hasBeenOpened && !isOpen && containerRef.current) {
                 containerRef.current.classList.add("animate-bounce")
                 endTimer = setTimeout(() => {
                     containerRef.current?.classList.remove("animate-bounce")
@@ -30,6 +42,18 @@ const UserFeedback = () => {
             clearTimeout(endTimer)
         }
     }, [])
+
+    const submitNewFeedback = async () => {
+        if (!username) return
+
+        await sendNewUserRating({
+            userId: username,
+            rating: rating,
+            comment: commentString,
+        })
+
+        setHasBeenSubmitted(true)
+    }
 
     return (
         <div
@@ -44,19 +68,47 @@ const UserFeedback = () => {
         >
             {isOpen ? (
                 <>
-                    <button className="py-0.5" onClick={() => setIsOpen(false)}>
+                    <button
+                        className="py-0.5"
+                        onClick={() => {
+                            setIsOpen(false)
+                        }}
+                    >
                         <FontAwesomeIcon
                             icon={faXmark}
                             className="text-text-light-500 dark:text-text-dark-500 text-lg"
                         />
                     </button>
-                    <div className="flex flex-col justify-end items-start gap-y-2 w-full">
-                        <p className="text-text-light-500 dark:text-text-dark-500">
-                            How would you rate your overall experience?
-                        </p>
-                        <Rating />
-                        <Comment />
-                    </div>
+
+                    <>
+                        <div
+                            className={`flex flex-col justify-end items-start gap-y-2 w-full`}
+                        >
+                            {hasBeenSubmitted ? (
+                                <p className="text-text-light-500 dark:text-text-dark-500">
+                                    Thank you for your feedback 🎉
+                                </p>
+                            ) : (
+                                <p className="text-text-light-500 dark:text-text-dark-500">
+                                    How would you rate your overall experience?
+                                </p>
+                            )}
+                            <Rating rating={rating} setRating={setRating} />
+                            <Comment
+                                commentString={commentString}
+                                setCommentString={setCommentString}
+                            />
+                        </div>
+                        <button
+                            className="py-0.5"
+                            onClick={() => submitNewFeedback()}
+                        >
+                            <FontAwesomeIcon
+                                icon={faPaperPlane}
+                                className="text-primary-light-500 dark:text-text-dark-500 text-lg"
+                            />
+                        </button>
+                    </>
                 </>
             ) : (
                 <>
