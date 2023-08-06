@@ -26,23 +26,6 @@ const UserFeedback = () => {
         if (isOpen) setHasBeenOpened(true)
     }, [isOpen])
 
-    useEffect(() => {
-        let endTimer: NodeJS.Timeout
-        const beginTimer = setTimeout(() => {
-            if (!hasBeenOpened && !isOpen && containerRef.current) {
-                containerRef.current.classList.add("animate-bounce")
-                endTimer = setTimeout(() => {
-                    containerRef.current?.classList.remove("animate-bounce")
-                }, 60 * 1000)
-            }
-        }, 60 * 1000)
-
-        return () => {
-            clearTimeout(beginTimer)
-            clearTimeout(endTimer)
-        }
-    }, [])
-
     const submitNewFeedback = async () => {
         if (!username) return
 
