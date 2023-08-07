@@ -19,12 +19,6 @@ export default function Document() {
             <meta property="og:image" content="/favicon.png" />
             <meta property="og:url" content="https://dudo.ajaytitus.com" />
             <meta property="og:type" content="website" />
-            {/* Cloudflare Web Analytics */}
-            <script
-                defer
-                src="https://static.cloudflareinsights.com/beacon.min.js"
-                data-cf-beacon='{"token": "d5a4d5b2535843119471fcc0e11211c7"}'
-            ></script>
             <body>
                 <Main />
                 <NextScript />
