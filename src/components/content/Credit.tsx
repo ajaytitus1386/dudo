@@ -14,13 +14,8 @@ const Credit = () => {
                 </a>
             </text>
             <text className="text-text-light-500 dark:text-text-dark-500 text-center">
-                Feel free to send feedback to{" "}
-                <a
-                    href="mailto:ajaytitus1386@gmail.com"
-                    className="font-medium"
-                >
-                    {"ajaytitus1386@gmail.com"}
-                </a>
+                Feel free to send feedback to using the form in bottom-left
+                corner!
             </text>
             {/* <text>
                 Consider filling out this survey to help me improve the game!
