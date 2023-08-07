@@ -44,7 +44,7 @@ const UserFeedback = () => {
             className={[
                 `transition-[width_height] duration-500 ease-in-out`,
                 isOpen
-                    ? `flex flex-row justify-start items-start w-2/3 md:w-1/3 h-48 p-4 border-2`
+                    ? `flex flex-row justify-start items-start w-2/3 md:w-1/4 h-48 p-4 border-2`
                     : `flex justify-center items-center w-8 h-8`,
                 `z-40 fixed gap-x-2 bottom-4 left-8 rounded bg-background-light-200 dark:bg-background-dark-200 border-background-light-300 dark:border-background-dark-300 shadow-md`,
             ].join(" ")}
@@ -83,8 +83,13 @@ const UserFeedback = () => {
                             />
                         </div>
                         <button
-                            className="py-0.5"
+                            className={`py-0.5 ${
+                                hasBeenSubmitted
+                                    ? "opacity-50 cursor-not-allowed"
+                                    : ""
+                            }`}
                             onClick={() => submitNewFeedback()}
+                            disabled={hasBeenSubmitted}
                         >
                             <FontAwesomeIcon
                                 icon={faPaperPlane}
