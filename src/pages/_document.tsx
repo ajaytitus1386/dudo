@@ -23,7 +23,7 @@ export default function Document() {
             <script
                 defer
                 src="https://static.cloudflareinsights.com/beacon.min.js"
-                data-cf-beacon='{"token": "1d7b39e53fc44d3f88df6c68a760585e"}'
+                data-cf-beacon='{"token": "d5a4d5b2535843119471fcc0e11211c7"}'
             ></script>
             <body>
                 <Main />
