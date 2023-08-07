@@ -1,5 +1,6 @@
 import {
     faClipboardQuestion,
+    faFaceSmile,
     faPaperPlane,
     faXmark,
 } from "@fortawesome/free-solid-svg-icons"
@@ -44,9 +45,9 @@ const UserFeedback = () => {
             className={[
                 `transition-[width_height] duration-500 ease-in-out`,
                 isOpen
-                    ? `flex flex-row justify-start items-start w-2/3 md:w-1/4 h-48 p-4 border-2`
+                    ? `flex flex-row justify-start items-start w-2/3 md:w-1/3 xl:w-1/4 h-64 md:h-48 p-4`
                     : `flex justify-center items-center w-8 h-8`,
-                `z-40 fixed gap-x-2 bottom-4 left-8 rounded bg-background-light-200 dark:bg-background-dark-200 border-background-light-300 dark:border-background-dark-300 shadow-md`,
+                `z-40 fixed gap-x-2 bottom-4 left-8 rounded bg-background-light-200 dark:bg-background-dark-200 border-2 border-background-light-300 dark:border-background-dark-300 shadow-md`,
             ].join(" ")}
         >
             {isOpen ? (
@@ -102,7 +103,7 @@ const UserFeedback = () => {
                 <>
                     <button className="py-0.5" onClick={() => setIsOpen(true)}>
                         <FontAwesomeIcon
-                            icon={faClipboardQuestion}
+                            icon={faFaceSmile}
                             className="text-primary-light-500 dark:text-text-dark-500 text-lg"
                         />
                     </button>
