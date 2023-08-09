@@ -19,6 +19,11 @@ export default function Document() {
             <meta property="og:image" content="/favicon.png" />
             <meta property="og:url" content="https://dudo.ajaytitus.com" />
             <meta property="og:type" content="website" />
+            <script
+                defer
+                src="https://static.cloudflareinsights.com/beacon.min.js"
+                data-cf-beacon='{"token": "f82ec7a6195c448491ac95326b1786ad"}'
+            ></script>
             <body>
                 <Main />
                 <NextScript />
