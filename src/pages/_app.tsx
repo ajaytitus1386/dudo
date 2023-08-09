@@ -50,8 +50,7 @@ library.add(
     faCrown,
     faEllipsisVertical,
     faFaceSmile,
-    faFaceFrown,
-    faClipboardQuestion
+    faFaceFrown
 )
 
 export default function App({ Component, pageProps }: AppProps) {
