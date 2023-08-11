@@ -7,6 +7,7 @@ interface Props extends React.HTMLProps<HTMLInputElement> {
     valueProgess: number
     sliderFocused: boolean
     setSliderFocused: React.Dispatch<React.SetStateAction<boolean>>
+    valueLabel?: string
 }
 
 const Slider: React.FC<Props> = ({
@@ -15,6 +16,7 @@ const Slider: React.FC<Props> = ({
     valueProgess,
     sliderFocused,
     setSliderFocused,
+    valueLabel,
     min,
     max,
     step,
@@ -53,7 +55,7 @@ const Slider: React.FC<Props> = ({
                     transform: `translateY(-50%) translateX(-${valueProgess}%)`,
                 }}
             >
-                {value}
+                {valueLabel || value}
             </label>
         </div>
     )
