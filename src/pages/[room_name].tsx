@@ -8,10 +8,12 @@ import { useRouter } from "next/router"
 import { useRoomContext } from "context/roomContext"
 import { useAppContext } from "context/appContext"
 import UserFeedback from "components/feedback/UserFeedback"
+import { useSoundContext } from "context/soundContext"
 
 const Room = () => {
     const { room, setRoomName } = useRoomContext()
     const { username } = useAppContext()
+    const { playEnterRoomSound } = useSoundContext()
 
     const [isHigh, setIsHigh] = useState(true)
     const [showDiceList, setShowDiceList] = useState(true)
@@ -26,6 +28,12 @@ const Room = () => {
         // If username is not set, redirect to home
         if (!username) router.push("/")
     }, [room.name, roomNameInPath, router, setRoomName, username])
+
+    // Play sound when user enters their own room
+    useEffect(() => {
+        if (!username) return
+        playEnterRoomSound()
+    }, [])
 
     const onScroll = () => {
         if (!window) return
