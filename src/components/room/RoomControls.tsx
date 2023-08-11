@@ -9,6 +9,9 @@ import {
     faMessage,
     faRightFromBracket,
     faUsers,
+    faVolumeHigh,
+    faVolumeLow,
+    faVolumeXmark,
 } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import MessageList from "../chat/MessageList"
@@ -31,6 +34,8 @@ import Credit from "components/content/Credit"
 import DiceOne from "components/icons/D6/DiceOne"
 import DiceSix from "components/icons/D6/DiceSix"
 import { useChatContext } from "context/chatContext"
+import { useSoundContext } from "context/soundContext"
+import Slider from "components/Slider"
 
 const tabs = [
     {
@@ -106,6 +111,15 @@ const TableCell = ({ children }: { children: React.ReactNode }) => (
     <td className="px-4 py-2">{children}</td>
 )
 
+const Divider: React.FC<{ className?: string }> = ({ className }) => (
+    <div
+        className={[
+            className,
+            "border-b border-background-light-500 dark:border-background-dark-500",
+        ].join(" ")}
+    />
+)
+
 const RoomSettings = ({
     goToOptionalRules,
 }: {
@@ -113,6 +127,7 @@ const RoomSettings = ({
 }) => {
     const { room, setRoom, isHost } = useRoomContext()
     const { socket } = useSocketContext()
+    const { setVolume, toggleMute, mute, volume } = useSoundContext()
 
     // Aces are wild
     const acesAreWild = room?.rules?.acesAreWild || false
@@ -157,36 +172,82 @@ const RoomSettings = ({
 
     const toggleWardad = () => setWardad(!room.rules.winRoundDropDie)
 
+    // Your Settings
+    const [volumeSliderFocused, setVolumeSliderFocused] = useState(false)
+
     return (
-        <RoomControlHug className="py-4">
-            <h1 className="text-xl mb-2 font-bold m-auto text-text-light-500 dark:text-text-dark-500">
+        <RoomControlHug className="py-4 gap-y-2 px-1 md:px-8">
+            <h1 className="text-xl font-bold m-auto text-text-light-500 dark:text-text-dark-500">
                 Settings
             </h1>
-            <div className="flex flex-col justify-start items-start gap-1 px-1 md:px-8">
-                <h2 className="text-lg font-medium text-text-light-500 dark:text-text-dark-500">
+            <div className="grid grid-cols-[3fr_1fr] gap-y-1">
+                <h2 className="col-span-2 text-lg font-medium text-text-light-500 dark:text-text-dark-500">
                     <FontAwesomeIcon icon={faCrown} className="mr-1" />
                     Optional Game Rules
                 </h2>
                 <sub
                     onClick={goToOptionalRules}
-                    className="mb-1 text-center text-sm italic text-text-light-300 dark:text-text-dark-300 cursor-pointer"
+                    className="col-span-2 mb-1 w-fit text-left text-sm italic text-text-light-300 dark:text-text-dark-300 cursor-pointer"
                 >
                     More about <u>Optional Rules</u>
                 </sub>
+
+                <label
+                    className={
+                        "mr-3 text-text-light-500 dark:text-text-dark-500"
+                    }
+                >
+                    Aces are wild
+                </label>
                 <Toggle
                     checked={acesAreWild}
                     onToggle={toggleAcesAreWild}
                     disabled={disableRules}
+                />
+                <label
+                    className={
+                        "mr-3 text-text-light-500 dark:text-text-dark-500"
+                    }
                 >
-                    Aces are Wild
-                </Toggle>
+                    Win a Round, Drop a Die
+                </label>
                 <Toggle
                     checked={wardad}
                     onToggle={toggleWardad}
                     disabled={disableRules}
-                >
-                    Win a round, drop a die
-                </Toggle>
+                />
+
+                <sub className="col-span-2 mb-1 w-fit text-left text-sm italic text-text-light-300 dark:text-text-dark-300">
+                    Only the host can change these rules before the game starts
+                </sub>
+            </div>
+            <Divider />
+            <h2 className="text-lg font-medium text-text-light-500 dark:text-text-dark-500">
+                Your Options
+            </h2>
+            <div className="flex gap-x-2 justify-start items-center">
+                <button type="button" onClick={() => toggleMute()}>
+                    <FontAwesomeIcon
+                        icon={
+                            mute || volume === 0
+                                ? faVolumeXmark
+                                : volume > 50
+                                ? faVolumeHigh
+                                : faVolumeLow
+                        }
+                        className="text-text-light-500 dark:text-text-dark-500 text-lg w-12"
+                    />
+                </button>
+                <Slider
+                    value={volume}
+                    setValue={setVolume}
+                    min={0}
+                    max={100}
+                    valueProgess={volume}
+                    sliderFocused={volumeSliderFocused}
+                    setSliderFocused={setVolumeSliderFocused}
+                    valueLabel={String(volume)}
+                />
             </div>
         </RoomControlHug>
     )
