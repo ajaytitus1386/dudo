@@ -1,4 +1,4 @@
-.ratingSliderThumb::-webkit-slider-thumb {
+.sliderThumb::-webkit-slider-thumb {
     -webkit-appearance: none;
     appearance: none;
     width: 20px;
