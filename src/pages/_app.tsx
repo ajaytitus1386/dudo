@@ -21,6 +21,9 @@ import {
     faFaceSmile,
     faFaceFrown,
     faClipboardQuestion,
+    faVolumeXmark,
+    faVolumeLow,
+    faVolumeHigh,
 } from "@fortawesome/free-solid-svg-icons"
 import { ToastContainer } from "react-toastify"
 import "react-toastify/dist/ReactToastify.css"
@@ -31,6 +34,7 @@ import { RoomProvider } from "context/roomContext"
 import { SocketProvider } from "context/socketContext"
 import { GameProvider } from "context/gameContext"
 import { ChatProvider } from "context/chatContext"
+import { SoundProvider } from "context/soundContext"
 
 library.add(
     faPaperPlane,
@@ -50,25 +54,30 @@ library.add(
     faCrown,
     faEllipsisVertical,
     faFaceSmile,
-    faFaceFrown
+    faFaceFrown,
+    faVolumeXmark,
+    faVolumeLow,
+    faVolumeHigh
 )
 
 export default function App({ Component, pageProps }: AppProps) {
     return (
         <AppProvider>
             <RoomProvider>
-                <ChatProvider>
-                    <GameProvider>
-                        <ThemeProvider>
-                            <SocketProvider>
-                                <Layout>
-                                    <Component {...pageProps} />
-                                </Layout>
-                                <ToastContainer />
-                            </SocketProvider>
-                        </ThemeProvider>
-                    </GameProvider>
-                </ChatProvider>
+                <SoundProvider>
+                    <ChatProvider>
+                        <GameProvider>
+                            <ThemeProvider>
+                                <SocketProvider>
+                                    <Layout>
+                                        <Component {...pageProps} />
+                                    </Layout>
+                                    <ToastContainer />
+                                </SocketProvider>
+                            </ThemeProvider>
+                        </GameProvider>
+                    </ChatProvider>
+                </SoundProvider>
             </RoomProvider>
         </AppProvider>
     )

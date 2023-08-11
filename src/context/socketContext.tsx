@@ -17,6 +17,7 @@ import { useAppContext } from "./appContext"
 import { useGameContext } from "./gameContext"
 import { useChatContext } from "./chatContext"
 import { toast } from "react-toastify"
+import { useSoundContext } from "./soundContext"
 
 const SocketContext = createContext({
     socket: null as Socket<ServerToClientEvents, ClientToServerEvents> | null,
@@ -31,6 +32,7 @@ export const SocketProvider = ({ children }: { children: React.ReactNode }) => {
     const { username } = useAppContext()
     const { setGame, setCurrentHand } = useGameContext()
     const { setMessages } = useChatContext()
+    const { playEnterRoomSound, playDiceRollSound } = useSoundContext()
     const router = useRouter()
 
     useEffect(() => {
@@ -58,17 +60,27 @@ export const SocketProvider = ({ children }: { children: React.ReactNode }) => {
 
         // Some listeners require context and state and so are in the useEffect dependency array
         addSocketListeners(socket, connectError, setConnectError)
-        addRoomEventListeners(socket, router, setRoom, setRoomName, username)
+        addRoomEventListeners(
+            socket,
+            router,
+            setRoom,
+            setRoomName,
+            username,
+            playEnterRoomSound
+        )
         addGameEventListeners(
             socket,
             setRoom,
             setGame,
             setCurrentHand,
-            username
+            username,
+            playDiceRollSound
         )
         addChatEventListeners(socket, setMessages)
     }, [
         connectError,
+        playDiceRollSound,
+        playEnterRoomSound,
         router,
         setCurrentHand,
         setGame,

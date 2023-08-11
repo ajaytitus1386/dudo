@@ -8,6 +8,7 @@ import { toast } from "react-toastify"
 import Room from "../../../dudo_submodules/models/room"
 import Game from "../../../dudo_submodules/models/game"
 import { AllMessages } from "context/chatContext"
+import { PlayFunction } from "use-sound/dist/types"
 
 export const addSocketListeners = (
     socket: Socket<ServerToClientEvents, ClientToServerEvents>,
@@ -34,7 +35,8 @@ export const addRoomEventListeners = (
     router: NextRouter,
     setRoom: React.Dispatch<React.SetStateAction<Room>>,
     setRoomName: (roomName: string) => void,
-    username: string | null
+    username: string | null,
+    playEnterRoomSound: PlayFunction
 ) => {
     socket.on("unknown_error", ({ code, message }) => {
         if (code === 400) {
@@ -68,6 +70,7 @@ export const addRoomEventListeners = (
                 roomUsers: [...prevRoom.roomUsers, user],
             }
         })
+        playEnterRoomSound()
     })
 
     socket.on("user_left_room", ({ user }) => {
@@ -202,7 +205,8 @@ export const addGameEventListeners = (
     setRoom: React.Dispatch<React.SetStateAction<Room>>,
     setGame: React.Dispatch<React.SetStateAction<Game>>,
     setCurrentHand: React.Dispatch<React.SetStateAction<number[]>>,
-    username: string | null
+    username: string | null,
+    playDiceRollSound: PlayFunction
 ) => {
     socket.on("host_starts_game", ({ game, room }) => {
         // roomState has changed to "game" from "lobby"
@@ -213,6 +217,7 @@ export const addGameEventListeners = (
 
     socket.on("deal_player_hand", ({ hand }) => {
         setCurrentHand(hand)
+        playDiceRollSound()
     })
 
     socket.on("player_bid_made", ({ bid }) => {
@@ -237,6 +242,7 @@ export const addGameEventListeners = (
                 },
             }
         })
+        playDiceRollSound()
     })
 
     socket.on("change_game_phase", ({ newPhase }) => {
