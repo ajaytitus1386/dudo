@@ -1,7 +1,7 @@
 import React from "react"
 
 interface Props {
-    children: React.ReactNode
+    children?: React.ReactNode
     checked: boolean
     onToggle: () => void
     disabled?: boolean
