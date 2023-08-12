@@ -20,7 +20,7 @@ const Navbar = () => {
                 Liar&apos;s Dice
             </h1>
             <div className="flex justify-center items-center gap-x-1">
-                <button type="button" onClick={toggleMute}>
+                <button type="button" onClick={toggleMute} className="mt-1">
                     <FontAwesomeIcon
                         icon={
                             mute || volume === 0
