@@ -117,7 +117,7 @@ const PlayerHand = ({
                             className={[
                                 "m-auto",
                                 highlightedFaces?.includes(playerHand[i])
-                                    ? "border-2 border-green-400 bg-green-400"
+                                    ? "border-2 border-positive-light bg-positive-light"
                                     : "",
                             ].join(" ")}
                             key={`cell_${i}_${playerName}`}
@@ -268,7 +268,7 @@ const DiceTable = () => {
             <Button
                 onClick={() => handleChallenge()}
                 variant="primary"
-                className="font-medium tracking-wide px-2 md:px-8"
+                className="font-medium tracking-wide px-2 md:px-8 !bg-secondary-light-500 dark:!bg-secondary-light-300"
                 disabled={isDisabled}
             >
                 Challenge
