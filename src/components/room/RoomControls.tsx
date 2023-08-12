@@ -326,11 +326,9 @@ const RoomControls = () => {
             {/* tabs - Full Width */}
             <div className="flex items-center justify-center cursor-pointer bg-background-light-200 dark:bg-background-dark-200 md:mx-4 md:rounded-lg">
                 {tabs.map((tab, index) => (
-                    <div
+                    <button
                         key={`tab_${tab.name}`}
                         className={`flex items-center justify-center w-full py-1 px-2 border-gray-400 dark:border-gray-600 hover:bg-gray-400 hover:dark:bg-gray-600 ${
-                            index < tabs.length - 1 && "border-r-2"
-                        } ${
                             selectedTab === index &&
                             "bg-gray-400 dark:bg-gray-600"
                         } ${index === 0 && "md:rounded-l-lg"} ${
@@ -353,7 +351,7 @@ const RoomControls = () => {
                                     <div className="absolute animate-pulse -right-1 top-0 w-2 h-2 bg-negative-light dark:bg-negative-dark rounded-full" />
                                 )}
                         </div>
-                    </div>
+                    </button>
                 ))}
             </div>
             {/* overflow-hidden prevents the chat elements from overflowing the full height */}
